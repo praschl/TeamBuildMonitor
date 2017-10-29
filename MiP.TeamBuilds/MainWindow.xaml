@@ -3,61 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MiP.TeamBuilds"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         Background="GhostWhite"
         Width="800"
         Height="600"
         Title="Team Builds Manager"
+        Icon="Bob.ico"        
         >
+    <Window.Resources>
+        <ContextMenu x:Key="TaskBarMenu" Background="LightCoral">
+            <MenuItem Header="First Menu Item" />
+            <MenuItem Header="Quit" />
+        </ContextMenu>
+    </Window.Resources>
+
     <Grid>
-        <DockPanel x:Name="mainView" Visibility="Visible">
-            <Border DockPanel.Dock="Left" Padding="5">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock DockPanel.Dock="Left">
-                    <Hyperlink Click="BuildDefinitions_Click">Build definitions</Hyperlink>
-                    </TextBlock>
-                    <TextBlock DockPanel.Dock="Left">
-                    <Hyperlink Click="Builds_Click" IsEnabled="False">Builds</Hyperlink>
-                    </TextBlock>
-                    <Border />
-                </StackPanel>
-            </Border>
-
-            <Border DockPanel.Dock="Top" Padding="5">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Right">
-                    <Hyperlink Click="Settings_Click">Settings</Hyperlink>
-                    </TextBlock>
-                    <Border />
-                </DockPanel>
-            </Border>
-
-            <Grid>
-                <DockPanel x:Name="buildDefinitions">
-                    <Label>Builds here</Label>
-                </DockPanel>
-            </Grid>
-        </DockPanel>
-        
-        <DockPanel x:Name="settingsView" Visibility="Collapsed">
-            <Grid DockPanel.Dock="Bottom" Margin="5">
-                <Button HorizontalAlignment="Center" Padding="5" Click="SettingsApply_Click">Apply</Button>
-            </Grid>
-            <local:GridLayout Margin="5" ChildMargin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">TFS Url</Label>
-                <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"></TextBox>
-            </local:GridLayout>            
-        </DockPanel>
+        <tb:TaskbarIcon IconSource="Bob.ico"
+                ContextMenu="{StaticResource TaskBarMenu}" />
     </Grid>
 </Window>

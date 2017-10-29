@@ -1,34 +1,34 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace MiP.TeamBuilds
 {
     public partial class MainWindow : Window
     {
+        Notifier notifier = new Notifier(cfg =>
+        {
+            cfg.PositionProvider = new PrimaryScreenPositionProvider(Corner.BottomRight, 0, 50);
+
+            cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                notificationLifetime: TimeSpan.FromSeconds(3),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+            cfg.Dispatcher = Application.Current.Dispatcher;
+        });
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void BuildDefinitions_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            mainView.Visibility = Visibility.Visible;
-        }
-
-        private void Builds_Click(object sender, RoutedEventArgs e)
-        {
-            mainView.Visibility = Visibility.Visible;
-        }
-
-        private void Settings_Click(object sender, RoutedEventArgs e)
-        {
-            mainView.Visibility = Visibility.Collapsed;
-            settingsView.Visibility = Visibility.Visible;
-        }
-
-        private void SettingsApply_Click(object sender, RoutedEventArgs e)
-        {
-            mainView.Visibility = Visibility.Visible;
-            settingsView.Visibility = Visibility.Collapsed;
+            notifier.ShowInformation("hi");
         }
     }
 }
