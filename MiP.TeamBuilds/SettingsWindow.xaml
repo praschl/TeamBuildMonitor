@@ -5,25 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiP.TeamBuilds"
         mc:Ignorable="d"
-        WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen"
         Title="Tfs Build Manager Settings" 
         Width="400"
-        Height="300" 
+        Height="150" 
         Background="#EEEEEE"
-        ResizeMode="NoResize"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Closed="Window_Closed"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="ToolWindow"
+        FocusManager.FocusedElement="{Binding ElementName=tfsUrlTextbox}"
         >
 
     <DockPanel>
-        <DockPanel DockPanel.Dock="Top" Margin="3">
-
+        <DockPanel DockPanel.Dock="Top" Margin="5">
             <Label DockPanel.Dock="Left" Content="Tfs Url:"/>
-            <TextBox Text="{Binding TfsUrl}" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
-            
+            <TextBox x:Name="tfsUrlTextbox" Text="{Binding TfsUrl, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,5,0" />
         </DockPanel>
-        
+
+        <DockPanel DockPanel.Dock="Bottom" Margin="10">
+            <UniformGrid DockPanel.Dock="Right" Columns="2" Rows="1">
+                <Button Margin="5" Padding="20,5" IsCancel="True" Click="Cancel_Click">Cancel</Button>
+                <Button Margin="5" Padding="20,5" IsDefault="True" Click="Ok_Click">Ok</Button>
+            </UniformGrid>
+            <Border />
+        </DockPanel>
+
         <Border />
     </DockPanel>
 </Window>

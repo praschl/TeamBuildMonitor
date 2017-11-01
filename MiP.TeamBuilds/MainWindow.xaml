@@ -10,7 +10,6 @@
         Height="600"
         Title="Team Builds Manager"
         Icon="Bob.ico"
-        Visibility="Hidden"
         Initialized="Window_Initialized"
         >
     <Window.Resources>
@@ -22,7 +21,6 @@
     </Window.Resources>
 
     <Grid>
-        <tb:TaskbarIcon IconSource="Bob.ico"
-                ContextMenu="{StaticResource TaskBarMenu}" />
+        <tb:TaskbarIcon IconSource="Bob.ico" ContextMenu="{StaticResource TaskBarMenu}" />
     </Grid>
 </Window>

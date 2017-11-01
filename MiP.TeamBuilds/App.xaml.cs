@@ -1,11 +1,17 @@
-﻿using System.Windows;
+﻿using Autofac;
+using MiP.TeamBuilds.IoC;
+using System.Windows;
 
 namespace MiP.TeamBuilds
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private void App_OnStartup(object sender, StartupEventArgs e)
+        {
+            var window = ServiceLocator.Instance.Resolve<MainWindow>();
+
+            // start in hidden mode
+            window.Hide();
+        }
     }
 }

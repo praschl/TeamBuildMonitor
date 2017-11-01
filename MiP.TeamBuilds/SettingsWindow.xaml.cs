@@ -5,18 +5,18 @@ using System.Windows;
 
 namespace MiP.TeamBuilds
 {
-    /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
-    /// </summary>
     public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
-        public SettingsWindow()
+        public SettingsWindow(IRestartTimer restartTimer)
         {
             _tfsUrl = Settings.Default.TfsUrl;
             InitializeComponent();
+            _restartTimer = restartTimer;
         }
 
         private string _tfsUrl;
+        private readonly IRestartTimer _restartTimer;
+
         public string TfsUrl
         {
             get => _tfsUrl;
@@ -36,11 +36,18 @@ namespace MiP.TeamBuilds
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
-        private void Window_Closed(object sender, System.EventArgs e)
+        private void Ok_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default.TfsUrl = _tfsUrl;
             Settings.Default.Save();
+            Close();
+            _restartTimer.RestartTimer();
         }
     }
 }

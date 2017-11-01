@@ -9,13 +9,9 @@ namespace MiP.TeamBuilds
 {
     public class TfsBuildHelper : IDisposable
     {
-        public TfsBuildHelper()
+        public TfsBuildHelper(Uri tfsUri)
         {
-            string tfsUrl = Settings.Default.TfsUrl;
-
-            // "http://sv-int-tfs-02:8080/tfs/DefaultCollection"
-
-            _teamCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(tfsUrl));
+            _teamCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tfsUri);
         }
 
         private TfsTeamProjectCollection _teamCollection;
@@ -25,7 +21,7 @@ namespace MiP.TeamBuilds
             var buildService = _teamCollection.GetService<IBuildServer>();
             
             var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
-            buildSpec.CompletedWindow = TimeSpan.FromMinutes(5);
+            buildSpec.CompletedWindow = TimeSpan.FromSeconds(10);
 
             var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
             
