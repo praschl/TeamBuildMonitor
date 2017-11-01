@@ -22,7 +22,7 @@ namespace MiP.TeamBuilds.Snippets
 
         private void Receive(IAsyncResult ar)
         {
-            IPEndPoint ip = new IPEndPoint(IPAddress.Any, 15000);
+            IPEndPoint ip = null;
             byte[] bytes = udp.EndReceive(ar, ref ip);
             string message = Encoding.ASCII.GetString(bytes);
             Console.WriteLine(message + " from: " + ip);
