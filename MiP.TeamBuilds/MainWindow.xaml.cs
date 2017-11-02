@@ -23,6 +23,7 @@ namespace MiP.TeamBuilds
         {
             SettingsWindow settings = new SettingsWindow(MainModel);
             settings.ShowDialog();
+            settings.Close();
         }
 
         private void Window_Initialized(object sender, EventArgs e)

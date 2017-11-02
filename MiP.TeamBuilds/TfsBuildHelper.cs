@@ -1,6 +1,5 @@
 ﻿using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
-using MiP.TeamBuilds.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +13,14 @@ namespace MiP.TeamBuilds
             _teamCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tfsUri);
         }
 
-        private TfsTeamProjectCollection _teamCollection;
+        private readonly TfsTeamProjectCollection _teamCollection;
 
         public IEnumerable<BuildInfo> GetCurrentBuilds()
         {            
             var buildService = _teamCollection.GetService<IBuildServer>();
             
             var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
-            buildSpec.CompletedWindow = TimeSpan.FromSeconds(10);
+            buildSpec.CompletedWindow = TimeSpan.FromSeconds(30); // TODO: remove completed builds and finished flag once the model connects to each build
 
             var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
             

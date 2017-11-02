@@ -28,11 +28,19 @@ namespace MiP.TeamBuilds
             cfg.PositionProvider = new PrimaryScreenPositionProvider(Corner.BottomRight, 0, offset);
 
             cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                notificationLifetime: TimeSpan.FromSeconds(10),
+                notificationLifetime: TimeSpan.FromSeconds(6),
                 maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
             cfg.Dispatcher = Application.Current.Dispatcher;
         });
+
+        private readonly MessageOptions _defaultOptions = new MessageOptions
+                                                          {
+                                                              FreezeOnMouseEnter = true,
+                                                              UnfreezeOnMouseLeave = true,
+                                                              ShowCloseButton = false,
+                                                              NotificationClickAction = n => n.Close()
+                                                          };
 
         private readonly Notifier _errorNotifier = new Notifier(cfg =>
         {
@@ -114,8 +122,9 @@ namespace MiP.TeamBuilds
                 {
                     n.Close();
 
-                    SettingsWindow w = new SettingsWindow(this);
-                    w.ShowDialog();
+                    SettingsWindow settings = new SettingsWindow(this); // TODO: resolve settings window...
+                    settings.ShowDialog();
+                    settings.Close();
                 }
             };
 
@@ -150,25 +159,20 @@ namespace MiP.TeamBuilds
                 return; // was already shown as finished, or at least, never shown as started (when application started after build finished).
 
             var message = $"Build {build.Status}: {build.BuildDefinitionName}";
-
-            var options = new MessageOptions
-            {
-                NotificationClickAction = n => n.Close()
-            };
-
+            
             switch (build.Status)
             {
                 case BuildStatus.Failed:
-                    _buildNotifier.ShowError(message);
+                    _buildNotifier.ShowError(message, _defaultOptions); // TODO: show link to build page of tfs
                     break;
 
                 case BuildStatus.PartiallySucceeded:
                 case BuildStatus.Stopped:
-                    _buildNotifier.ShowWarning(message);
+                    _buildNotifier.ShowWarning(message, _defaultOptions); // TODO: show link to build page of tfs
                     break;
 
                 case BuildStatus.Succeeded:
-                    _buildNotifier.ShowSuccess(message);
+                    _buildNotifier.ShowSuccess(message, _defaultOptions); // TODO: link to open drop folder
                     break;
             }
 
@@ -181,8 +185,8 @@ namespace MiP.TeamBuilds
                 return; // was already shown as started.
 
             var message = $"Build {build.Status}: {build.BuildDefinitionName}";
-
-            _buildNotifier.ShowInformation(message);
+            
+            _buildNotifier.ShowInformation(message, _defaultOptions);
 
             _lastKnownBuilds.Add(build.Id, build);
         }
