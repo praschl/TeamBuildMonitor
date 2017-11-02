@@ -21,9 +21,7 @@ namespace MiP.TeamBuilds
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settings = new SettingsWindow(MainModel);
-            settings.ShowDialog();
-            settings.Close();
+            MainModel.ShowSettingsCommand.Execute(null);
         }
 
         private void Window_Initialized(object sender, EventArgs e)

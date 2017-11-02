@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MiP.TeamBuilds.Properties;
 using ToastNotifications.Core;
+using System.Windows.Input;
 
 namespace MiP.TeamBuilds
 {
@@ -21,7 +22,7 @@ namespace MiP.TeamBuilds
         private TfsBuildHelper _tfsBuildHelper;
         private Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
 
-        private readonly Notifier _buildNotifier = new Notifier(cfg =>
+        private readonly Notifier _notifier = new Notifier(cfg =>
         {
             var offset = SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Height;
 
@@ -31,29 +32,21 @@ namespace MiP.TeamBuilds
                 notificationLifetime: TimeSpan.FromSeconds(6),
                 maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
-            cfg.Dispatcher = Application.Current.Dispatcher;
+            cfg.Dispatcher = Application.Current.Dispatcher;            
         });
-
+        
         private readonly MessageOptions _defaultOptions = new MessageOptions
-                                                          {
-                                                              FreezeOnMouseEnter = true,
-                                                              UnfreezeOnMouseLeave = true,
-                                                              ShowCloseButton = false,
-                                                              NotificationClickAction = n => n.Close()
-                                                          };
-
-        private readonly Notifier _errorNotifier = new Notifier(cfg =>
         {
-            var offset = SystemParameters.PrimaryScreenHeight - SystemParameters.WorkArea.Height;
+            FreezeOnMouseEnter = true,
+            UnfreezeOnMouseLeave = true,
+            ShowCloseButton = false,
+            NotificationClickAction = n => n.Close()
+        };
 
-            cfg.PositionProvider = new PrimaryScreenPositionProvider(Corner.BottomRight, 0, offset);
-
-            cfg.LifetimeSupervisor = new CountBasedLifetimeSupervisor(maximumNotificationCount: MaximumNotificationCount.FromCount(3));
-
-            cfg.Dispatcher = Application.Current.Dispatcher;
-
-            cfg.DisplayOptions.TopMost = true;
-        });
+        public MainViewModel(ShowSettingsCommand showSettingsCommand)
+        {
+            ShowSettingsCommand = showSettingsCommand;
+        }
 
         public void Initialize()
         {
@@ -92,23 +85,25 @@ namespace MiP.TeamBuilds
                 return null;
             }
         }
-
+        
         private void ShowException(Exception ex)
-        {
+        {            
             var message = ex.Message + Environment.NewLine + "Click to copy exception to clipboard.";
 
-            MessageOptions displayOptions = new MessageOptions
+            MessageOptions errorDisplayOptions = new MessageOptions
             {
+                FreezeOnMouseEnter = true,
+                UnfreezeOnMouseLeave = true,
                 ShowCloseButton = true,
                 NotificationClickAction = n =>
                 {
                     Clipboard.SetText(ex.ToString());
-                    _buildNotifier.ShowInformation("Exception copied to clipboard.");
+                    _notifier.ShowInformation("Exception copied to clipboard.");
                     n.Close();
                 }
             };
 
-            _errorNotifier.ShowError(message, displayOptions);
+            _notifier.ShowError(message, errorDisplayOptions);
         }
         
         private void ShowTfsUrlNotSet()
@@ -117,79 +112,97 @@ namespace MiP.TeamBuilds
 
             MessageOptions displayOptions = new MessageOptions
             {
+                FreezeOnMouseEnter = true,
+                UnfreezeOnMouseLeave = true,
                 ShowCloseButton = false,
                 NotificationClickAction = n =>
                 {
                     n.Close();
 
-                    SettingsWindow settings = new SettingsWindow(this); // TODO: resolve settings window...
-                    settings.ShowDialog();
-                    settings.Close();
+                    ShowSettingsCommand.Execute(null);
                 }
             };
 
-            _errorNotifier.ShowInformation(message, displayOptions);
+            _notifier.ShowInformation(message, displayOptions);
         }
-
+        
         private void Timer_Tick(object sender, EventArgs e)
         {
             try
             {
                 var currentBuilds = _tfsBuildHelper.GetCurrentBuilds().ToList();
 
-                // TODO: connect to all builds not finished and display changes to state.
-
                 foreach (var build in currentBuilds)
                 {
-                    if (!build.Finished)
-                        ShowBuildStarted(build);
-                    else
-                        ShowBuildFinished(build);
+                    if (_lastKnownBuilds.ContainsKey(build.Id))
+                        continue; // we know that build already and we are connected to it.
+
+                    _lastKnownBuilds.Add(build.Id, build);
+
+                    NotifyBuild(build);
+
+                    build.Connect();
+                    build.PropertyChanged += Build_PropertyChanged;
                 }
             }
             catch (Exception ex)
             {
-                _buildNotifier.ShowError(ex.Message);
+                _notifier.ShowError(ex.Message);
             }
         }
 
-        private void ShowBuildFinished(BuildInfo build)
+        private void NotifyBuild(BuildInfo build)
         {
-            if (!_lastKnownBuilds.ContainsKey(build.Id))
-                return; // was already shown as finished, or at least, never shown as started (when application started after build finished).
-
             var message = $"Build {build.Status}: {build.BuildDefinitionName}";
-            
+
             switch (build.Status)
             {
                 case BuildStatus.Failed:
-                    _buildNotifier.ShowError(message, _defaultOptions); // TODO: show link to build page of tfs
+                    _notifier.ShowError(message, _defaultOptions); // TODO: show link to build page of tfs
+                    FinalizeBuild(build);
                     break;
 
                 case BuildStatus.PartiallySucceeded:
                 case BuildStatus.Stopped:
-                    _buildNotifier.ShowWarning(message, _defaultOptions); // TODO: show link to build page of tfs
+                    _notifier.ShowWarning(message, _defaultOptions); // TODO: show link to build page of tfs
+                    FinalizeBuild(build);
                     break;
 
                 case BuildStatus.Succeeded:
-                    _buildNotifier.ShowSuccess(message, _defaultOptions); // TODO: link to open drop folder
+                    _notifier.ShowSuccess(message, _defaultOptions); // TODO: link to open drop folder
+                    FinalizeBuild(build);
+                    break;
+
+                case BuildStatus.None:
+                case BuildStatus.NotStarted:
+                case BuildStatus.InProgress:
+                    _notifier.ShowInformation(message, _defaultOptions);
                     break;
             }
+        }
 
+        private void FinalizeBuild(BuildInfo build)
+        {
+            build.Disconnect();
+            build.PropertyChanged -= Build_PropertyChanged;
             _lastKnownBuilds.Remove(build.Id);
         }
 
-        private void ShowBuildStarted(BuildInfo build)
+        private void Build_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (_lastKnownBuilds.ContainsKey(build.Id))
-                return; // was already shown as started.
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                BuildInfo build = (BuildInfo)sender;
+                NotifyBuild(build);
 
-            var message = $"Build {build.Status}: {build.BuildDefinitionName}";
-            
-            _buildNotifier.ShowInformation(message, _defaultOptions);
-
-            _lastKnownBuilds.Add(build.Id, build);
+                if (build.PollingException != null)
+                {
+                    ShowException(build.PollingException);
+                }
+            });
         }
+
+        public ICommand ShowSettingsCommand { get; }
 
         //
         public event PropertyChangedEventHandler PropertyChanged;

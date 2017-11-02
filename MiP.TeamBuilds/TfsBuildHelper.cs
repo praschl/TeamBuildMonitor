@@ -16,23 +16,23 @@ namespace MiP.TeamBuilds
         private readonly TfsTeamProjectCollection _teamCollection;
 
         public IEnumerable<BuildInfo> GetCurrentBuilds()
-        {            
+        {
+            // TODO: make this async and do not block ui
+
             var buildService = _teamCollection.GetService<IBuildServer>();
             
             var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
-            buildSpec.CompletedWindow = TimeSpan.FromSeconds(30); // TODO: remove completed builds and finished flag once the model connects to each build
-
-            var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
             
+            var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
+
             var result = foundBuilds.QueuedBuilds.Select(b =>
-                          new BuildInfo
+                          new BuildInfo(b)
                           {
                               Id = b.Id,
                               TeamProject = b.TeamProject,
                               BuildDefinitionName = b.BuildDefinition.Name,
                               ServerItems = b.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
                               RequestedBy = b.RequestedBy,
-                              Finished = b.Build.BuildFinished,
                               Status = b.Build.Status
                           });
             
