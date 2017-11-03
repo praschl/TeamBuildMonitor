@@ -1,9 +1,10 @@
-﻿using Microsoft.TeamFoundation.Build.Client;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MiP.TeamBuilds
+using Microsoft.TeamFoundation.Build.Client;
+
+namespace MiP.TeamBuilds.Providers
 {
     public class BuildInfo
     {

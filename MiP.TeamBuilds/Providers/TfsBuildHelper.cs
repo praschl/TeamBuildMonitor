@@ -1,10 +1,11 @@
-﻿using Microsoft.TeamFoundation.Build.Client;
-using Microsoft.TeamFoundation.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MiP.TeamBuilds
+using Microsoft.TeamFoundation.Build.Client;
+using Microsoft.TeamFoundation.Client;
+
+namespace MiP.TeamBuilds.Providers
 {
     public class TfsBuildHelper : IDisposable
     {

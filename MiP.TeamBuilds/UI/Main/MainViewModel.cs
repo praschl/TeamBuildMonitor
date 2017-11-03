@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Threading;
-using ToastNotifications;
-using ToastNotifications.Lifetime;
-using ToastNotifications.Position;
-using ToastNotifications.Messages;
-using Microsoft.TeamFoundation.Build.Client;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using MiP.TeamBuilds.Properties;
-using ToastNotifications.Core;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
-namespace MiP.TeamBuilds
+using Microsoft.TeamFoundation.Build.Client;
+
+using MiP.TeamBuilds.Providers;
+using MiP.TeamBuilds.UI.Settings;
+
+using ToastNotifications;
+using ToastNotifications.Core;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
+
+namespace MiP.TeamBuilds.UI.Main
 {
     public class MainViewModel : INotifyPropertyChanged, IRestartTimer
     {
@@ -69,7 +73,7 @@ namespace MiP.TeamBuilds
 
         private Uri CreateTfsUri()
         {
-            if (string.IsNullOrEmpty(Settings.Default.TfsUrl))
+            if (string.IsNullOrEmpty(Properties.Settings.Default.TfsUrl))
             {
                 ShowTfsUrlNotSet();
                 return null;
@@ -77,7 +81,7 @@ namespace MiP.TeamBuilds
 
             try
             {
-                return new Uri(Settings.Default.TfsUrl);
+                return new Uri(Properties.Settings.Default.TfsUrl);
             }
             catch (Exception ex)
             {

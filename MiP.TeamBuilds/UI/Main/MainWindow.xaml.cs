@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace MiP.TeamBuilds
+namespace MiP.TeamBuilds.UI.Main
 {
     public partial class MainWindow : Window
     {     

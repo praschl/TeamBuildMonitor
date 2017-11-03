@@ -8,7 +8,7 @@ namespace MiP.TeamBuilds
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            var window = ServiceLocator.Instance.Resolve<MainWindow>();
+            var window = ServiceLocator.Instance.Resolve<UI.Main.MainWindow>();
 
             // start in hidden mode
             window.Hide();

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace MiP.TeamBuilds
+namespace MiP.TeamBuilds.UI.Settings
 {
     public class ShowSettingsCommand : ICommand
     {

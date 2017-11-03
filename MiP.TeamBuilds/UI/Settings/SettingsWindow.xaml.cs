@@ -1,15 +1,14 @@
-﻿using MiP.TeamBuilds.Properties;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace MiP.TeamBuilds
+namespace MiP.TeamBuilds.UI.Settings
 {
     public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
         public SettingsWindow(IRestartTimer restartTimer)
         {
-            _tfsUrl = Settings.Default.TfsUrl;
+            _tfsUrl = Properties.Settings.Default.TfsUrl;
             InitializeComponent();
             _restartTimer = restartTimer;
         }
@@ -44,8 +43,8 @@ namespace MiP.TeamBuilds
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default.TfsUrl = _tfsUrl;
-            Settings.Default.Save();
+            Properties.Settings.Default.TfsUrl = _tfsUrl;
+            Properties.Settings.Default.Save();
             Close();
             _restartTimer.RestartTimer();
         }
