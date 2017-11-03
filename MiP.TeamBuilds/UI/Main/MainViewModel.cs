@@ -20,7 +20,7 @@ using ToastNotifications.Position;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class MainViewModel : INotifyPropertyChanged, IRestartTimer
+    public class MainViewModel : INotifyPropertyChanged
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private TfsBuildHelper _tfsBuildHelper;
@@ -46,10 +46,11 @@ namespace MiP.TeamBuilds.UI.Main
             ShowCloseButton = false,
             NotificationClickAction = n => n.Close()
         };
+        private readonly Func<ShowSettingsCommand> _showSettingsCommandFactory;
 
-        public MainViewModel(ShowSettingsCommand showSettingsCommand)
+        public MainViewModel(Func<ShowSettingsCommand> showSettingsCommandFactory)
         {
-            ShowSettingsCommand = showSettingsCommand;
+            _showSettingsCommandFactory = showSettingsCommandFactory;
         }
 
         public void Initialize()
@@ -206,7 +207,7 @@ namespace MiP.TeamBuilds.UI.Main
             });
         }
 
-        public ICommand ShowSettingsCommand { get; }
+        public ICommand ShowSettingsCommand { get => _showSettingsCommandFactory(); }
 
         //
         public event PropertyChangedEventHandler PropertyChanged;

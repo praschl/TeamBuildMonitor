@@ -23,7 +23,7 @@ namespace MiP.TeamBuilds.Providers
             var buildService = _teamCollection.GetService<IBuildServer>();
             
             var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
-            
+
             var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
 
             var result = foundBuilds.QueuedBuilds.Select(b =>

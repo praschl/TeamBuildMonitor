@@ -15,8 +15,8 @@ namespace MiP.TeamBuilds.IoC
             var builder = new ContainerBuilder();
 
             // controls
-            builder.RegisterType<UI.Main.MainWindow>().AsSelf();
-            builder.RegisterType<UI.Settings.SettingsWindow>().AsSelf();
+            builder.RegisterType<MainWindow>().AsSelf();
+            builder.RegisterType<SettingsWindow>().AsSelf();
 
             // viewmodel
             builder.RegisterType<MainViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
@@ -27,9 +27,7 @@ namespace MiP.TeamBuilds.IoC
             // helpers
             builder.RegisterType<TfsBuildHelper>().AsSelf();
 
-            IContainer container = builder.Build();
-
-            return container;
+            return builder.Build();
         }
 
     }

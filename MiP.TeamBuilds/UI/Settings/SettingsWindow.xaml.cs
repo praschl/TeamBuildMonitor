@@ -6,15 +6,13 @@ namespace MiP.TeamBuilds.UI.Settings
 {
     public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
-        public SettingsWindow(IRestartTimer restartTimer)
+        public SettingsWindow()
         {
             _tfsUrl = Properties.Settings.Default.TfsUrl;
             InitializeComponent();
-            _restartTimer = restartTimer;
         }
 
         private string _tfsUrl;
-        private readonly IRestartTimer _restartTimer;
 
         public string TfsUrl
         {
@@ -35,18 +33,22 @@ namespace MiP.TeamBuilds.UI.Settings
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            DialogResult = false;
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.TfsUrl = _tfsUrl;
             Properties.Settings.Default.Save();
-            Close();
-            _restartTimer.RestartTimer();
+            DialogResult = true;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            DialogResult = false;
         }
     }
 }
