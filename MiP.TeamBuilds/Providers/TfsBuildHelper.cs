@@ -17,9 +17,9 @@ namespace MiP.TeamBuilds.Providers
 
         private readonly TfsTeamProjectCollection _teamCollection;
 
-        public async Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
+        public Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var buildService = _teamCollection.GetService<IBuildServer>();
 
@@ -27,20 +27,29 @@ namespace MiP.TeamBuilds.Providers
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
 
-                var result = foundBuilds.QueuedBuilds.Select(b =>
-                              new BuildInfo(b)
-                              {
-                                  Id = b.Id,
-                                  TeamProject = b.TeamProject,
-                                  BuildDefinitionName = b.BuildDefinition.Name,
-                                  ServerItems = b.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
-                                  RequestedBy = b.RequestedBy,
-                                  Status = b.Build.Status
-                              });
-
-                return result;
+                return foundBuilds.QueuedBuilds.Select(Convert);
             });
+        }
 
+        private BuildInfo Convert(IQueuedBuild build)
+        {
+            string collectionUri = build.BuildServer.TeamProjectCollection.Uri.ToString();
+            string project = build.BuildDefinition.TeamProject;
+            string id = build.Build.Uri.ToString().Split('/').Last();
+
+            string buildSummary = $"{collectionUri}/{project}/_build?_a=summary&buildId={id}";
+
+            return new BuildInfo(build)
+            {
+                Id = build.Id,
+                TeamProject = build.TeamProject,
+                BuildDefinitionName = build.BuildDefinition.Name,
+                ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
+                RequestedBy = build.RequestedBy,
+                Status = build.Build.Status,
+                BuildSummary = new Uri(buildSummary),
+                DropLocation = build.Build.DropLocation
+            };
         }
 
         public void Dispose()

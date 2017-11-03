@@ -24,7 +24,10 @@ namespace MiP.TeamBuilds.Providers
         public string[] ServerItems { get; set; }
 
         public string RequestedBy { get; set; }
-        
+
+        public Uri BuildSummary { get; set; }
+        public string DropLocation { get; set; }
+
         private BuildStatus _status;
         public BuildStatus Status
         {

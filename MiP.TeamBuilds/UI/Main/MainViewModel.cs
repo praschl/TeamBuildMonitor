@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -113,7 +112,7 @@ namespace MiP.TeamBuilds.UI.Main
         
         private void ShowTfsUrlNotSet()
         {
-            var message = "Uri to TFS has not been set yet. Click here to set it!";
+            const string message = "Uri to TFS has not been set yet. Click here to set it!";
 
             MessageOptions displayOptions = new MessageOptions
             {
@@ -135,9 +134,9 @@ namespace MiP.TeamBuilds.UI.Main
         {
             try
             {
-                var currentBuilds = (await _tfsBuildHelper.GetCurrentBuildsAsync()).ToList();
+                var buildInfos = await _tfsBuildHelper.GetCurrentBuildsAsync();
 
-                foreach (var build in currentBuilds)
+                foreach (var build in buildInfos)
                 {
                     if (_lastKnownBuilds.ContainsKey(build.Id))
                         continue; // we know that build already and we are connected to it.
