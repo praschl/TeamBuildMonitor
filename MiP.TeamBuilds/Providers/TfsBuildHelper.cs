@@ -4,6 +4,7 @@ using System.Linq;
 
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
+using System.Threading.Tasks;
 
 namespace MiP.TeamBuilds.Providers
 {
@@ -16,28 +17,30 @@ namespace MiP.TeamBuilds.Providers
 
         private readonly TfsTeamProjectCollection _teamCollection;
 
-        public IEnumerable<BuildInfo> GetCurrentBuilds()
+        public async Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
-            // TODO: make this async and do not block ui
+            return await Task.Run(() =>
+            {
+                var buildService = _teamCollection.GetService<IBuildServer>();
 
-            var buildService = _teamCollection.GetService<IBuildServer>();
-            
-            var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
+                var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
 
-            var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
+                var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
 
-            var result = foundBuilds.QueuedBuilds.Select(b =>
-                          new BuildInfo(b)
-                          {
-                              Id = b.Id,
-                              TeamProject = b.TeamProject,
-                              BuildDefinitionName = b.BuildDefinition.Name,
-                              ServerItems = b.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
-                              RequestedBy = b.RequestedBy,
-                              Status = b.Build.Status
-                          });
-            
-            return result;
+                var result = foundBuilds.QueuedBuilds.Select(b =>
+                              new BuildInfo(b)
+                              {
+                                  Id = b.Id,
+                                  TeamProject = b.TeamProject,
+                                  BuildDefinitionName = b.BuildDefinition.Name,
+                                  ServerItems = b.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
+                                  RequestedBy = b.RequestedBy,
+                                  Status = b.Build.Status
+                              });
+
+                return result;
+            });
+
         }
 
         public void Dispose()

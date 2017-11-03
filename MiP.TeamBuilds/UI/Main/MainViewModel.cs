@@ -131,11 +131,11 @@ namespace MiP.TeamBuilds.UI.Main
             _notifier.ShowInformation(message, displayOptions);
         }
         
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
             try
             {
-                var currentBuilds = _tfsBuildHelper.GetCurrentBuilds().ToList();
+                var currentBuilds = (await _tfsBuildHelper.GetCurrentBuildsAsync()).ToList();
 
                 foreach (var build in currentBuilds)
                 {
