@@ -274,6 +274,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UI\Notifications\CompositeMessage.cs" />
+    <Compile Include="UI\Notifications\CompositeDisplayPart.xaml.cs">
+      <DependentUpon>CompositeDisplayPart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -292,6 +296,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\Notifications\CompositeDisplayPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Settings\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

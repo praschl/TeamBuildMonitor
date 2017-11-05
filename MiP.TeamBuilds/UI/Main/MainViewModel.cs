@@ -16,6 +16,7 @@ using ToastNotifications.Core;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Messages;
 using ToastNotifications.Position;
+using MiP.TeamBuilds.UI.Notifications;
 
 namespace MiP.TeamBuilds.UI.Main
 {
@@ -54,6 +55,8 @@ namespace MiP.TeamBuilds.UI.Main
 
         public void Initialize()
         {
+            _notifier.ShowComposite("outer", new Inner {Msg="hi world" });
+
             RestartTimer();
         }
 
