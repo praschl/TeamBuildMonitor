@@ -1,27 +1,29 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using ToastNotifications;
 using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
     public class CompositeMessage : NotificationBase
     {
-        public CompositeMessage(string title, object content) : this(title, content, new MessageOptions())
+        public CompositeMessage(NotificationStyle style, string title, object content) 
+            : this(style, title, content, new MessageOptions())
         {
         }
 
-        public CompositeMessage(string title, object content, MessageOptions options)
+        public CompositeMessage(NotificationStyle style, string title, object content, MessageOptions options)
         {
             Title = title;
             Content = content;
+            Style = style;
 
             Options = options ?? new MessageOptions();
         }
 
-        protected NotificationDisplayPart _displayPart;
-        internal readonly MessageOptions Options;
+        public NotificationDisplayPart _displayPart;
+        public MessageOptions Options;
 
+        public NotificationStyle Style { get; }
         public string Title { get; }
         public object Content { get; }
 
@@ -63,19 +65,15 @@ namespace MiP.TeamBuilds.UI.Notifications
         }
     }
 
-    public static class CompositeNotificationExtensions
+    public enum NotificationStyle
     {
-        public static void ShowComposite(this Notifier notifier, string title, object inner)
-        {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(title, inner));
-        }
-
-        public static void ShowComposite(this Notifier notifier, string title, object inner, MessageOptions displayOptions)
-        {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(title, inner, displayOptions));
-        }
+        Information,
+        Success,
+        Warning,
+        Error
     }
 
+    // TODO: just here while developing
     public class Inner
     {
         public string Msg { get; set; }

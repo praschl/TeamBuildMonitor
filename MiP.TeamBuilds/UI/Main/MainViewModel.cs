@@ -14,7 +14,6 @@ using MiP.TeamBuilds.UI.Settings;
 using ToastNotifications;
 using ToastNotifications.Core;
 using ToastNotifications.Lifetime;
-using ToastNotifications.Messages;
 using ToastNotifications.Position;
 using MiP.TeamBuilds.UI.Notifications;
 
@@ -55,7 +54,10 @@ namespace MiP.TeamBuilds.UI.Main
 
         public void Initialize()
         {
-            _notifier.ShowComposite("outer", new Inner {Msg="hi world" });
+            _notifier.ShowInformation("Los gehts!", new Inner {Msg="hi world" });
+            _notifier.ShowSuccess("Fertig", new Inner { Msg = "hi world" });
+            _notifier.ShowWarning("Achtung", new Inner { Msg = "hi world" });
+            _notifier.ShowError("Uiuiuiu", new Inner { Msg = "hi world" });
 
             RestartTimer();
         }
@@ -105,7 +107,7 @@ namespace MiP.TeamBuilds.UI.Main
                 NotificationClickAction = n =>
                 {
                     Clipboard.SetText(ex.ToString());
-                    _notifier.ShowInformation("Exception copied to clipboard.");
+                    _notifier.ShowInformation("Exception copied to clipboard.", null);
                     n.Close();
                 }
             };
@@ -154,7 +156,7 @@ namespace MiP.TeamBuilds.UI.Main
             }
             catch (Exception ex)
             {
-                _notifier.ShowError(ex.Message);
+                _notifier.ShowError(ex.Message, null);
             }
         }
 

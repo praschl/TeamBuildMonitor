@@ -8,28 +8,35 @@
              mc:Ignorable="d" d:DesignWidth="250" >
 
     <core:NotificationDisplayPart.Resources>
+        <Style TargetType="TextBlock" x:Key="NotificationText">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
         <DataTemplate DataType="{x:Type mip:Inner}">
             <TextBlock x:Name="InnerText" Text="{Binding Msg, Mode=OneTime}" Style="{StaticResource NotificationText}" Grid.Column="1"  />
         </DataTemplate>
     </core:NotificationDisplayPart.Resources>
     
-    <Border x:Name="ContentWrapper" Style="{DynamicResource NotificationBorder}" Background="{DynamicResource ErrorColorBrush}">
+    <Border x:Name="ContentWrapper" Style="{DynamicResource NotificationBorder}">
+        <!--Background="{DynamicResource ErrorColorBrush}"-->
         <Grid x:Name="ContentContainer">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="25" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto"  />
             </Grid.ColumnDefinitions>
-            <Rectangle x:Name="Icon" Width="24" Height="24">
-                <Rectangle.Fill>
-                    <VisualBrush Visual="{StaticResource ErrorIcon}" />
-                </Rectangle.Fill>
+            <Rectangle x:Name="Icon" Style="{DynamicResource NotificationIcon}">
             </Rectangle>
 
-            <TextBlock x:Name="Text" Text="{Binding Title, Mode=OneTime}" Style="{StaticResource NotificationText}" Grid.Column="1"  />
-            <ContentControl Content="{Binding Content}" Grid.Column="2" />
-
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+            <TextBlock x:Name="Text" Text="{Binding Title, Mode=OneTime}" Style="{StaticResource NotificationTitle}" />
+            <ContentControl Content="{Binding Content}" />
+            </StackPanel>
             <Button x:Name="CloseButton" Style="{StaticResource NotificationCloseButton}"  Padding="1" Grid.Column="3" Click="OnClose" Visibility="Hidden">
                 <Rectangle Style="{StaticResource CloseButtonIcon}" Margin="2">
                     <Rectangle.OpacityMask>
