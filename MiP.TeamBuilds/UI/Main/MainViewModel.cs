@@ -23,7 +23,7 @@ namespace MiP.TeamBuilds.UI.Main
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private TfsBuildHelper _tfsBuildHelper;
-        private Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
+        private readonly Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
 
         private readonly Notifier _notifier = new Notifier(cfg =>
         {
@@ -35,9 +35,9 @@ namespace MiP.TeamBuilds.UI.Main
                 notificationLifetime: TimeSpan.FromSeconds(6),
                 maximumNotificationCount: MaximumNotificationCount.FromCount(5));
 
-            cfg.Dispatcher = Application.Current.Dispatcher;            
+            cfg.Dispatcher = Application.Current.Dispatcher;
         });
-        
+
         private readonly MessageOptions _defaultOptions = new MessageOptions
         {
             FreezeOnMouseEnter = true,
@@ -54,11 +54,6 @@ namespace MiP.TeamBuilds.UI.Main
 
         public void Initialize()
         {
-            _notifier.ShowInformation("Los gehts!", new Inner {Msg="hi world" });
-            _notifier.ShowSuccess("Fertig", new Inner { Msg = "hi world" });
-            _notifier.ShowWarning("Achtung", new Inner { Msg = "hi world" });
-            _notifier.ShowError("Uiuiuiu", new Inner { Msg = "hi world" });
-
             RestartTimer();
         }
 
@@ -94,12 +89,36 @@ namespace MiP.TeamBuilds.UI.Main
                 return null;
             }
         }
-        
+
+        private void ShowTfsUrlNotSet()
+        {
+            var displayOptions = new MessageOptions
+            {
+                FreezeOnMouseEnter = true,
+                UnfreezeOnMouseLeave = true,
+                ShowCloseButton = false,
+                NotificationClickAction = n =>
+                {
+                    n.Close();
+
+                    ShowSettingsCommand.Execute(null);
+                }
+            };
+
+            var message = new TextWithLinkAction
+            {
+                Message = "Uri to TFS has not been set yet.",
+                LinkText = "Click here to set it"
+            };
+
+            _notifier.ShowInformation("Setup", message, displayOptions);
+        }
+
         private void ShowException(Exception ex)
-        {            
+        {
             var message = ex.Message + Environment.NewLine + "Click to copy exception to clipboard.";
 
-            MessageOptions errorDisplayOptions = new MessageOptions
+            var errorDisplayOptions = new MessageOptions
             {
                 FreezeOnMouseEnter = true,
                 UnfreezeOnMouseLeave = true,
@@ -113,26 +132,6 @@ namespace MiP.TeamBuilds.UI.Main
             };
 
             _notifier.ShowError(message, errorDisplayOptions);
-        }
-        
-        private void ShowTfsUrlNotSet()
-        {
-            const string message = "Uri to TFS has not been set yet. Click here to set it!";
-
-            MessageOptions displayOptions = new MessageOptions
-            {
-                FreezeOnMouseEnter = true,
-                UnfreezeOnMouseLeave = true,
-                ShowCloseButton = false,
-                NotificationClickAction = n =>
-                {
-                    n.Close();
-
-                    ShowSettingsCommand.Execute(null);
-                }
-            };
-
-            _notifier.ShowInformation(message, displayOptions);
         }
         
         private async void Timer_Tick(object sender, EventArgs e)
@@ -220,5 +219,12 @@ namespace MiP.TeamBuilds.UI.Main
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+
+    public class TextWithLinkAction
+    {
+        public string Message { get; set; }
+        public string LinkText { get; set; }
     }
 }

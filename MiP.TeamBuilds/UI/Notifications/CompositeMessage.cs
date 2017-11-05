@@ -64,18 +64,4 @@ namespace MiP.TeamBuilds.UI.Notifications
             displayPart.CloseButton.Visibility = options.ShowCloseButton ? Visibility.Visible : Visibility.Collapsed;
         }
     }
-
-    public enum NotificationStyle
-    {
-        Information,
-        Success,
-        Warning,
-        Error
-    }
-
-    // TODO: just here while developing
-    public class Inner
-    {
-        public string Msg { get; set; }
-    }
 }

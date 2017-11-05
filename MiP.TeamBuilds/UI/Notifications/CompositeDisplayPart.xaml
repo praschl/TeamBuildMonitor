@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:ToastNotifications.Core;assembly=ToastNotifications"
-             xmlns:mip="clr-namespace:MiP.TeamBuilds.UI.Notifications"
+             xmlns:mip="clr-namespace:MiP.TeamBuilds.UI.Main"
              mc:Ignorable="d" d:DesignWidth="250" >
 
     <core:NotificationDisplayPart.Resources>
@@ -13,30 +13,39 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="Margin" Value="5,0,0,0" />
             <Setter Property="FontSize" Value="12" />
         </Style>
 
-        <DataTemplate DataType="{x:Type mip:Inner}">
-            <TextBlock x:Name="InnerText" Text="{Binding Msg, Mode=OneTime}" Style="{StaticResource NotificationText}" Grid.Column="1"  />
+        <Style TargetType="Hyperlink" x:Key="NotificationLink">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        
+        <DataTemplate DataType="{x:Type mip:TextWithLinkAction}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Message, Mode=OneTime}" Style="{StaticResource NotificationText}" Grid.Column="1"  />
+                <TextBlock>
+                    <Hyperlink Style="{StaticResource NotificationLink}">
+                        <Run Text="{Binding LinkText, Mode=OneTime}" />
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
         </DataTemplate>
     </core:NotificationDisplayPart.Resources>
     
     <Border x:Name="ContentWrapper" Style="{DynamicResource NotificationBorder}">
-        <!--Background="{DynamicResource ErrorColorBrush}"-->
         <Grid x:Name="ContentContainer">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="25" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto"  />
             </Grid.ColumnDefinitions>
-            <Rectangle x:Name="Icon" Style="{DynamicResource NotificationIcon}">
-            </Rectangle>
-
-            <StackPanel Orientation="Vertical" Grid.Column="1">
-            <TextBlock x:Name="Text" Text="{Binding Title, Mode=OneTime}" Style="{StaticResource NotificationTitle}" />
-            <ContentControl Content="{Binding Content}" />
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Rectangle x:Name="Icon" Style="{DynamicResource NotificationIcon}"/>
+            <TextBlock x:Name="Text" Text="{Binding Title, Mode=OneTime}" Style="{StaticResource NotificationTitle}" Grid.Column="1" />
             <Button x:Name="CloseButton" Style="{StaticResource NotificationCloseButton}"  Padding="1" Grid.Column="3" Click="OnClose" Visibility="Hidden">
                 <Rectangle Style="{StaticResource CloseButtonIcon}" Margin="2">
                     <Rectangle.OpacityMask>
@@ -44,6 +53,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Button>
+            <ContentControl Content="{Binding Content}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,5,0,5" />
         </Grid>
     </Border>
 </core:NotificationDisplayPart>

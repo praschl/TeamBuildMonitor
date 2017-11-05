@@ -276,6 +276,7 @@
       <DependentUpon>CompositeDisplayPart.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Notifications\CompositeNotificationExtensions.cs" />
+    <Compile Include="UI\Notifications\NotificationStyle.cs" />
     <Compile Include="UI\Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
