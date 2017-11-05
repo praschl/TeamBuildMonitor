@@ -22,9 +22,10 @@
         
         <DataTemplate DataType="{x:Type mip:TextWithLinkAction}">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding Message, Mode=OneTime}" Style="{StaticResource NotificationText}" Grid.Column="1"  />
-                <TextBlock>
-                    <Hyperlink Style="{StaticResource NotificationLink}">
+                <TextBlock Style="{StaticResource NotificationText}">
+                    <Run Text="{Binding Message, Mode=OneTime}" />
+                    <LineBreak />
+                    <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
                         <Run Text="{Binding LinkText, Mode=OneTime}" />
                     </Hyperlink>
                 </TextBlock>
@@ -32,29 +33,23 @@
         </DataTemplate>
     </core:NotificationDisplayPart.Resources>
     
-    <Border x:Name="ContentWrapper" Style="{DynamicResource NotificationBorder}">
-        <Grid x:Name="ContentContainer">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto"  />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+    <Border Style="{DynamicResource NotificationBorder}">
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top">
+                <Rectangle DockPanel.Dock="Left" Style="{DynamicResource NotificationIcon}"/>
+                <Button x:Name="CloseButton" DockPanel.Dock="Right" Style="{StaticResource NotificationCloseButton}"  Padding="1" Click="OnClose" Visibility="Hidden">
+                    <Rectangle Style="{StaticResource CloseButtonIcon}" Margin="2">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource CloseIcon}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <TextBlock x:Name="Text" Text="{Binding Title, Mode=OneTime}" Style="{StaticResource NotificationTitle}" />
+            </DockPanel>
             
-            <Rectangle x:Name="Icon" Style="{DynamicResource NotificationIcon}"/>
-            <TextBlock x:Name="Text" Text="{Binding Title, Mode=OneTime}" Style="{StaticResource NotificationTitle}" Grid.Column="1" />
-            <Button x:Name="CloseButton" Style="{StaticResource NotificationCloseButton}"  Padding="1" Grid.Column="3" Click="OnClose" Visibility="Hidden">
-                <Rectangle Style="{StaticResource CloseButtonIcon}" Margin="2">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{StaticResource CloseIcon}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Button>
             <ContentControl Content="{Binding Content}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,5,0,5" />
-        </Grid>
+        </DockPanel>
     </Border>
 </core:NotificationDisplayPart>
 

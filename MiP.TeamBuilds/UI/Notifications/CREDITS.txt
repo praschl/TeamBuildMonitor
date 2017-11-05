@@ -1,0 +1,3 @@
+﻿The Composite* files in this namespace their styles are based on ToastNotifications.Messages
+https://github.com/raflop/ToastNotifications/tree/master-v2/Src/ToastNotifications.Messages
+But they more generic usable and support automatic control selection base on the message type.

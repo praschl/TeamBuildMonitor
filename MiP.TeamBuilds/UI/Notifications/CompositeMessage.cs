@@ -6,7 +6,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public class CompositeMessage : NotificationBase
     {
-        public CompositeMessage(NotificationStyle style, string title, object content) 
+        public CompositeMessage(NotificationStyle style, string title, object content)
             : this(style, title, content, new MessageOptions())
         {
         }
@@ -18,6 +18,9 @@ namespace MiP.TeamBuilds.UI.Notifications
             Style = style;
 
             Options = options ?? new MessageOptions();
+
+            if (content is ICompositeChild child)
+                child.SetParent(this);
         }
 
         public NotificationDisplayPart _displayPart;

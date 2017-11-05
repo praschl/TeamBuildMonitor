@@ -96,20 +96,14 @@ namespace MiP.TeamBuilds.UI.Main
             {
                 FreezeOnMouseEnter = true,
                 UnfreezeOnMouseLeave = true,
-                ShowCloseButton = false,
-                NotificationClickAction = n =>
-                {
+                ShowCloseButton = true,
+            };
+
+            var message = new TextWithLinkAction("Uri to TFS has not been set yet.", "Click here to set it",
+                n => {
                     n.Close();
-
                     ShowSettingsCommand.Execute(null);
-                }
-            };
-
-            var message = new TextWithLinkAction
-            {
-                Message = "Uri to TFS has not been set yet.",
-                LinkText = "Click here to set it"
-            };
+                });
 
             _notifier.ShowInformation("Setup", message, displayOptions);
         }
@@ -133,7 +127,7 @@ namespace MiP.TeamBuilds.UI.Main
 
             _notifier.ShowError(message, errorDisplayOptions);
         }
-        
+
         private async void Timer_Tick(object sender, EventArgs e)
         {
             try
@@ -219,12 +213,5 @@ namespace MiP.TeamBuilds.UI.Main
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
-
-
-    public class TextWithLinkAction
-    {
-        public string Message { get; set; }
-        public string LinkText { get; set; }
     }
 }
