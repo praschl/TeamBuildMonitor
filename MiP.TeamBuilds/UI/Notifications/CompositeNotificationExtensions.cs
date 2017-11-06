@@ -5,19 +5,9 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public static class CompositeNotificationExtensions
     {
-        public static void ShowError(this Notifier notifier, string title, object inner)
-        {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Error, title, inner));
-        }
-
         public static void ShowError(this Notifier notifier, string title, object inner, MessageOptions displayOptions)
         {
             notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Error, title, inner, displayOptions));
-        }
-        
-        public static void ShowWarning(this Notifier notifier, string title, object inner)
-        {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Warning, title, inner));
         }
 
         public static void ShowWarning(this Notifier notifier, string title, object inner, MessageOptions displayOptions)
@@ -25,19 +15,9 @@ namespace MiP.TeamBuilds.UI.Notifications
             notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Warning, title, inner, displayOptions));
         }
 
-        public static void ShowSuccess(this Notifier notifier, string title, object inner)
-        {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Success, title, inner));
-        }
-
         public static void ShowSuccess(this Notifier notifier, string title, object inner, MessageOptions displayOptions)
         {
             notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Success, title, inner, displayOptions));
-        }
-
-        public static void ShowInformation(this Notifier notifier, string title, object inner)
-        {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Information, title, inner));
         }
 
         public static void ShowInformation(this Notifier notifier, string title, object inner, MessageOptions displayOptions)

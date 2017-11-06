@@ -4,34 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:ToastNotifications.Core;assembly=ToastNotifications"
-             xmlns:mip="clr-namespace:MiP.TeamBuilds.UI.Main"
              mc:Ignorable="d" d:DesignWidth="250" >
-
-    <core:NotificationDisplayPart.Resources>
-        <Style TargetType="TextBlock" x:Key="NotificationText">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="FontSize" Value="12" />
-        </Style>
-
-        <Style TargetType="Hyperlink" x:Key="NotificationLink">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        
-        <DataTemplate DataType="{x:Type mip:TextWithLinkAction}">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Style="{StaticResource NotificationText}">
-                    <Run Text="{Binding Message, Mode=OneTime}" />
-                    <LineBreak />
-                    <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
-                        <Run Text="{Binding LinkText, Mode=OneTime}" />
-                    </Hyperlink>
-                </TextBlock>
-            </StackPanel>
-        </DataTemplate>
-    </core:NotificationDisplayPart.Resources>
     
     <Border Style="{DynamicResource NotificationBorder}">
         <DockPanel>

@@ -8,7 +8,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Themes/Default.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Notifications/Default.xaml" />
+                
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Main/Notifications.xaml" />
                 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

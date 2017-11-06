@@ -13,10 +13,10 @@ namespace MiP.TeamBuilds.UI.Main
 
             InitializeComponent();
         }
-        
+
         private void Quit_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Application.Current.Shutdown();
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)

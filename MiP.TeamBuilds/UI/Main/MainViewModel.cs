@@ -16,6 +16,7 @@ using ToastNotifications.Core;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using MiP.TeamBuilds.UI.Notifications;
+using System.Diagnostics;
 
 namespace MiP.TeamBuilds.UI.Main
 {
@@ -99,8 +100,9 @@ namespace MiP.TeamBuilds.UI.Main
                 ShowCloseButton = true,
             };
 
-            var message = new TextWithLinkAction("Uri to TFS has not been set yet.", "Click here to set it",
-                n => {
+            var message = new TextWithLinkNotification("Uri to TFS has not been set yet.", "Go to settings...",
+                n =>
+                {
                     n.Close();
                     ShowSettingsCommand.Execute(null);
                 });
@@ -110,22 +112,23 @@ namespace MiP.TeamBuilds.UI.Main
 
         private void ShowException(Exception ex)
         {
-            var message = ex.Message + Environment.NewLine + "Click to copy exception to clipboard.";
-
             var errorDisplayOptions = new MessageOptions
             {
                 FreezeOnMouseEnter = true,
                 UnfreezeOnMouseLeave = true,
-                ShowCloseButton = true,
-                NotificationClickAction = n =>
-                {
-                    Clipboard.SetText(ex.ToString());
-                    _notifier.ShowInformation("Exception copied to clipboard.", null);
-                    n.Close();
-                }
+                ShowCloseButton = true
             };
 
-            _notifier.ShowError(message, errorDisplayOptions);
+            var message = new TextWithLinkNotification(ex.Message, "Copy to clipboard...",
+                n =>
+                {
+                    Clipboard.SetText(ex.ToString());
+                    // TODO: make better notification type and xaml for this one
+                    _notifier.ShowInformation("Done", new TextWithLinkNotification("Exception copied to clipboard.", null, null), null);
+                    n.Close();
+                });
+
+            _notifier.ShowError("Exception", message, errorDisplayOptions);
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -149,36 +152,52 @@ namespace MiP.TeamBuilds.UI.Main
             }
             catch (Exception ex)
             {
-                _notifier.ShowError(ex.Message, null);
+                ShowException(ex);
             }
         }
 
         private void NotifyBuild(BuildInfo build)
         {
-            var message = $"Build {build.Status}: {build.BuildDefinitionName}";
+            var title = build.BuildDefinitionName;
+            var message = $"Build {build.Status}";
+
+            object createSummaryLink() => new TextWithLinkNotification(message, "Open build...", n =>
+             {
+                 Process.Start(build.BuildSummary.ToString());
+                 n.Close();
+             });
 
             switch (build.Status)
             {
                 case BuildStatus.Failed:
-                    _notifier.ShowError(message, _defaultOptions); // TODO: show link to build page of tfs
+
+                    _notifier.ShowError(title, createSummaryLink(), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.PartiallySucceeded:
                 case BuildStatus.Stopped:
-                    _notifier.ShowWarning(message, _defaultOptions); // TODO: show link to build page of tfs
+
+                    _notifier.ShowWarning(title, createSummaryLink(), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.Succeeded:
-                    _notifier.ShowSuccess(message, _defaultOptions); // TODO: link to open drop folder
+                    var contentSuccess = new TextWithLinkNotification(message, "Open drop location...", n =>
+                    {
+                        Process.Start(build.DropLocation);
+                        n.Close();
+                    });
+
+                    _notifier.ShowSuccess(title, contentSuccess, _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.None:
                 case BuildStatus.NotStarted:
                 case BuildStatus.InProgress:
-                    _notifier.ShowInformation(message, _defaultOptions);
+                    var contentInProgress = new TextWithLinkNotification(message, null, null); // TODO: simple text notification
+                    _notifier.ShowInformation(title, contentInProgress, _defaultOptions);
                     break;
             }
         }
