@@ -6,6 +6,7 @@ namespace MiP.TeamBuilds.UI.Settings
 {
     public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
+        // TODO: Build Autostart setting
         public SettingsWindow()
         {
             _tfsUrl = Properties.Settings.Default.TfsUrl;

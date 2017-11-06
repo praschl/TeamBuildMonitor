@@ -38,6 +38,9 @@ namespace MiP.TeamBuilds.Providers
             string id = build.Build.Uri.ToString().Split('/').Last();
 
             string buildSummary = $"{collectionUri}/{project}/_build?_a=summary&buildId={id}";
+            string dropLocation = build.Build.DropLocation;
+            if (string.IsNullOrEmpty(dropLocation))
+                dropLocation = build.DropLocation;
 
             return new BuildInfo(build)
             {
@@ -48,7 +51,7 @@ namespace MiP.TeamBuilds.Providers
                 RequestedBy = build.RequestedBy,
                 Status = build.Build.Status,
                 BuildSummary = new Uri(buildSummary),
-                DropLocation = build.Build.DropLocation
+                DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null
             };
         }
 

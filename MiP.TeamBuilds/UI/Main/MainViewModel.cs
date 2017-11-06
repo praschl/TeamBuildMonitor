@@ -33,8 +33,8 @@ namespace MiP.TeamBuilds.UI.Main
             cfg.PositionProvider = new PrimaryScreenPositionProvider(Corner.BottomRight, 0, offset);
 
             cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                notificationLifetime: TimeSpan.FromSeconds(6),
-                maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+                notificationLifetime: TimeSpan.FromSeconds(10),
+                maximumNotificationCount: MaximumNotificationCount.FromCount(10));
 
             cfg.Dispatcher = Application.Current.Dispatcher;
         });
@@ -167,6 +167,8 @@ namespace MiP.TeamBuilds.UI.Main
                  n.Close();
              });
 
+            // TODO: create a notification which takes an instance of build. use the build properties in the template
+            // (display requested by)
             switch (build.Status)
             {
                 case BuildStatus.Failed:
@@ -188,6 +190,9 @@ namespace MiP.TeamBuilds.UI.Main
                         Process.Start(build.DropLocation);
                         n.Close();
                     });
+                    // TODO: better check of drop location, and do not unnecessarily instantiate contentSuccess
+                    if (string.IsNullOrEmpty(build.DropLocation))
+                        contentSuccess = new TextWithLinkNotification(message, null, null);
 
                     _notifier.ShowSuccess(title, contentSuccess, _defaultOptions);
                     FinalizeBuild(build);

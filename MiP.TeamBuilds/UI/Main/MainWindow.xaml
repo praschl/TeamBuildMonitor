@@ -22,5 +22,6 @@
 
     <Grid>
         <tb:TaskbarIcon IconSource="../../assets/Bob.ico" ContextMenu="{StaticResource TaskBarMenu}" />
+        <!-- TODO: Tooltip: current builds -->
     </Grid>
 </Window>
