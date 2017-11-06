@@ -119,16 +119,7 @@ namespace MiP.TeamBuilds.UI.Main
                 ShowCloseButton = true
             };
 
-            var message = new TextWithLinkNotification(ex.Message, "Copy to clipboard...",
-                n =>
-                {
-                    Clipboard.SetText(ex.ToString());
-                    // TODO: make better notification type and xaml for this one
-                    _notifier.ShowInformation("Done", new TextWithLinkNotification("Exception copied to clipboard.", null, null), null);
-                    n.Close();
-                });
-
-            _notifier.ShowError("Exception", message, errorDisplayOptions);
+            _notifier.ShowError("Exception", new ExceptionNotification(ex, _notifier), errorDisplayOptions);
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -185,14 +176,18 @@ namespace MiP.TeamBuilds.UI.Main
                     break;
 
                 case BuildStatus.Succeeded:
-                    var contentSuccess = new TextWithLinkNotification(message, "Open drop location...", n =>
+
+                    object contentSuccess;
+                    if (!string.IsNullOrEmpty(build.DropLocation))
                     {
-                        Process.Start(build.DropLocation);
-                        n.Close();
-                    });
-                    // TODO: better check of drop location, and do not unnecessarily instantiate contentSuccess
-                    if (string.IsNullOrEmpty(build.DropLocation))
-                        contentSuccess = new TextWithLinkNotification(message, null, null);
+                        contentSuccess = new TextWithLinkNotification(message, "Open drop location...", n =>
+                          {
+                              Process.Start(build.DropLocation);
+                              n.Close();
+                          });
+                    }
+                    else
+                        contentSuccess = new TextNotification(message);
 
                     _notifier.ShowSuccess(title, contentSuccess, _defaultOptions);
                     FinalizeBuild(build);
@@ -201,7 +196,7 @@ namespace MiP.TeamBuilds.UI.Main
                 case BuildStatus.None:
                 case BuildStatus.NotStarted:
                 case BuildStatus.InProgress:
-                    var contentInProgress = new TextWithLinkNotification(message, null, null); // TODO: simple text notification
+                    var contentInProgress = new TextNotification(message); // TODO: simple text notification
                     _notifier.ShowInformation(title, contentInProgress, _defaultOptions);
                     break;
             }

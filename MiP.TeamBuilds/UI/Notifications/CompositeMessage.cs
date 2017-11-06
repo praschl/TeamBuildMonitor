@@ -6,12 +6,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public class CompositeMessage : NotificationBase
     {
-        public CompositeMessage(NotificationStyle style, string title, object content)
-            : this(style, title, content, new MessageOptions())
-        {
-        }
-
-        public CompositeMessage(NotificationStyle style, string title, object content, MessageOptions options)
+        public CompositeMessage(NotificationStyle style, string title, object content, MessageOptions options = null)
         {
             Title = title;
             Content = content;

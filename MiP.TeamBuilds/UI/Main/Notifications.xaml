@@ -25,4 +25,22 @@
             </TextBlock>
         </StackPanel>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ExceptionNotification}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource NotificationText}">
+                    <Run Text="{Binding Message, Mode=OneTime}" />
+                    <LineBreak />
+                    <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
+                        <Run Text="{Binding LinkText, Mode=OneTime}" />
+                    </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:TextNotification}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource NotificationText}" Text="{Binding Message}" />
+        </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

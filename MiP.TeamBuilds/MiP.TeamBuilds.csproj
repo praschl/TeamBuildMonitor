@@ -265,6 +265,7 @@
     </ApplicationDefinition>
     <Compile Include="Providers\BuildInfo.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
+    <Compile Include="UI\Main\ExceptionNotification.cs" />
     <Compile Include="UI\Main\LinkClickCommand.cs" />
     <Compile Include="UI\Main\MainViewModel.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -272,6 +273,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UI\Main\TextNotification.cs" />
     <Compile Include="UI\Main\TextWithLinkAction.cs" />
     <Compile Include="UI\Notifications\CompositeMessage.cs" />
     <Compile Include="UI\Notifications\CompositeDisplayPart.xaml.cs">
