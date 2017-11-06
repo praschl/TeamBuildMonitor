@@ -17,11 +17,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             _viewModel = error;
             DataContext = error;
         }
-
-        public override string GetMessage()
-        {
-            return this._viewModel.Title;
-        }
+        
         private void OnClose(object sender, RoutedEventArgs e)
         {
 

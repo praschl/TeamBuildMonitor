@@ -6,23 +6,20 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public class CompositeMessage : NotificationBase
     {
-        public CompositeMessage(NotificationStyle style, string title, object content, MessageOptions options = null)
+        public CompositeMessage(NotificationStyle style, NotificationContent content, MessageOptions options = null)
         {
-            Title = title;
             Content = content;
             Style = style;
 
             Options = options ?? new MessageOptions();
 
-            if (content is ICompositeChild child)
-                child.SetParent(this);
+            content.Initialize(this);
         }
 
         public NotificationDisplayPart _displayPart;
         public MessageOptions Options;
 
         public NotificationStyle Style { get; }
-        public string Title { get; }
         public object Content { get; }
 
         public override NotificationDisplayPart DisplayPart => _displayPart ?? (_displayPart = Configure());

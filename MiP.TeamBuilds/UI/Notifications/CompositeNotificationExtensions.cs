@@ -5,24 +5,24 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public static class CompositeNotificationExtensions
     {
-        public static void ShowError(this Notifier notifier, string title, object inner, MessageOptions displayOptions = null)
+        public static void ShowError(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Error, title, inner, displayOptions));
+            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Error, content, displayOptions));
         }
 
-        public static void ShowWarning(this Notifier notifier, string title, object inner, MessageOptions displayOptions = null)
+        public static void ShowWarning(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Warning, title, inner, displayOptions));
+            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Warning, content, displayOptions));
         }
 
-        public static void ShowSuccess(this Notifier notifier, string title, object inner, MessageOptions displayOptions = null)
+        public static void ShowSuccess(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Success, title, inner, displayOptions));
+            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Success, content, displayOptions));
         }
 
-        public static void ShowInformation(this Notifier notifier, string title, object inner, MessageOptions displayOptions = null)
+        public static void ShowInformation(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Information, title, inner, displayOptions));
+            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Information, content, displayOptions));
         }
     }
 }

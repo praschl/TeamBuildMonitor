@@ -1,11 +1,21 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using ToastNotifications.Core;
+﻿using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
-    public interface ICompositeChild
+    public abstract class NotificationContent
     {
-        void SetParent(NotificationBase notificationBase);
+        protected NotificationBase _notificationBase;
+
+        public string Title { get; }
+
+        public NotificationContent(string title)
+        {
+            Title = title;
+        }
+
+        public void Initialize(NotificationBase notificationBase)
+        {
+            _notificationBase = notificationBase;
+        }
     }
 }

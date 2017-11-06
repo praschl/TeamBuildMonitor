@@ -1,25 +1,15 @@
 ﻿using MiP.TeamBuilds.UI.Notifications;
-using System;
-using System.Windows.Input;
-using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-
-    public class TextNotification : ICompositeChild
+    public class TextNotification : NotificationContent
     {
-        private NotificationBase _notificationBase;
-
-        public TextNotification(string message)
+        public TextNotification(string title, string message)
+            : base(title)
         {
             Message = message;
         }
 
-        public string Message { get; set; }
-
-        public void SetParent(NotificationBase notificationBase)
-        {
-            _notificationBase = notificationBase;
-        }
+        public string Message { get; }
     }
 }

@@ -5,12 +5,12 @@ using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class TextWithLinkNotification : ICompositeChild
+    public class TextWithLinkNotification : NotificationContent
     {
         private readonly Action<NotificationBase> _linkClickAction;
-        private NotificationBase _notificationBase;
 
-        public TextWithLinkNotification(string message, string link, Action<NotificationBase> linkClickAction)
+        public TextWithLinkNotification(string title, string message, string link, Action<NotificationBase> linkClickAction)
+            : base(title)
         {
             Message = message;
             LinkText = link;
@@ -27,11 +27,6 @@ namespace MiP.TeamBuilds.UI.Main
             {
                 return new LinkClickCommand(_linkClickAction, _notificationBase);
             }
-        }
-
-        public void SetParent(NotificationBase notificationBase)
-        {
-            _notificationBase = notificationBase;
         }
     }
 }

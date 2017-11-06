@@ -60,6 +60,13 @@ namespace MiP.TeamBuilds.UI.Main
 
         public void RestartTimer()
         {
+            _notifier.ShowError(new ExceptionNotification("error", new NotImplementedException("hi"), _notifier));
+
+            _notifier.ShowInformation(new TextNotification("title", "message"));
+
+            _notifier.ShowSuccess(new TextWithLinkNotification("title 2", "message 2", "a link", n => Console.WriteLine("clicked")));
+
+
             var uri = CreateTfsUri();
             if (uri == null)
                 return;
@@ -100,14 +107,14 @@ namespace MiP.TeamBuilds.UI.Main
                 ShowCloseButton = true,
             };
 
-            var message = new TextWithLinkNotification("Uri to TFS has not been set yet.", "Go to settings...",
+            var content = new TextWithLinkNotification("Setup", "Uri to TFS has not been set yet.", "Go to settings...",
                 n =>
                 {
                     n.Close();
                     ShowSettingsCommand.Execute(null);
                 });
 
-            _notifier.ShowInformation("Setup", message, displayOptions);
+            _notifier.ShowInformation(content, displayOptions);
         }
 
         private void ShowException(Exception ex)
@@ -119,7 +126,7 @@ namespace MiP.TeamBuilds.UI.Main
                 ShowCloseButton = true
             };
 
-            _notifier.ShowError("Exception", new ExceptionNotification(ex, _notifier), errorDisplayOptions);
+            _notifier.ShowError(new ExceptionNotification("Exception", ex, _notifier), errorDisplayOptions);
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -152,7 +159,7 @@ namespace MiP.TeamBuilds.UI.Main
             var title = build.BuildDefinitionName;
             var message = $"Build {build.Status}";
 
-            object createSummaryLink() => new TextWithLinkNotification(message, "Open build...", n =>
+            TextWithLinkNotification createSummaryLink() => new TextWithLinkNotification(title, message, "Open build...", n =>
              {
                  Process.Start(build.BuildSummary.ToString());
                  n.Close();
@@ -164,40 +171,40 @@ namespace MiP.TeamBuilds.UI.Main
             {
                 case BuildStatus.Failed:
 
-                    _notifier.ShowError(title, createSummaryLink(), _defaultOptions);
+                    _notifier.ShowError(createSummaryLink(), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.PartiallySucceeded:
                 case BuildStatus.Stopped:
 
-                    _notifier.ShowWarning(title, createSummaryLink(), _defaultOptions);
+                    _notifier.ShowWarning(createSummaryLink(), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.Succeeded:
 
-                    object contentSuccess;
+                    NotificationContent contentSuccess;
                     if (!string.IsNullOrEmpty(build.DropLocation))
                     {
-                        contentSuccess = new TextWithLinkNotification(message, "Open drop location...", n =>
+                        contentSuccess = new TextWithLinkNotification(title, message, "Open drop location...", n =>
                           {
                               Process.Start(build.DropLocation);
                               n.Close();
                           });
                     }
                     else
-                        contentSuccess = new TextNotification(message);
+                        contentSuccess = new TextNotification(title, message);
 
-                    _notifier.ShowSuccess(title, contentSuccess, _defaultOptions);
+                    _notifier.ShowSuccess(contentSuccess, _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.None:
                 case BuildStatus.NotStarted:
                 case BuildStatus.InProgress:
-                    var contentInProgress = new TextNotification(message); // TODO: simple text notification
-                    _notifier.ShowInformation(title, contentInProgress, _defaultOptions);
+                    var contentInProgress = new TextNotification(title, message);
+                    _notifier.ShowInformation(contentInProgress, _defaultOptions);
                     break;
             }
         }
