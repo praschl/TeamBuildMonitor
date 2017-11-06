@@ -5,11 +5,11 @@ using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class TextWithLinkNotification : NotificationContent
+    public class TextWithLinkMessage : NotificationContent
     {
         private readonly Action<NotificationBase> _linkClickAction;
 
-        public TextWithLinkNotification(string title, string message, string link, Action<NotificationBase> linkClickAction)
+        public TextWithLinkMessage(string title, string message, string link, Action<NotificationBase> linkClickAction)
             : base(title)
         {
             Message = message;

@@ -7,9 +7,9 @@ using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class ExceptionNotification : NotificationContent
+    public class ExceptionMessage : NotificationContent
     {
-        public ExceptionNotification(string title, Exception ex, Notifier notifier)
+        public ExceptionMessage(string title, Exception ex, Notifier notifier)
             : base(title)
         {
             Message = ex.Message;
@@ -22,7 +22,7 @@ namespace MiP.TeamBuilds.UI.Main
         private readonly Exception _exception;
         private readonly Notifier _notifier;
 
-        public string LinkText { get => "Copy to clipboard..."; }
+        public string LinkText => "Copy to clipboard...";
 
         public ICommand LinkClickCommand
         {
@@ -32,7 +32,7 @@ namespace MiP.TeamBuilds.UI.Main
                 {
                     Clipboard.SetText(_exception.ToString());
 
-                    var content = new TextNotification("Done", "Exception copied to clipboard.");
+                    var content = new TextMessage("Done", "Exception copied to clipboard.");
 
                     _notifier.ShowInformation(content);
                     n.Close();

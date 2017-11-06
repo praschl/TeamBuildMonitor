@@ -51,7 +51,9 @@ namespace MiP.TeamBuilds.Providers
                 RequestedBy = build.RequestedBy,
                 Status = build.Build.Status,
                 BuildSummary = new Uri(buildSummary),
-                DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null
+                DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null,
+                QueuedTime = build.QueueTime,
+                FinishTime = build.Build.FinishTime
             };
         }
 

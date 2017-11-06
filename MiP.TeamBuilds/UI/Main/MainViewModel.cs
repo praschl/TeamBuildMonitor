@@ -58,14 +58,28 @@ namespace MiP.TeamBuilds.UI.Main
             RestartTimer();
         }
 
+        [Conditional("DEBUG")]
+        private void DebugTestNotification()
+        {
+            var build = new BuildInfo(null)
+            {
+                Status = BuildStatus.PartiallySucceeded,
+                BuildDefinitionName = "MyBuild",
+                BuildSummary = new Uri("http://google.com"),
+                DropLocation = "C:\\",
+                RequestedBy = "Myself",
+                QueuedTime = DateTime.Now.AddMinutes(-23).AddSeconds(14),
+                FinishTime = DateTime.Now
+            };
+            _notifier.ShowInformation(new BuildMessage(build), _defaultOptions);
+            _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
+            _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
+            _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
+        }
+
         public void RestartTimer()
         {
-            _notifier.ShowError(new ExceptionNotification("error", new NotImplementedException("hi"), _notifier));
-
-            _notifier.ShowInformation(new TextNotification("title", "message"));
-
-            _notifier.ShowSuccess(new TextWithLinkNotification("title 2", "message 2", "a link", n => Console.WriteLine("clicked")));
-
+            DebugTestNotification();
 
             var uri = CreateTfsUri();
             if (uri == null)
@@ -107,7 +121,7 @@ namespace MiP.TeamBuilds.UI.Main
                 ShowCloseButton = true,
             };
 
-            var content = new TextWithLinkNotification("Setup", "Uri to TFS has not been set yet.", "Go to settings...",
+            var content = new TextWithLinkMessage("Setup", "Uri to TFS has not been set yet.", "Go to settings...",
                 n =>
                 {
                     n.Close();
@@ -126,7 +140,7 @@ namespace MiP.TeamBuilds.UI.Main
                 ShowCloseButton = true
             };
 
-            _notifier.ShowError(new ExceptionNotification("Exception", ex, _notifier), errorDisplayOptions);
+            _notifier.ShowError(new ExceptionMessage("Exception", ex, _notifier), errorDisplayOptions);
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -145,7 +159,7 @@ namespace MiP.TeamBuilds.UI.Main
                     NotifyBuild(build);
 
                     build.Connect();
-                    build.PropertyChanged += Build_PropertyChanged;
+                    build.BuildUpdated += Build_BuildUpdated;
                 }
             }
             catch (Exception ex)
@@ -154,73 +168,11 @@ namespace MiP.TeamBuilds.UI.Main
             }
         }
 
-        private void NotifyBuild(BuildInfo build)
-        {
-            var title = build.BuildDefinitionName;
-            var message = $"Build {build.Status}";
-
-            TextWithLinkNotification createSummaryLink() => new TextWithLinkNotification(title, message, "Open build...", n =>
-             {
-                 Process.Start(build.BuildSummary.ToString());
-                 n.Close();
-             });
-
-            // TODO: create a notification which takes an instance of build. use the build properties in the template
-            // (display requested by)
-            switch (build.Status)
-            {
-                case BuildStatus.Failed:
-
-                    _notifier.ShowError(createSummaryLink(), _defaultOptions);
-                    FinalizeBuild(build);
-                    break;
-
-                case BuildStatus.PartiallySucceeded:
-                case BuildStatus.Stopped:
-
-                    _notifier.ShowWarning(createSummaryLink(), _defaultOptions);
-                    FinalizeBuild(build);
-                    break;
-
-                case BuildStatus.Succeeded:
-
-                    NotificationContent contentSuccess;
-                    if (!string.IsNullOrEmpty(build.DropLocation))
-                    {
-                        contentSuccess = new TextWithLinkNotification(title, message, "Open drop location...", n =>
-                          {
-                              Process.Start(build.DropLocation);
-                              n.Close();
-                          });
-                    }
-                    else
-                        contentSuccess = new TextNotification(title, message);
-
-                    _notifier.ShowSuccess(contentSuccess, _defaultOptions);
-                    FinalizeBuild(build);
-                    break;
-
-                case BuildStatus.None:
-                case BuildStatus.NotStarted:
-                case BuildStatus.InProgress:
-                    var contentInProgress = new TextNotification(title, message);
-                    _notifier.ShowInformation(contentInProgress, _defaultOptions);
-                    break;
-            }
-        }
-
-        private void FinalizeBuild(BuildInfo build)
-        {
-            build.Disconnect();
-            build.PropertyChanged -= Build_PropertyChanged;
-            _lastKnownBuilds.Remove(build.Id);
-        }
-
-        private void Build_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Build_BuildUpdated(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                BuildInfo build = (BuildInfo)sender;
+                var build = (BuildInfo)sender;
                 NotifyBuild(build);
 
                 if (build.PollingException != null)
@@ -230,7 +182,45 @@ namespace MiP.TeamBuilds.UI.Main
             });
         }
 
-        public ICommand ShowSettingsCommand { get => _showSettingsCommandFactory(); }
+        private void NotifyBuild(BuildInfo build)
+        {
+            var title = build.BuildDefinitionName;
+            var message = $"Build {build.Status}";
+
+            switch (build.Status)
+            {
+                case BuildStatus.Failed:
+                    _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
+                    FinalizeBuild(build);
+                    break;
+
+                case BuildStatus.PartiallySucceeded:
+                case BuildStatus.Stopped:
+                    _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
+                    FinalizeBuild(build);
+                    break;
+
+                case BuildStatus.Succeeded:
+                    _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
+                    FinalizeBuild(build);
+                    break;
+
+                case BuildStatus.None:
+                case BuildStatus.NotStarted:
+                case BuildStatus.InProgress:
+                    _notifier.ShowInformation(new BuildMessage(build), _defaultOptions);
+                    break;
+            }
+        }
+
+        private void FinalizeBuild(BuildInfo build)
+        {
+            build.Disconnect();
+            build.BuildUpdated -= Build_BuildUpdated;
+            _lastKnownBuilds.Remove(build.Id);
+        }
+        
+        public ICommand ShowSettingsCommand => _showSettingsCommandFactory();
 
         //
         public event PropertyChangedEventHandler PropertyChanged;

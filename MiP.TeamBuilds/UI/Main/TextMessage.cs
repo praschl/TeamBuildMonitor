@@ -2,9 +2,9 @@
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class TextNotification : NotificationContent
+    public class TextMessage : NotificationContent
     {
-        public TextNotification(string title, string message)
+        public TextMessage(string title, string message)
             : base(title)
         {
             Message = message;
