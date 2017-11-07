@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MiP.TeamBuilds.Providers
 {
-    public class TfsBuildHelper : IDisposable
+    public class BuildInfoProvider : IDisposable
     {
-        public TfsBuildHelper(Uri tfsUri)
+        public BuildInfoProvider(Uri tfsUri)
         {
             _teamCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tfsUri);
         }

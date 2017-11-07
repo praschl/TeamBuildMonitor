@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:main="clr-namespace:MiP.TeamBuilds.UI.Main"
         mc:Ignorable="d"
         Background="GhostWhite"
         Width="800"
@@ -11,17 +12,24 @@
         Title="Team Builds Manager"
         Icon="../../assets/Bob.ico"
         Initialized="Window_Initialized"
-        >
+        DataContext="{Binding MainModel, RelativeSource={RelativeSource Self}}">
+    
     <Window.Resources>
+        <main:MainViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
+        
         <ContextMenu x:Key="TaskBarMenu">
-            <MenuItem Header="Settings" Click="Settings_Click" />
+            <MenuItem Header="Settings" Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowSettingsCommand}" />
             <Separator/>
-            <MenuItem Header="Quit" Click="Quit_Click" />
+            <MenuItem Header="Quit" Command="{Binding Source={StaticResource Proxy}, Path=Data.QuitCommand}" />
         </ContextMenu>        
     </Window.Resources>
 
     <Grid>
-        <tb:TaskbarIcon IconSource="../../assets/Bob.ico" ContextMenu="{StaticResource TaskBarMenu}" />
+        <tb:TaskbarIcon IconSource="../../assets/Bob.ico" ContextMenu="{StaticResource TaskBarMenu}">
+            <tb:TaskbarIcon.TrayToolTip>
+                <TextBlock Background="White">hi</TextBlock>
+            </tb:TaskbarIcon.TrayToolTip>
+        </tb:TaskbarIcon>
         <!-- TODO: Tooltip: current builds -->
     </Grid>
 </Window>

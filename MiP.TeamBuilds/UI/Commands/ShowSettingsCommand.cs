@@ -1,8 +1,9 @@
 ﻿using MiP.TeamBuilds.UI.Main;
+using MiP.TeamBuilds.UI.Settings;
 using System;
 using System.Windows.Input;
 
-namespace MiP.TeamBuilds.UI.Settings
+namespace MiP.TeamBuilds.UI.Commands
 {
     public class ShowSettingsCommand : ICommand
     {
@@ -27,7 +28,7 @@ namespace MiP.TeamBuilds.UI.Settings
             SettingsWindow settings = _settingsWindowFactory();
             if (settings.ShowDialog() == true)
             {
-                _mainViewModel.RestartTimer();
+                _mainViewModel.Initialize();
             }
         }
     }
