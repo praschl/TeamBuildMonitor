@@ -15,6 +15,8 @@ using System.Windows.Threading;
 using System.Windows.Input;
 using MiP.TeamBuilds.UI.Commands;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
 
 namespace MiP.TeamBuilds.UI.Main
 {
@@ -22,6 +24,7 @@ namespace MiP.TeamBuilds.UI.Main
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
+        private readonly ObservableCollection<BuildInfo> _buildsList = new ObservableCollection<BuildInfo>();
         private readonly Notifier _notifier;
         private BuildInfoProvider _buildInfoProvider;
 
@@ -38,7 +41,11 @@ namespace MiP.TeamBuilds.UI.Main
         {
             _notifier = notifier;
             _showSettingsCommandFactory = showSettingsCommandFactory;
+
+            CurrentBuildsView = CollectionViewSource.GetDefaultView(_buildsList);
         }
+
+        public ICollectionView CurrentBuildsView { get; }
 
         public ICommand ShowSettingsCommand => _showSettingsCommandFactory();
 
@@ -120,6 +127,7 @@ namespace MiP.TeamBuilds.UI.Main
                 {
                     TryAdd(build);
                 }
+                // TODO: check if its required to remove any build which was not retrieved anymore, so they dont hang around forever...
             }
             catch (Exception ex)
             {
@@ -133,6 +141,7 @@ namespace MiP.TeamBuilds.UI.Main
                 return; // we know that build already and we are connected to it.
 
             _lastKnownBuilds.Add(buildInfo.Id, buildInfo);
+            _buildsList.Add(buildInfo);
 
             NotifyBuild(buildInfo);
 
@@ -187,6 +196,7 @@ namespace MiP.TeamBuilds.UI.Main
             build.Disconnect();
             build.BuildUpdated -= Build_BuildUpdated;
             _lastKnownBuilds.Remove(build.Id);
+            _buildsList.Remove(build);
         }
 
         [Conditional("DEBUG")]

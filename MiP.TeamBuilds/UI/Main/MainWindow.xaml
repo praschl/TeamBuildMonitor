@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:main="clr-namespace:MiP.TeamBuilds.UI.Main"
+        xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
         mc:Ignorable="d"
         Background="GhostWhite"
         Width="800"
@@ -27,9 +28,18 @@
     <Grid>
         <tb:TaskbarIcon IconSource="../../assets/Bob.ico" ContextMenu="{StaticResource TaskBarMenu}">
             <tb:TaskbarIcon.TrayToolTip>
-                <TextBlock Background="White">hi</TextBlock>
+                <ListView ItemsSource="{Binding KnownBuildsModel.CurrentBuildsView}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type providers:BuildInfo}">
+                            <TextBlock>
+                                <Run Text="{Binding BuildDefinitionName}" />
+                                (<Run Text="{Binding Status}" />)
+                                by <Run Text="{Binding RequestedBy}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </tb:TaskbarIcon.TrayToolTip>
         </tb:TaskbarIcon>
-        <!-- TODO: Tooltip: current builds -->
     </Grid>
 </Window>

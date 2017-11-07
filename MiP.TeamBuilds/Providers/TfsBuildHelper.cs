@@ -5,6 +5,9 @@ using System.Linq;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
 using System.Threading.Tasks;
+using Microsoft.TeamFoundation.Framework.Client;
+using System.Collections.Concurrent;
+using Microsoft.TeamFoundation.Framework.Common;
 
 namespace MiP.TeamBuilds.Providers
 {
@@ -17,6 +20,8 @@ namespace MiP.TeamBuilds.Providers
 
         private readonly TfsTeamProjectCollection _teamCollection;
 
+        private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
+
         public Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
             return Task.Run(() =>
@@ -26,9 +31,23 @@ namespace MiP.TeamBuilds.Providers
                 var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
+                PreloadUserNames(foundBuilds);
 
                 return foundBuilds.QueuedBuilds.Select(Convert);
             });
+        }
+
+        private void PreloadUserNames(IQueuedBuildQueryResult foundBuilds)
+        {
+            var ims = _teamCollection.GetService<IIdentityManagementService>();
+            var unknownUserIds = foundBuilds.QueuedBuilds.Select(b => b.RequestedBy).Except(_userIdToUserName.Keys).ToArray();
+
+            var users = ims.ReadIdentities(IdentitySearchFactor.AccountName, unknownUserIds, MembershipQuery.None, ReadIdentityOptions.ExtendedProperties);
+
+            foreach (var user in users.SelectMany(T => T))
+            {
+                _userIdToUserName.TryAdd(user.UniqueName, user.DisplayName);
+            }
         }
 
         private BuildInfo Convert(IQueuedBuild build)
@@ -48,13 +67,22 @@ namespace MiP.TeamBuilds.Providers
                 TeamProject = build.TeamProject,
                 BuildDefinitionName = build.BuildDefinition.Name,
                 ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
-                RequestedBy = build.RequestedBy,
+                RequestedBy = GetRequestedBy(build.RequestedBy),
                 Status = build.Build.Status,
                 BuildSummary = new Uri(buildSummary),
                 DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null,
                 QueuedTime = build.QueueTime,
                 FinishTime = build.Build.FinishTime
             };
+        }
+
+        private string GetRequestedBy(string requestedBy)
+        {
+            if (_userIdToUserName.TryGetValue(requestedBy, out string displayName))
+                return displayName;
+            else
+                return requestedBy;
+
         }
 
         public void Dispose()

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 using Microsoft.TeamFoundation.Build.Client;
+using PropertyChanged;
 
 namespace MiP.TeamBuilds.Providers
 {
+    [AddINotifyPropertyChangedInterface]
     public class BuildInfo
     {
         private IQueuedBuild _build;
@@ -22,10 +22,12 @@ namespace MiP.TeamBuilds.Providers
         public string RequestedBy { get; set; }
         public Uri BuildSummary { get; set; }
         public string DropLocation { get; set; }
-        public BuildStatus Status { get; internal set; }
+        public BuildStatus Status { get; set; }
         public Exception PollingException { get; internal set; }
         public DateTime QueuedTime { get; internal set; }
         public DateTime FinishTime { get; internal set; }
+
+        public bool IsChanged { get; set; }
 
         public void Connect()
         {
@@ -41,14 +43,12 @@ namespace MiP.TeamBuilds.Providers
 
         private void Build_StatusChanged(object sender, StatusChangedEventArgs e)
         {
-            bool changed =
-                Status != _build.Build.Status
-                || FinishTime != _build.Build.FinishTime;
+            IsChanged = false;
 
             Status = _build.Build.Status;
             FinishTime = _build.Build.FinishTime;
 
-            if (changed)
+            if (IsChanged)
                 OnBuildUpdated(EventArgs.Empty);
         }
 
@@ -57,14 +57,6 @@ namespace MiP.TeamBuilds.Providers
         protected virtual void OnBuildUpdated(EventArgs e)
         {
             BuildUpdated?.Invoke(this, e);
-        }
-
-        //
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
