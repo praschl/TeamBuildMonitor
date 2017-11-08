@@ -59,12 +59,15 @@ namespace MiP.TeamBuilds.UI.Main
             if (uri == null)
                 return;
 
+            // TODO: disconnect all builds (with FinalizeBuilds) and clear the lists.
             _buildInfoProvider?.Dispose();
             _buildInfoProvider = new BuildInfoProvider(uri);
 
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Timer_Tick;
             _timer.Start();
+            // TODO: manually refresh list (otherwise we have to wait for the first tick)
+            // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
         }
 
         private Uri CreateTfsUri()
@@ -137,6 +140,8 @@ namespace MiP.TeamBuilds.UI.Main
 
         private void TryAdd(BuildInfo buildInfo)
         {
+            // TODO: remember notifications by BuildId. close existing notifications of a build before adding a new one.
+
             if (_lastKnownBuilds.ContainsKey(buildInfo.Id))
                 return; // we know that build already and we are connected to it.
 
