@@ -25,8 +25,8 @@
 
         <DockPanel DockPanel.Dock="Bottom" Margin="10">
             <UniformGrid DockPanel.Dock="Right" Columns="2" Rows="1">
-                <Button Margin="5" Padding="20,5" IsCancel="True" Click="Cancel_Click">Cancel</Button>
                 <Button Margin="5" Padding="20,5" IsDefault="True" Click="Ok_Click">Ok</Button>
+                <Button Margin="5" Padding="20,5" IsCancel="True" Click="Cancel_Click">Cancel</Button>
             </UniformGrid>
             <Border />
         </DockPanel>

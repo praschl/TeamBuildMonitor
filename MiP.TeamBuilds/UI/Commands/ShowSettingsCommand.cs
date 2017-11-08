@@ -8,12 +8,12 @@ namespace MiP.TeamBuilds.UI.Commands
     public class ShowSettingsCommand : ICommand
     {
         private readonly Func<SettingsWindow> _settingsWindowFactory;
-        private readonly MainViewModel _mainViewModel;
+        private readonly KnownBuildsModel _knownBuildsModel;
 
-        public ShowSettingsCommand(Func<SettingsWindow> settingsWindowFunc, MainViewModel mainViewModel)
+        public ShowSettingsCommand(Func<SettingsWindow> settingsWindowFunc, KnownBuildsModel knownBuildsModel)
         {
             _settingsWindowFactory = settingsWindowFunc;
-            _mainViewModel = mainViewModel;
+            _knownBuildsModel = knownBuildsModel;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -26,9 +26,10 @@ namespace MiP.TeamBuilds.UI.Commands
         public void Execute(object parameter)
         {
             SettingsWindow settings = _settingsWindowFactory();
-            if (settings.ShowDialog() == true)
+            settings.ShowDialog();
+            if (settings.DialogResult == true)
             {
-                _mainViewModel.Initialize();
+                _knownBuildsModel.RestartTimer();
             }
         }
     }

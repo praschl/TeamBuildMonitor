@@ -6,14 +6,14 @@ namespace MiP.TeamBuilds.UI.Settings
 {
     public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
+        private string _tfsUrl;
+        
         // TODO: Build Autostart setting
         public SettingsWindow()
         {
             _tfsUrl = Properties.Settings.Default.TfsUrl;
             InitializeComponent();
         }
-
-        private string _tfsUrl;
 
         public string TfsUrl
         {
@@ -26,13 +26,6 @@ namespace MiP.TeamBuilds.UI.Settings
                 _tfsUrl = value;
                 OnPropertyChanged();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -49,7 +42,16 @@ namespace MiP.TeamBuilds.UI.Settings
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            DialogResult = false;
+            if (!DialogResult.HasValue)
+                DialogResult = false;
+        }
+
+        // INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
