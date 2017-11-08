@@ -7,6 +7,8 @@ namespace MiP.TeamBuilds.UI.Commands
 {
     public class ShowSettingsCommand : ICommand
     {
+        private bool _canExecute = true;
+
         private readonly Func<SettingsWindow> _settingsWindowFactory;
         private readonly KnownBuildsModel _knownBuildsModel;
 
@@ -18,19 +20,31 @@ namespace MiP.TeamBuilds.UI.Commands
 
         public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+        public bool CanExecute(object parameter) => _canExecute;
 
         public void Execute(object parameter)
         {
-            SettingsWindow settings = _settingsWindowFactory();
-            settings.ShowDialog();
-            if (settings.DialogResult == true)
+            _canExecute = false;
+            OnCanExecuteChanged(EventArgs.Empty);
+
+            try
             {
-                _knownBuildsModel.RestartTimer();
+                SettingsWindow currentInstance = _settingsWindowFactory();
+                if (currentInstance.ShowDialog() == true)
+                {
+                    _knownBuildsModel.RestartTimer();
+                }
             }
+            finally
+            {
+                _canExecute = true;
+                OnCanExecuteChanged(EventArgs.Empty);
+            }
+        }
+
+        protected virtual void OnCanExecuteChanged(EventArgs e)
+        {
+            CanExecuteChanged?.Invoke(this, e);
         }
     }
 }

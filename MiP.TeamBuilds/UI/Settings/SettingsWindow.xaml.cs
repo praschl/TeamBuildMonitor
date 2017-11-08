@@ -7,8 +7,7 @@ namespace MiP.TeamBuilds.UI.Settings
     public partial class SettingsWindow : Window, INotifyPropertyChanged
     {
         private string _tfsUrl;
-        
-        // TODO: Allow only one instance of Settings Window
+
         // TODO: Build Autostart setting
         public SettingsWindow()
         {
