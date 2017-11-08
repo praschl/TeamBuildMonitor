@@ -13,6 +13,8 @@ namespace MiP.TeamBuilds.Providers
 {
     public class BuildInfoProvider : IDisposable
     {
+        public delegate BuildInfoProvider Factory(Uri tfsUri);
+
         public BuildInfoProvider(Uri tfsUri)
         {
             _teamCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tfsUri);

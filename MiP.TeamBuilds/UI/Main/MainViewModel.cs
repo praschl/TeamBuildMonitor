@@ -10,11 +10,13 @@ namespace MiP.TeamBuilds.UI.Main
     public class MainViewModel : INotifyPropertyChanged
     {
         private readonly Func<ShowSettingsCommand> _showSettingsCommandFactory;
+        private readonly IRefreshBuildsTimer _refreshBuildsTimer;
 
-        public MainViewModel(Func<ShowSettingsCommand> showSettingsCommandFactory, KnownBuildsModel knownBuildsModel)
+        public MainViewModel(Func<ShowSettingsCommand> showSettingsCommandFactory, KnownBuildsModel knownBuildsModel, IRefreshBuildsTimer refreshBuildsTimer)
         {
             _showSettingsCommandFactory = showSettingsCommandFactory;
             KnownBuildsModel = knownBuildsModel;
+            _refreshBuildsTimer = refreshBuildsTimer;
         }
 
         public KnownBuildsModel KnownBuildsModel { get; }
@@ -24,12 +26,7 @@ namespace MiP.TeamBuilds.UI.Main
 
         public void Initialize()
         {
-            RestartTimer();
-        }
-
-        private void RestartTimer()
-        {
-            KnownBuildsModel.RestartTimer();
+            _refreshBuildsTimer.RestartTimer();
         }
 
         //INotifyPropertyChanged

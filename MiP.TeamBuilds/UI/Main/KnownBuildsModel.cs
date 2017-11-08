@@ -20,7 +20,7 @@ using System.Windows.Data;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class KnownBuildsModel : INotifyPropertyChanged
+    public class KnownBuildsModel : INotifyPropertyChanged, IRefreshBuildsTimer
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
@@ -35,14 +35,17 @@ namespace MiP.TeamBuilds.UI.Main
             ShowCloseButton = false,
             NotificationClickAction = n => n.Close()
         };
-        private readonly Func<ShowSettingsCommand> _showSettingsCommandFactory;
 
-        public KnownBuildsModel(Notifier notifier, Func<ShowSettingsCommand> showSettingsCommandFactory)
+        private readonly Func<ShowSettingsCommand> _showSettingsCommandFactory;
+        private readonly BuildInfoProvider.Factory _buildInfoProviderFactory;
+
+        public KnownBuildsModel(Notifier notifier, Func<ShowSettingsCommand> showSettingsCommandFactory, BuildInfoProvider.Factory buildInfoProviderFactory)
         {
             _notifier = notifier;
             _showSettingsCommandFactory = showSettingsCommandFactory;
 
             CurrentBuildsView = CollectionViewSource.GetDefaultView(_buildsList);
+            _buildInfoProviderFactory = buildInfoProviderFactory;
         }
 
         public ICollectionView CurrentBuildsView { get; }
@@ -59,15 +62,18 @@ namespace MiP.TeamBuilds.UI.Main
             if (uri == null)
                 return;
 
-            // TODO: disconnect all builds (with FinalizeBuilds) and clear the lists.
+            foreach (var build in _buildsList)
+            {
+                FinalizeBuild(build);
+            }
+
             _buildInfoProvider?.Dispose();
-            _buildInfoProvider = new BuildInfoProvider(uri);
+            _buildInfoProvider = _buildInfoProviderFactory(uri);
 
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Timer_Tick;
             _timer.Start();
-            // TODO: manually refresh list (otherwise we have to wait for the first tick)
-            // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
+            RefreshBuildInfos(); // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
         }
 
         private Uri CreateTfsUri()
@@ -120,12 +126,18 @@ namespace MiP.TeamBuilds.UI.Main
             _notifier.ShowError(new ExceptionMessage("Exception", ex, _notifier), errorDisplayOptions);
         }
 
-        private async void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
+            RefreshBuildInfos();
+        }
+
+        private async void RefreshBuildInfos()
+        {
+            // async void should be ok here. Only used from the Timer_Tick and Initialization
+            // and we catch the exception
             try
             {
                 var buildInfos = await _buildInfoProvider.GetCurrentBuildsAsync();
-
                 foreach (var build in buildInfos)
                 {
                     TryAdd(build);

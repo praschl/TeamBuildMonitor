@@ -29,7 +29,8 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<KnownBuildsModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // commands
-            builder.RegisterType<ShowSettingsCommand>().AsSelf();
+            builder.RegisterType<ShowSettingsCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<RestartTimerCommand>().AsSelf().SingleInstance();
 
             // helpers
             builder.RegisterType<BuildInfoProvider>().AsSelf();

@@ -271,11 +271,13 @@
     <Compile Include="Microsoft.SingleInstance\SingleInstance.cs" />
     <Compile Include="Providers\BuildInfo.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
+    <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Main\BindingProxy.cs" />
     <Compile Include="UI\Main\BuildFailureMessage.cs" />
     <Compile Include="UI\Main\BuildMessage.cs" />
     <Compile Include="UI\Main\BuildSuccessMessage.cs" />
     <Compile Include="UI\Main\ExceptionNotification.cs" />
+    <Compile Include="UI\Main\IRefreshTimer.cs" />
     <Compile Include="UI\Main\KnownBuildsModel.cs" />
     <Compile Include="UI\Main\LinkClickCommand.cs" />
     <Compile Include="UI\Main\MainViewModel.cs" />

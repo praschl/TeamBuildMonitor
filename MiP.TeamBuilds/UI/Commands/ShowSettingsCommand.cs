@@ -1,5 +1,4 @@
-﻿using MiP.TeamBuilds.UI.Main;
-using MiP.TeamBuilds.UI.Settings;
+﻿using MiP.TeamBuilds.UI.Settings;
 using System;
 using System.Windows.Input;
 
@@ -10,12 +9,12 @@ namespace MiP.TeamBuilds.UI.Commands
         private bool _canExecute = true;
 
         private readonly Func<SettingsWindow> _settingsWindowFactory;
-        private readonly KnownBuildsModel _knownBuildsModel;
+        private readonly Func<RestartTimerCommand> _restartTimerCommand;
 
-        public ShowSettingsCommand(Func<SettingsWindow> settingsWindowFunc, KnownBuildsModel knownBuildsModel)
+        public ShowSettingsCommand(Func<SettingsWindow> settingsWindowFunc, Func<RestartTimerCommand> restartTimerCommand)
         {
             _settingsWindowFactory = settingsWindowFunc;
-            _knownBuildsModel = knownBuildsModel;
+            _restartTimerCommand = restartTimerCommand;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -32,7 +31,7 @@ namespace MiP.TeamBuilds.UI.Commands
                 SettingsWindow currentInstance = _settingsWindowFactory();
                 if (currentInstance.ShowDialog() == true)
                 {
-                    _knownBuildsModel.RestartTimer();
+                    _restartTimerCommand().Execute(null);
                 }
             }
             finally
