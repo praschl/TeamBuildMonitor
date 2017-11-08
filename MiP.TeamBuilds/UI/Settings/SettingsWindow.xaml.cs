@@ -8,6 +8,7 @@ namespace MiP.TeamBuilds.UI.Settings
     {
         private string _tfsUrl;
         
+        // TODO: Allow only one instance of Settings Window
         // TODO: Build Autostart setting
         public SettingsWindow()
         {
