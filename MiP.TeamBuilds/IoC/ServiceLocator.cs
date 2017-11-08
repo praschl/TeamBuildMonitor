@@ -9,6 +9,7 @@ using System.Windows;
 using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using MiP.TeamBuilds.UI.Commands;
+using MiP.TeamBuilds.UI.Ambient;
 
 namespace MiP.TeamBuilds.IoC
 {
@@ -21,16 +22,17 @@ namespace MiP.TeamBuilds.IoC
             var builder = new ContainerBuilder();
 
             // controls
-            builder.RegisterType<MainWindow>().AsSelf();
+            builder.RegisterType<AmbientWindow>().AsSelf();
             builder.RegisterType<SettingsWindow>().AsSelf();
 
             // viewmodel
-            builder.RegisterType<MainViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
-            builder.RegisterType<KnownBuildsModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<KnownBuildsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<AmbientViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // commands
             builder.RegisterType<ShowSettingsCommand>().AsSelf().SingleInstance();
             builder.RegisterType<RestartTimerCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
 
             // helpers
             builder.RegisterType<BuildInfoProvider>().AsSelf();

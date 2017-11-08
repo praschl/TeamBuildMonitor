@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using Microsoft.TeamFoundation.Framework.Client;
 using System.Collections.Concurrent;
 using Microsoft.TeamFoundation.Framework.Common;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MiP.TeamBuilds.Providers
 {
+    [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IDisposable
     {
         public delegate BuildInfoProvider Factory(Uri tfsUri);
@@ -87,6 +89,7 @@ namespace MiP.TeamBuilds.Providers
 
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used.")]
         public void Dispose()
         {
             _teamCollection?.Dispose();

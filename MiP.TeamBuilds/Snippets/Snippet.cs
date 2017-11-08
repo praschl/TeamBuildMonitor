@@ -1,62 +1,58 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-
-namespace MiP.TeamBuilds.Snippets
+﻿namespace MiP.TeamBuilds.Snippets
 {
-    public class UdpReceiver : IDisposable
-    {
-        private readonly UdpClient udp = new UdpClient(15000);
+    // These are just some snippets I will need later.
 
-        public void Dispose()
-        {
-            udp.Dispose();
-        }
+    //public class UdpReceiver : IDisposable
+    //{
+    //    private readonly UdpClient udp = new UdpClient(15000);
 
-        public void StartListening()
-        {
-            udp.BeginReceive(Receive, new object());
-        }
+    //    public void Dispose()
+    //    {
+    //        udp.Dispose();
+    //    }
 
-        private void Receive(IAsyncResult ar)
-        {
-            IPEndPoint ip = null;
-            byte[] bytes = udp.EndReceive(ar, ref ip);
-            string message = Encoding.ASCII.GetString(bytes);
-            Console.WriteLine(message + " from: " + ip);
-            StartListening();
-        }
-    }
+    //    public void StartListening()
+    //    {
+    //        udp.BeginReceive(Receive, new object());
+    //    }
 
-    public class UdpSender
-    {
-        public void Send(string m)
-        {
-            UdpClient client = new UdpClient();
-            IPEndPoint ip = new IPEndPoint(IPAddress.Broadcast, 15000);
-            byte[] bytes = Encoding.ASCII.GetBytes(m);
-            client.Send(bytes, bytes.Length, ip);
-            client.Close();
-            client.Dispose();
-        }
-    }
+    //    private void Receive(IAsyncResult ar)
+    //    {
+    //        IPEndPoint ip = null;
+    //        byte[] bytes = udp.EndReceive(ar, ref ip);
+    //        string message = Encoding.ASCII.GetString(bytes);
+    //        Console.WriteLine(message + " from: " + ip);
+    //        StartListening();
+    //    }
+    //}
 
-    public class LocalHostHelper
-    {
-        public static bool IsLocalHost(string host)
-        {
-            IPHostEntry localHost = Dns.GetHostEntry(Dns.GetHostName());
+    //public class UdpSender
+    //{
+    //    public void Send(string m)
+    //    {
+    //        UdpClient client = new UdpClient();
+    //        IPEndPoint ip = new IPEndPoint(IPAddress.Broadcast, 15000);
+    //        byte[] bytes = Encoding.ASCII.GetBytes(m);
+    //        client.Send(bytes, bytes.Length, ip);
+    //        client.Close();
+    //        client.Dispose();
+    //    }
+    //}
 
-            IPAddress ipAddress = null;
+    //public class LocalHostHelper
+    //{
+    //    public static bool IsLocalHost(string host)
+    //    {
+    //        IPHostEntry localHost = Dns.GetHostEntry(Dns.GetHostName());
 
-            if (IPAddress.TryParse(host, out ipAddress))
-                return localHost.AddressList.Any(x => x.Equals(ipAddress));
+    //        IPAddress ipAddress = null;
 
-            IPHostEntry hostEntry = Dns.GetHostEntry(host);
+    //        if (IPAddress.TryParse(host, out ipAddress))
+    //            return localHost.AddressList.Any(x => x.Equals(ipAddress));
 
-            return localHost.AddressList.Any(x => hostEntry.AddressList.Any(y => x.Equals(y)));
-        }
-    }
+    //        IPHostEntry hostEntry = Dns.GetHostEntry(host);
+
+    //        return localHost.AddressList.Any(x => hostEntry.AddressList.Any(y => x.Equals(y)));
+    //    }
+    //}
 }

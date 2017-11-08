@@ -16,15 +16,13 @@ using System.Windows.Input;
 using MiP.TeamBuilds.UI.Commands;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
-using System.Windows.Data;
 
 namespace MiP.TeamBuilds.UI.Main
 {
-    public class KnownBuildsModel : INotifyPropertyChanged, IRefreshBuildsTimer
+    public class KnownBuildsViewModel : IRefreshBuildsTimer
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
-        private readonly ObservableCollection<BuildInfo> _buildsList = new ObservableCollection<BuildInfo>();
         private readonly Notifier _notifier;
         private BuildInfoProvider _buildInfoProvider;
 
@@ -36,21 +34,23 @@ namespace MiP.TeamBuilds.UI.Main
             NotificationClickAction = n => n.Close()
         };
 
-        private readonly Func<ShowSettingsCommand> _showSettingsCommandFactory;
         private readonly BuildInfoProvider.Factory _buildInfoProviderFactory;
 
-        public KnownBuildsModel(Notifier notifier, Func<ShowSettingsCommand> showSettingsCommandFactory, BuildInfoProvider.Factory buildInfoProviderFactory)
+        public KnownBuildsViewModel(Notifier notifier, ShowSettingsCommand showSettingsCommand, BuildInfoProvider.Factory buildInfoProviderFactory)
         {
             _notifier = notifier;
-            _showSettingsCommandFactory = showSettingsCommandFactory;
-
-            CurrentBuildsView = CollectionViewSource.GetDefaultView(_buildsList);
+            ShowSettingsCommand = showSettingsCommand;
             _buildInfoProviderFactory = buildInfoProviderFactory;
         }
 
-        public ICollectionView CurrentBuildsView { get; }
+        public ObservableCollection<BuildInfo> Builds { get; } = new ObservableCollection<BuildInfo>();
 
-        public ICommand ShowSettingsCommand => _showSettingsCommandFactory();
+        public ICommand ShowSettingsCommand { get; }
+
+        internal void Initialize()
+        {
+            RestartTimer();
+        }
 
         public void RestartTimer()
         {
@@ -62,7 +62,7 @@ namespace MiP.TeamBuilds.UI.Main
             if (uri == null)
                 return;
 
-            foreach (var build in _buildsList)
+            foreach (var build in Builds)
             {
                 FinalizeBuild(build);
             }
@@ -158,7 +158,7 @@ namespace MiP.TeamBuilds.UI.Main
                 return; // we know that build already and we are connected to it.
 
             _lastKnownBuilds.Add(buildInfo.Id, buildInfo);
-            _buildsList.Add(buildInfo);
+            Builds.Add(buildInfo);
 
             NotifyBuild(buildInfo);
 
@@ -213,7 +213,7 @@ namespace MiP.TeamBuilds.UI.Main
             build.Disconnect();
             build.BuildUpdated -= Build_BuildUpdated;
             _lastKnownBuilds.Remove(build.Id);
-            _buildsList.Remove(build);
+            Builds.Remove(build);
         }
 
         [Conditional("DEBUG")]
@@ -233,13 +233,6 @@ namespace MiP.TeamBuilds.UI.Main
             _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
             _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
             _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
-        }
-
-        // INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

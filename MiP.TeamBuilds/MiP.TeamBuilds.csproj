@@ -272,15 +272,15 @@
     <Compile Include="Providers\BuildInfo.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
-    <Compile Include="UI\Main\BindingProxy.cs" />
+    <Compile Include="UI\Ambient\AmbientViewModel.cs" />
+    <Compile Include="UI\Ambient\AmbientViewModelBindingProxy.cs" />
     <Compile Include="UI\Main\BuildFailureMessage.cs" />
     <Compile Include="UI\Main\BuildMessage.cs" />
     <Compile Include="UI\Main\BuildSuccessMessage.cs" />
     <Compile Include="UI\Main\ExceptionNotification.cs" />
     <Compile Include="UI\Main\IRefreshTimer.cs" />
     <Compile Include="UI\Main\KnownBuildsModel.cs" />
-    <Compile Include="UI\Main\LinkClickCommand.cs" />
-    <Compile Include="UI\Main\MainViewModel.cs" />
+    <Compile Include="UI\Commands\LinkClickCommand.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -310,7 +310,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Main\MainWindow.xaml">
+    <Page Include="UI\Ambient\AmbientWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -318,8 +318,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Main\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="UI\Ambient\AmbientWindow.xaml.cs">
+      <DependentUpon>AmbientWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UI\Notifications\CompositeDisplayPart.xaml">

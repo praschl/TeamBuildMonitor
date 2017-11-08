@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using ToastNotifications.Core;
 
-namespace MiP.TeamBuilds.UI.Main
+namespace MiP.TeamBuilds.UI.Commands
 {
     public class LinkClickCommand : ICommand
     {
@@ -15,7 +15,9 @@ namespace MiP.TeamBuilds.UI.Main
             _notificationBase = notificationBase;
         }
 
+#pragma warning disable CS0067
         public event EventHandler CanExecuteChanged;
+#pragma warning restore CS0067
 
         public bool CanExecute(object parameter)
         {

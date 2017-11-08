@@ -3,7 +3,7 @@ using Microsoft.Shell;
 using MiP.TeamBuilds.IoC;
 using System.Windows;
 using System.Collections.Generic;
-using MiP.TeamBuilds.UI.Main;
+using MiP.TeamBuilds.UI.Ambient;
 
 namespace MiP.TeamBuilds
 {
@@ -15,7 +15,7 @@ namespace MiP.TeamBuilds
         {
             if (SingleInstance<App>.InitializeAsFirstInstance(UniqueApplicationKey))
             {
-                var window = ServiceLocator.Instance.Resolve<MainWindow>();
+                var window = ServiceLocator.Instance.Resolve<AmbientWindow>();
 
                 // start in hidden mode
                 window.Hide();

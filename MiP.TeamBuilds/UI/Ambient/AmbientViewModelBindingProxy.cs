@@ -1,24 +1,24 @@
 ﻿using System.Windows;
 
-namespace MiP.TeamBuilds.UI.Main
+namespace MiP.TeamBuilds.UI.Ambient
 {
     /// <summary>
     /// This class helps binding to models, when the UI element is not within the required visual tree, and has not the correct datacontext set.
     /// </summary>
-    public class MainViewModelBindingProxy : Freezable
+    public class AmbientViewModelBindingProxy : Freezable
     {
         protected override Freezable CreateInstanceCore()
         {
-            return new MainViewModelBindingProxy();
+            return new AmbientViewModelBindingProxy();
         }
 
-        public MainViewModel Data
+        public AmbientViewModel Data
         {
-            get { return (MainViewModel)GetValue(DataProperty); }
+            get { return (AmbientViewModel)GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 
         public static readonly DependencyProperty DataProperty =
-            DependencyProperty.Register(nameof(Data), typeof(MainViewModel), typeof(MainViewModelBindingProxy), new UIPropertyMetadata(null));
+            DependencyProperty.Register(nameof(Data), typeof(AmbientViewModel), typeof(AmbientViewModelBindingProxy), new UIPropertyMetadata(null));
     }
 }

@@ -1,10 +1,10 @@
-﻿<Window x:Class="MiP.TeamBuilds.UI.Main.MainWindow"
+﻿<Window x:Class="MiP.TeamBuilds.UI.Ambient.AmbientWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        xmlns:main="clr-namespace:MiP.TeamBuilds.UI.Main"
+        xmlns:amb="clr-namespace:MiP.TeamBuilds.UI.Ambient"
         xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
         mc:Ignorable="d"
         Background="GhostWhite"
@@ -13,32 +13,35 @@
         Title="Team Builds Manager"
         Icon="../../assets/Bob.ico"
         Initialized="Window_Initialized"
-        DataContext="{Binding MainModel, RelativeSource={RelativeSource Self}}">
-    
+        DataContext="{Binding AmbientViewModel, RelativeSource={RelativeSource Self}}">
+
     <Window.Resources>
-        <main:MainViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
-        
+        <amb:AmbientViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
+
         <ContextMenu x:Key="TaskBarMenu">
             <MenuItem Header="Settings" Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowSettingsCommand}" />
             <Separator/>
             <MenuItem Header="Quit" Command="{Binding Source={StaticResource Proxy}, Path=Data.QuitCommand}" />
-        </ContextMenu>        
+        </ContextMenu>
+
     </Window.Resources>
 
     <Grid>
         <tb:TaskbarIcon IconSource="../../assets/Bob.ico" ContextMenu="{StaticResource TaskBarMenu}">
             <tb:TaskbarIcon.TrayToolTip>
-                <ListView ItemsSource="{Binding KnownBuildsModel.CurrentBuildsView}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate DataType="{x:Type providers:BuildInfo}">
-                            <TextBlock>
+                <StackPanel Orientation="Vertical">
+                    <ListView ItemsSource="{Binding CurrentBuildsView}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="{x:Type providers:BuildInfo}">
+                                <TextBlock>
                                 <Run Text="{Binding BuildDefinitionName}" />
                                 (<Run Text="{Binding Status}" />)
                                 by <Run Text="{Binding RequestedBy}" />
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </tb:TaskbarIcon.TrayToolTip>
         </tb:TaskbarIcon>
     </Grid>

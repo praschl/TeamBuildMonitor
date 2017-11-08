@@ -1,4 +1,5 @@
-﻿using MiP.TeamBuilds.UI.Notifications;
+﻿using MiP.TeamBuilds.UI.Commands;
+using MiP.TeamBuilds.UI.Notifications;
 using System;
 using System.Windows.Input;
 using ToastNotifications.Core;
