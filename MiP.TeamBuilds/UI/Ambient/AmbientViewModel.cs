@@ -3,11 +3,12 @@ using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Notifications;
 using System;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
-    public class AmbientViewModel
+    public class AmbientViewModel : INotifyPropertyChanged
     {
         public AmbientViewModel(ShowSettingsCommand showSettingsCommand, QuitCommand quitCommand, KnownBuildsViewModel knownBuildsViewModel)
         {
@@ -17,6 +18,9 @@ namespace MiP.TeamBuilds.UI.Ambient
 
             CurrentBuildsView = CollectionViewSource.GetDefaultView(knownBuildsViewModel.Builds);
             CurrentBuildsView.SortDescriptions.Add(new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending));
+
+            knownBuildsViewModel.Builds.CollectionChanged +=
+                (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
 
             // TODO: the next will be relevant when the collection may contain finished builds.
             //CurrentBuildsView.Filter = CurrentBuildsFilter;
@@ -30,7 +34,9 @@ namespace MiP.TeamBuilds.UI.Ambient
         public QuitCommand QuitCommand { get; }
         public KnownBuildsViewModel KnownBuildsViewModel { get; }
 
-        public ICollectionView CurrentBuildsView { get; }
+        public ICollectionView CurrentBuildsView { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         internal void Initialize()
         {

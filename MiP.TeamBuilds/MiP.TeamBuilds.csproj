@@ -271,6 +271,7 @@
     <Compile Include="Microsoft.SingleInstance\SingleInstance.cs" />
     <Compile Include="Providers\BuildInfo.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
+    <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />
     <Compile Include="UI\Ambient\AmbientViewModelBindingProxy.cs" />
