@@ -1,8 +1,8 @@
 ﻿using MiP.TeamBuilds.Providers;
-using MiP.TeamBuilds.UI.Notifications;
+using MiP.TeamBuilds.UI.CompositeNotifications;
 using System;
 
-namespace MiP.TeamBuilds.UI.Main
+namespace MiP.TeamBuilds.UI.Notifications
 {
     public class BuildMessage : NotificationContent
     {

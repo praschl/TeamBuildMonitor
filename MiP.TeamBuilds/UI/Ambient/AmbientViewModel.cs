@@ -1,6 +1,6 @@
 ﻿using MiP.TeamBuilds.Providers;
 using MiP.TeamBuilds.UI.Commands;
-using MiP.TeamBuilds.UI.Main;
+using MiP.TeamBuilds.UI.Notifications;
 using System;
 using System.ComponentModel;
 using System.Windows.Data;

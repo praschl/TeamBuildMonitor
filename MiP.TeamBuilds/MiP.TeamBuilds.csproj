@@ -274,12 +274,12 @@
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />
     <Compile Include="UI\Ambient\AmbientViewModelBindingProxy.cs" />
-    <Compile Include="UI\Main\BuildFailureMessage.cs" />
-    <Compile Include="UI\Main\BuildMessage.cs" />
-    <Compile Include="UI\Main\BuildSuccessMessage.cs" />
-    <Compile Include="UI\Main\ExceptionNotification.cs" />
-    <Compile Include="UI\Main\IRefreshTimer.cs" />
-    <Compile Include="UI\Main\KnownBuildsModel.cs" />
+    <Compile Include="UI\Notifications\BuildFailureMessage.cs" />
+    <Compile Include="UI\Notifications\BuildMessage.cs" />
+    <Compile Include="UI\Notifications\BuildSuccessMessage.cs" />
+    <Compile Include="UI\Notifications\ExceptionNotification.cs" />
+    <Compile Include="UI\Notifications\IRefreshTimer.cs" />
+    <Compile Include="UI\Notifications\KnownBuildsModel.cs" />
     <Compile Include="UI\Commands\LinkClickCommand.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -287,26 +287,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="UI\Commands\QuitCommand.cs" />
-    <Compile Include="UI\Main\TextMessage.cs" />
-    <Compile Include="UI\Main\TextWithLinkMessage.cs" />
-    <Compile Include="UI\Notifications\CompositeMessage.cs" />
-    <Compile Include="UI\Notifications\CompositeDisplayPart.xaml.cs">
+    <Compile Include="UI\Notifications\TextMessage.cs" />
+    <Compile Include="UI\Notifications\TextWithLinkMessage.cs" />
+    <Compile Include="UI\CompositeNotifications\CompositeMessage.cs" />
+    <Compile Include="UI\CompositeNotifications\CompositeDisplayPart.xaml.cs">
       <DependentUpon>CompositeDisplayPart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Notifications\CompositeNotificationExtensions.cs" />
-    <Compile Include="UI\Notifications\ICompositeChild.cs" />
-    <Compile Include="UI\Notifications\NotificationStyle.cs" />
+    <Compile Include="UI\CompositeNotifications\CompositeNotificationExtensions.cs" />
+    <Compile Include="UI\CompositeNotifications\ICompositeChild.cs" />
+    <Compile Include="UI\CompositeNotifications\NotificationStyle.cs" />
     <Compile Include="UI\Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Commands\ShowSettingsCommand.cs" />
     <Compile Include="Snippets\Snippet.cs" />
     <Compile Include="Providers\TfsBuildHelper.cs" />
-    <Page Include="UI\Main\Notifications.xaml">
+    <Page Include="UI\Notifications\Notifications.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Notifications\Default.xaml">
+    <Page Include="UI\CompositeNotifications\Default.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -322,7 +322,7 @@
       <DependentUpon>AmbientWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\Notifications\CompositeDisplayPart.xaml">
+    <Page Include="UI\CompositeNotifications\CompositeDisplayPart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -348,7 +348,7 @@
     <Resource Include="assets\Bob.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="UI\Notifications\CREDITS.txt" />
+    <Resource Include="UI\CompositeNotifications\CREDITS.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\" />

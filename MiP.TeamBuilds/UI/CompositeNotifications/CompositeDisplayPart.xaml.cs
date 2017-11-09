@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using ToastNotifications.Core;
 
-namespace MiP.TeamBuilds.UI.Notifications
+namespace MiP.TeamBuilds.UI.CompositeNotifications
 {
     /// <summary>
     /// Interaction logic for ErrorDisplayPart.xaml

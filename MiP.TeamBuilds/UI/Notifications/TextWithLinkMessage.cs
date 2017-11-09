@@ -1,10 +1,10 @@
 ﻿using MiP.TeamBuilds.UI.Commands;
-using MiP.TeamBuilds.UI.Notifications;
+using MiP.TeamBuilds.UI.CompositeNotifications;
 using System;
 using System.Windows.Input;
 using ToastNotifications.Core;
 
-namespace MiP.TeamBuilds.UI.Main
+namespace MiP.TeamBuilds.UI.Notifications
 {
     public class TextWithLinkMessage : NotificationContent
     {

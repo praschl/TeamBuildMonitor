@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using ToastNotifications.Core;
 
-namespace MiP.TeamBuilds.UI.Notifications
+namespace MiP.TeamBuilds.UI.CompositeNotifications
 {
     public class CompositeMessage : NotificationBase
     {

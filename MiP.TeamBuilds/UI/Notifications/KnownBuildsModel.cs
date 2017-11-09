@@ -10,14 +10,14 @@ using MiP.TeamBuilds.Providers;
 
 using ToastNotifications;
 using ToastNotifications.Core;
-using MiP.TeamBuilds.UI.Notifications;
+using MiP.TeamBuilds.UI.CompositeNotifications;
 using System.Windows.Threading;
 using System.Windows.Input;
 using MiP.TeamBuilds.UI.Commands;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 
-namespace MiP.TeamBuilds.UI.Main
+namespace MiP.TeamBuilds.UI.Notifications
 {
     public class KnownBuildsViewModel : IRefreshBuildsTimer
     {

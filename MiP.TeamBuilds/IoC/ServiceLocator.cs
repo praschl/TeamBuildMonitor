@@ -2,7 +2,7 @@
 using Autofac;
 
 using MiP.TeamBuilds.Providers;
-using MiP.TeamBuilds.UI.Main;
+using MiP.TeamBuilds.UI.Notifications;
 using MiP.TeamBuilds.UI.Settings;
 using ToastNotifications;
 using System.Windows;

@@ -10,9 +10,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
 
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Notifications/Default.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/CompositeNotifications/Default.xaml" />
                 
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Main/Notifications.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Notifications/Notifications.xaml" />
                 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

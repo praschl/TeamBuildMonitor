@@ -1,6 +1,6 @@
-﻿using MiP.TeamBuilds.UI.Notifications;
+﻿using MiP.TeamBuilds.UI.CompositeNotifications;
 
-namespace MiP.TeamBuilds.UI.Main
+namespace MiP.TeamBuilds.UI.Notifications
 {
     public class TextMessage : NotificationContent
     {

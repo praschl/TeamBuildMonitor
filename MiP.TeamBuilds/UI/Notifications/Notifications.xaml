@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:MiP.TeamBuilds.UI.Main">
+                    xmlns:local="clr-namespace:MiP.TeamBuilds.UI.Notifications">
 
     <Style TargetType="TextBlock" x:Key="NotificationText">
         <Setter Property="Foreground" Value="White" />

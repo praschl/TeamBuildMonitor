@@ -1,6 +1,6 @@
 ﻿using ToastNotifications.Core;
 
-namespace MiP.TeamBuilds.UI.Notifications
+namespace MiP.TeamBuilds.UI.CompositeNotifications
 {
     public abstract class NotificationContent
     {
