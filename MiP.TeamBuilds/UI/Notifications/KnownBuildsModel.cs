@@ -142,7 +142,6 @@ namespace MiP.TeamBuilds.UI.Notifications
                 {
                     TryAdd(build);
                 }
-                // TODO: check if its required to remove any build which was not retrieved anymore, so they dont hang around forever...
             }
             catch (Exception ex)
             {
