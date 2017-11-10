@@ -303,6 +303,10 @@
     <Compile Include="UI\Commands\ShowSettingsCommand.cs" />
     <Compile Include="Snippets\Snippet.cs" />
     <Compile Include="Providers\TfsBuildHelper.cs" />
+    <Page Include="Themes\Default.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Notifications\Notifications.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -351,9 +355,7 @@
   <ItemGroup>
     <Resource Include="UI\CompositeNotifications\CREDITS.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Themes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
