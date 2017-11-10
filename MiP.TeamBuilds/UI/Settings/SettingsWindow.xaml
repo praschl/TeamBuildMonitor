@@ -10,11 +10,12 @@
         Width="400"
         Height="150" 
         Background="#EEEEEE"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}, Path=ViewModel}"
         ResizeMode="CanResizeWithGrip"
         WindowStyle="ToolWindow"
         FocusManager.FocusedElement="{Binding ElementName=tfsUrlTextbox}"
         Closing="Window_Closing"
+        x:Name="settingsWindow"
         >
 
     <DockPanel>
@@ -25,7 +26,7 @@
 
         <DockPanel DockPanel.Dock="Bottom" Margin="10">
             <UniformGrid DockPanel.Dock="Right" Columns="2" Rows="1">
-                <Button Margin="5" Padding="20,5" IsDefault="True" Click="Ok_Click">Ok</Button>
+                <Button Margin="5" Padding="20,5" IsDefault="True" Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding ElementName=settingsWindow}">Ok</Button>
                 <Button Margin="5" Padding="20,5" IsCancel="True" Click="Cancel_Click">Cancel</Button>
             </UniformGrid>
             <Border />

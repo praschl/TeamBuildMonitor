@@ -297,6 +297,8 @@
     <Compile Include="UI\CompositeNotifications\CompositeNotificationExtensions.cs" />
     <Compile Include="UI\CompositeNotifications\ICompositeChild.cs" />
     <Compile Include="UI\CompositeNotifications\NotificationStyle.cs" />
+    <Compile Include="UI\Settings\SaveSettingsCommand.cs" />
+    <Compile Include="UI\Settings\SettingsViewModel.cs" />
     <Compile Include="UI\Settings\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>

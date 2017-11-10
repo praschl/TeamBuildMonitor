@@ -28,9 +28,11 @@ namespace MiP.TeamBuilds.IoC
             // viewmodel
             builder.RegisterType<KnownBuildsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AmbientViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<SettingsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // commands
             builder.RegisterType<ShowSettingsCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<SaveSettingsCommand>().AsSelf().SingleInstance();
             builder.RegisterType<RestartTimerCommand>().AsSelf().SingleInstance();
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
 
