@@ -3,13 +3,14 @@ using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Notifications;
 using System;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
     public class AmbientViewModel : INotifyPropertyChanged
     {
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Generated OnPropertyChanged by Fody, Event has no subscribers at this time.")]
         public AmbientViewModel(ShowSettingsCommand showSettingsCommand, QuitCommand quitCommand, KnownBuildsViewModel knownBuildsViewModel)
         {
             ShowSettingsCommand = showSettingsCommand;

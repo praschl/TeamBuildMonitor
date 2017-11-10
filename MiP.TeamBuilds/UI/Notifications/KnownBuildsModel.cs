@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 
 using Microsoft.TeamFoundation.Build.Client;
@@ -16,6 +14,8 @@ using System.Windows.Input;
 using MiP.TeamBuilds.UI.Commands;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
@@ -151,8 +151,6 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private void TryAdd(BuildInfo buildInfo)
         {
-            // TODO: remember notifications by BuildId. close existing notifications of a build before adding a new one.
-
             if (_lastKnownBuilds.ContainsKey(buildInfo.Id))
                 return; // we know that build already and we are connected to it.
 
@@ -179,32 +177,46 @@ namespace MiP.TeamBuilds.UI.Notifications
             });
         }
 
+        private readonly ConcurrentDictionary<int, INotification> _notificationsByBuildId = new ConcurrentDictionary<int, INotification>();
+
         private void NotifyBuild(BuildInfo build)
         {
+            INotification notification = null;
+
             switch (build.Status)
             {
                 case BuildStatus.Failed:
-                    _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
+                    notification = _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.PartiallySucceeded:
                 case BuildStatus.Stopped:
-                    _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
+                    notification = _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.Succeeded:
-                    _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
+                    notification = _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
                     FinalizeBuild(build);
                     break;
 
                 case BuildStatus.None:
                 case BuildStatus.NotStarted:
                 case BuildStatus.InProgress:
-                    _notifier.ShowInformation(new BuildMessage(build), _defaultOptions);
+                    notification = _notifier.ShowInformation(new BuildMessage(build), _defaultOptions);
                     break;
             }
+
+            if (notification != null)
+                _notificationsByBuildId.AddOrUpdate(build.Id, notification, (id, not) => UpdateNotificationForBuild(not, notification));
+        }
+
+        private INotification UpdateNotificationForBuild(INotification oldNotification, INotification newNotification)
+        {
+            oldNotification.Close();
+
+            return newNotification;
         }
 
         private void FinalizeBuild(BuildInfo build)
@@ -215,6 +227,9 @@ namespace MiP.TeamBuilds.UI.Notifications
             Builds.Remove(build);
         }
 
+        /// <summary>
+        /// This is just for debugging / demo purpose and exists only in Debug builds.
+        /// </summary>
         [Conditional("DEBUG")]
         private void DebugTestNotification()
         {

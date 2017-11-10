@@ -46,12 +46,12 @@ namespace MiP.TeamBuilds.UI.CompositeNotifications
             Options.NotificationClickAction?.Invoke(this);
         }
 
-        protected CompositeDisplayPart CreateDisplayPart()
+        private CompositeDisplayPart CreateDisplayPart()
         {
             return new CompositeDisplayPart(this);
         }
 
-        protected void UpdateDisplayOptions(CompositeDisplayPart displayPart, MessageOptions options)
+        private void UpdateDisplayOptions(CompositeDisplayPart displayPart, MessageOptions options)
         {
             if (options.FontSize != null)
                 displayPart.Text.FontSize = options.FontSize.Value;

@@ -5,24 +5,32 @@ namespace MiP.TeamBuilds.UI.CompositeNotifications
 {
     public static class CompositeNotificationExtensions
     {
-        public static void ShowError(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
+        public static INotification ShowError(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Error, content, displayOptions));
+            var compositeMessage = new CompositeMessage(NotificationStyle.Error, content, displayOptions);
+            notifier.Notify<CompositeMessage>(() => compositeMessage);
+            return compositeMessage;
         }
 
-        public static void ShowWarning(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
+        public static INotification ShowWarning(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Warning, content, displayOptions));
+            var compositeMessage = new CompositeMessage(NotificationStyle.Warning, content, displayOptions);
+            notifier.Notify<CompositeMessage>(() => compositeMessage);
+            return compositeMessage;
         }
 
-        public static void ShowSuccess(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
+        public static INotification ShowSuccess(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Success, content, displayOptions));
+            var compositeMessage = new CompositeMessage(NotificationStyle.Success, content, displayOptions);
+            notifier.Notify<CompositeMessage>(() => compositeMessage);
+            return compositeMessage;
         }
 
-        public static void ShowInformation(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
+        public static INotification ShowInformation(this Notifier notifier, NotificationContent content, MessageOptions displayOptions = null)
         {
-            notifier.Notify<CompositeMessage>(() => new CompositeMessage(NotificationStyle.Information, content, displayOptions));
+            var compositeMessage = new CompositeMessage(NotificationStyle.Information, content, displayOptions);
+            notifier.Notify<CompositeMessage>(() => compositeMessage);
+            return compositeMessage;
         }
     }
 }
