@@ -1,6 +1,5 @@
 ﻿using MiP.TeamBuilds.Providers;
 using PropertyChanged;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 

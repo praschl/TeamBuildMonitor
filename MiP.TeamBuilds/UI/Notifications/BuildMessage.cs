@@ -1,13 +1,11 @@
 ﻿using MiP.TeamBuilds.Providers;
 using MiP.TeamBuilds.UI.CompositeNotifications;
-using System;
-
 namespace MiP.TeamBuilds.UI.Notifications
 {
     public class BuildMessage : NotificationContent
     {
         public BuildMessage(BuildInfo build)
-            : base(build.BuildDefinitionName)
+            : base($"{build.BuildDefinitionName} (by {build.RequestedBy})")
         {
             BuildInfo = build;
         }
@@ -15,11 +13,5 @@ namespace MiP.TeamBuilds.UI.Notifications
         protected BuildInfo BuildInfo { get; }
 
         public string BuildState => BuildInfo.Status.ToString();
-
-        public string RequestedBy => BuildInfo.RequestedBy;
-
-        public TimeSpan QueuedTime => BuildInfo.QueuedTime.TimeOfDay;
-
-        public TimeSpan BuildTime => BuildInfo.FinishTime - BuildInfo.QueuedTime;
     }
 }

@@ -50,12 +50,6 @@
                 <Run Text="Build " /> 
                 <Run Text="{Binding BuildState, Mode=OneTime}" />
                 <LineBreak />
-                <Run Text="Requested by: " /> 
-                <Run Text="{Binding RequestedBy, Mode=OneTime}" />
-                <LineBreak />
-                <Run Text="Time to build: " /> 
-                <Run Text="{Binding BuildTime, Mode=OneTime, StringFormat=hh\\:mm\\:ss}" />
-                <LineBreak />
                 <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
                     <Run Text="Goto build summary..." />
                 </Hyperlink>
@@ -69,12 +63,6 @@
                 <Run Text="Build " />    
                 <Run Text="{Binding BuildState, Mode=OneTime}" />
                 <LineBreak />
-                <Run Text="Requested by: " /> 
-                <Run Text="{Binding RequestedBy, Mode=OneTime}" />
-                <LineBreak />
-                <Run Text="Time to build: " /> 
-                <Run Text="{Binding BuildTime, Mode=OneTime, StringFormat=hh\\:mm\\:ss}" />
-                <LineBreak />
                 <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
                     <Run Text="Open drop location..." />
                 </Hyperlink>
@@ -87,12 +75,6 @@
             <TextBlock Style="{StaticResource NotificationText}">
                 <Run Text="Build " />    
                 <Run Text="{Binding BuildState, Mode=OneTime}" />
-                <LineBreak />
-                <Run Text="Requested by: " /> 
-                <Run Text="{Binding RequestedBy, Mode=OneTime}" />
-                <LineBreak />
-                <Run Text="Queued: " /> 
-                <Run Text="{Binding QueuedTime, Mode=OneTime, StringFormat=hh\\:mm\\:ss}" />
             </TextBlock>
         </StackPanel>
     </DataTemplate>

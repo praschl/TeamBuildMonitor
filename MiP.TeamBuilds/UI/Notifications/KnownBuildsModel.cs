@@ -15,7 +15,6 @@ using MiP.TeamBuilds.UI.Commands;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
@@ -236,10 +235,10 @@ namespace MiP.TeamBuilds.UI.Notifications
             var build = new BuildInfo(null)
             {
                 Status = BuildStatus.PartiallySucceeded,
-                BuildDefinitionName = "MyBuild",
+                BuildDefinitionName = "X3-Dev",
                 BuildSummary = new Uri("http://google.com"),
                 DropLocation = "C:\\",
-                RequestedBy = "Myself",
+                RequestedBy = "Michael Praschl",
                 QueuedTime = DateTime.Now.AddMinutes(-23).AddSeconds(14),
                 FinishTime = DateTime.Now
             };
