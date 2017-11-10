@@ -8,7 +8,8 @@
         WindowStartupLocation="CenterScreen"
         Title="Tfs Build Manager Settings" 
         Width="400"
-        Height="150" 
+        Height="160" 
+        MinHeight="160"
         Background="#EEEEEE"
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=ViewModel}"
         ResizeMode="CanResizeWithGrip"
@@ -24,6 +25,11 @@
             <TextBox x:Name="tfsUrlTextbox" Text="{Binding TfsUrl, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="0,0,5,0" />
         </DockPanel>
 
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0">
+            <Label Content="Start when Windows starts"/>
+            <CheckBox IsChecked="{Binding AutoStart}" VerticalAlignment="Center" />
+        </StackPanel>
+        
         <DockPanel DockPanel.Dock="Bottom" Margin="10">
             <UniformGrid DockPanel.Dock="Right" Columns="2" Rows="1">
                 <Button Margin="5" Padding="20,5" IsDefault="True" Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding ElementName=settingsWindow}">Ok</Button>

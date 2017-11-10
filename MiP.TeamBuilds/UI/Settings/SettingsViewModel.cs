@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using MiP.TeamBuilds.Providers;
+using PropertyChanged;
 using System;
 using System.Windows.Input;
 
@@ -7,12 +8,13 @@ namespace MiP.TeamBuilds.UI.Settings
     [AddINotifyPropertyChangedInterface]
     public class SettingsViewModel
     {
-        private readonly Func<SaveSettingsCommand> _saveSettingsCommand;
-
-        public SettingsViewModel(Func<SaveSettingsCommand> saveSettingsCommand)
+        public SettingsViewModel(SaveSettingsCommand saveSettingsCommand)
         {
+            SaveSettingsCommand = saveSettingsCommand;
+
             TfsUrl = Properties.Settings.Default.TfsUrl;
-            _saveSettingsCommand = saveSettingsCommand;
+
+            AutoStart = AutoStartHelper.IsStartupItem();
         }
 
         public string TfsUrl
@@ -21,6 +23,12 @@ namespace MiP.TeamBuilds.UI.Settings
             set;
         }
 
-        public ICommand SaveSettingsCommand => _saveSettingsCommand();
+        public bool AutoStart
+        {
+            get;
+            set;
+        }
+
+        public ICommand SaveSettingsCommand { get; }
     }
 }

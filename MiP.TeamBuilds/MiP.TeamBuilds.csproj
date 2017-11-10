@@ -269,8 +269,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Microsoft.SingleInstance\SingleInstance.cs" />
+    <Compile Include="Providers\AutoStartHelper.cs" />
     <Compile Include="Providers\BuildInfo.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
+    <Compile Include="Providers\BuildInfoProvider.cs" />
     <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />
@@ -304,7 +306,6 @@
     </Compile>
     <Compile Include="UI\Commands\ShowSettingsCommand.cs" />
     <Compile Include="Snippets\Snippet.cs" />
-    <Compile Include="Providers\TfsBuildHelper.cs" />
     <Page Include="Themes\Default.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

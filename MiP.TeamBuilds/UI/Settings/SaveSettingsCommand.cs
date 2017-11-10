@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MiP.TeamBuilds.Providers;
+using System;
 using System.Windows.Input;
 
 namespace MiP.TeamBuilds.UI.Settings
 {
     public class SaveSettingsCommand : ICommand
     {
-        private readonly SettingsViewModel _viewModel;
+        private readonly Func<SettingsViewModel> _viewModel;
 
-        public SaveSettingsCommand(SettingsViewModel viewModel)
+        public SaveSettingsCommand(Func<SettingsViewModel> viewModel)
         {
             _viewModel = viewModel;
         }
@@ -20,8 +21,11 @@ namespace MiP.TeamBuilds.UI.Settings
 
         public void Execute(object parameter)
         {
-            Properties.Settings.Default.TfsUrl = _viewModel.TfsUrl;
-            //Properties.Settings.Default.Save();
+            var viewModel = _viewModel();
+            Properties.Settings.Default.TfsUrl = viewModel.TfsUrl;
+            Properties.Settings.Default.Save();
+
+            AutoStartHelper.SetAutoStart(viewModel.AutoStart);
 
             if (parameter is SettingsWindow window)
                 window.DialogResult = true;

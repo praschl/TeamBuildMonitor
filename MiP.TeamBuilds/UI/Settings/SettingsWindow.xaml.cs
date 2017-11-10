@@ -5,7 +5,6 @@ namespace MiP.TeamBuilds.UI.Settings
 {
     public partial class SettingsWindow : Window
     {
-        // TODO: Build Autostart setting
         public SettingsWindow(SettingsViewModel viewModel)
         {
             ViewModel = viewModel;
