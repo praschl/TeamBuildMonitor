@@ -5,5 +5,13 @@
         <Setter Property="BorderBrush" Value="#666666" />
         <Setter Property="BorderThickness" Value="1"></Setter>
     </Style>
+
+    <Style x:Key="TooltipLabel" TargetType="Label">
+        <Setter Property="Background" Value="White" />
+    </Style>
+
+    <Style x:Key="TooltipListView" TargetType="ListView">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
     
 </ResourceDictionary>

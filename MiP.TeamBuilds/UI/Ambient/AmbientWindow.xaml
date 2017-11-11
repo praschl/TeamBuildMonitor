@@ -24,45 +24,47 @@
             <MenuItem Header="Quit" Command="{Binding Source={StaticResource Proxy}, Path=Data.QuitCommand}" />
         </ContextMenu>
 
+        <DataTemplate x:Key="ToolTipBuildsTemplate" DataType="{x:Type providers:BuildInfo}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="BuildDefinitionName" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Status" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="RequestedBy" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="{Binding BuildDefinitionName}" />
+                <Label Grid.Column="1">
+                    <Label.Content>
+                        <TextBlock>
+                            (<Run Text="{Binding Status}" />)
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+                <Label Grid.Column="2">
+                    <Label.Content>
+                        <TextBlock Grid.Column="2">
+                            by <Run Text="{Binding RequestedBy}" />
+                        </TextBlock>
+                    </Label.Content>
+                </Label>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
         <tb:TaskbarIcon IconSource="../../assets/Bob.ico" ContextMenu="{StaticResource TaskBarMenu}">
             <tb:TaskbarIcon.TrayToolTip>
                 <Border Style="{StaticResource TooltipStyle}">
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="No builds are running" Background="White"
+                    <Grid>                        
+                        <Label Style="{StaticResource TooltipLabel}"
+                               Content="No builds are running" 
                                Visibility="{Binding CurrentBuildsView, Converter={amb:EmptyListToVisibilityConverter}}" />
-                        <ListView ItemsSource="{Binding CurrentBuildsView}" Grid.IsSharedSizeScope="True"
-                                  Visibility="{Binding CurrentBuildsView, Converter={amb:EmptyListToVisibilityConverter EmptyValue=Collapsed, ElseValue=Visible}}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate DataType="{x:Type providers:BuildInfo}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" SharedSizeGroup="BuildDefinitionName" />
-                                            <ColumnDefinition Width="Auto" SharedSizeGroup="Status" />
-                                            <ColumnDefinition Width="Auto" SharedSizeGroup="RequestedBy" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="{Binding BuildDefinitionName}" />
-                                        <Label Grid.Column="1">
-                                            <Label.Content>
-                                                <TextBlock>
-                                                    (<Run Text="{Binding Status}" />)
-                                                </TextBlock>
-                                            </Label.Content>
-                                        </Label>
-                                        <Label Grid.Column="2">
-                                            <Label.Content>
-                                                <TextBlock Grid.Column="2">
-                                                    by <Run Text="{Binding RequestedBy}" />
-                                                </TextBlock>
-                                            </Label.Content>
-                                        </Label>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
+
+                        <ListView Style="{StaticResource TooltipListView}"
+                                  ItemsSource="{Binding CurrentBuildsView}" 
+                                  Grid.IsSharedSizeScope="True"
+                                  Visibility="{Binding CurrentBuildsView, Converter={amb:EmptyListToVisibilityConverter EmptyValue=Collapsed, ElseValue=Visible}}"
+                                  ItemTemplate="{StaticResource ToolTipBuildsTemplate}" />
+                    </Grid>
                 </Border>
             </tb:TaskbarIcon.TrayToolTip>
         </tb:TaskbarIcon>
