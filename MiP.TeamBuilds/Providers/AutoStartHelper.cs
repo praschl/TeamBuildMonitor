@@ -26,19 +26,21 @@ namespace MiP.TeamBuilds.Providers
                 if (key == null)
                     return;
 
-                bool isCurrentlyAutostarting = IsStartupItem(key);
-                if (autostart == isCurrentlyAutostarting)
+                var oldPath = (string)key.GetValue(AutoStartValueName);
+                var newPath = Assembly.GetEntryAssembly().Location;
+                var isCurrentlyAutostarting = IsStartupItem(key);
+
+                bool nochange = autostart == isCurrentlyAutostarting;
+                if (nochange && !autostart)
                     return;
 
                 if (autostart)
-                {
-                    string path = Assembly.GetEntryAssembly().Location;
-                    key.SetValue(AutoStartValueName, path);
-                }
+                    if (oldPath == newPath)
+                        return;
+                    else  // autostart is enabled but the .exe file was moved to another location -> update path.
+                        key.SetValue(AutoStartValueName, newPath);
                 else
-                {
                     key.DeleteValue(AutoStartValueName, false);
-                }
             }
         }
 
