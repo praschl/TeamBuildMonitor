@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
+    // TODO: Display BuildIcons instead of Build.State
     public class KnownBuildsViewModel : IRefreshBuildsTimer
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
