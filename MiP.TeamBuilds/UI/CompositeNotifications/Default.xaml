@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-                    xmlns:local="clr-namespace:ToastNotifications.Messages.Themes">
+                    xmlns:local="clr-namespace:MiP.TeamBuilds.UI.CompositeNotifications">
     
     <Color x:Key="InformationColor">#147ec9</Color>
     <SolidColorBrush x:Key="InformationColorBrush" Color="{StaticResource InformationColor}" options:Freeze="True" />
@@ -44,16 +44,16 @@
         </Setter>
 
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Style}" Value="Error">
+            <DataTrigger Binding="{Binding Path=(local:CompositeMessage.Style)}" Value="Error">
                 <Setter Property="Background" Value="{DynamicResource ErrorColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Style}" Value="Warning">
+            <DataTrigger Binding="{Binding Path=(local:CompositeMessage.Style)}" Value="Warning">
                 <Setter Property="Background" Value="{DynamicResource WarningColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Style}" Value="Success">
+            <DataTrigger Binding="{Binding Path=(local:CompositeMessage.Style)}" Value="Success">
                 <Setter Property="Background" Value="{DynamicResource SuccessColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Style}" Value="Information">
+            <DataTrigger Binding="{Binding Path=(local:CompositeMessage.Style)}" Value="Information">
                 <Setter Property="Background" Value="{DynamicResource InformationColorBrush}" />
             </DataTrigger>
         </Style.Triggers>
