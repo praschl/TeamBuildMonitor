@@ -10,23 +10,22 @@ namespace MiP.TeamBuilds.UI.CompositeNotifications
     {
         private readonly CompositeMessage _viewModel;
 
-        public CompositeDisplayPart(CompositeMessage error)
+        public CompositeDisplayPart(CompositeMessage message)
         {
             InitializeComponent();
 
-            _viewModel = error;
-            DataContext = error;
+            _viewModel = message;
+            DataContext = message;
         }
-        
+
         private void OnClose(object sender, RoutedEventArgs e)
         {
-
             _viewModel.Close();
         }
 
         public override MessageOptions GetOptions()
         {
-            return this._viewModel.Options;
+            return _viewModel.Options;
         }
     }
 }
