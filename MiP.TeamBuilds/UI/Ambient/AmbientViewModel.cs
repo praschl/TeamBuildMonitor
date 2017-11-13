@@ -20,6 +20,11 @@ namespace MiP.TeamBuilds.UI.Ambient
             CurrentBuildsView = CollectionViewSource.GetDefaultView(knownBuildsViewModel.Builds);
             CurrentBuildsView.SortDescriptions.Add(new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending));
 
+            /*
+             Note to self: CollectionView only subscribes to the PropertyChanged-event, not to CollectionChanged.
+             ObservableCollection does not have a PropertyChanged-event, so we subscribe ourself to CollectionChanged,
+             and raise a PropertyChanged, to update the view.
+             */
             knownBuildsViewModel.Builds.CollectionChanged +=
                 (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
 

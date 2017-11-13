@@ -1,0 +1,43 @@
+﻿<core:NotificationDisplayPart x:Class="MiP.TeamBuilds.UI.Notifications.BuildInfoDisplayPart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:ToastNotifications.Core;assembly=ToastNotifications"
+             mc:Ignorable="d" d:DesignWidth="250" >
+    
+    <Border Style="{DynamicResource BuildInfoBorder}" UseLayoutRounding="True">
+        <StackPanel>
+            <DockPanel>
+                <Rectangle DockPanel.Dock="Left" Style="{DynamicResource BuildInfoIcon}" />
+                <Button x:Name="CloseButton" DockPanel.Dock="Right" Style="{StaticResource NotificationCloseButton}" Padding="1" Click="OnClose" Visibility="Hidden">
+                    <Rectangle Style="{StaticResource CloseButtonIcon}" Margin="2">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource CloseIcon}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+
+                <TextBlock x:Name="Text" Text="{Binding BuildDefinitionName, Mode=OneTime}" Style="{StaticResource BuildInfoTitle}" />
+            </DockPanel>
+
+            <TextBlock Style="{StaticResource NotificationText}">
+                By: <Run Text="{Binding RequestedBy, Mode=OneWay}" />
+                <LineBreak />
+                <Run Text="{Binding BuildState, Mode=OneWay}" />
+                <LineBreak />
+            </TextBlock>
+            <TextBlock Style="{StaticResource BuildSummaryText}">
+                <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding BuildSummaryCommand, Mode=OneTime}">
+                    <Run Text="Open build summary..." />
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Style="{StaticResource OpenDropLocationText}">
+                <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding DropLocationCommand, Mode=OneTime}">
+                    <Run Text="Open drop location..." />
+                </Hyperlink>
+            </TextBlock>            
+        </StackPanel>
+    </Border>
+</core:NotificationDisplayPart>
+

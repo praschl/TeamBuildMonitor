@@ -15,10 +15,10 @@ using MiP.TeamBuilds.UI.Commands;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
-    // TODO: Display BuildIcons instead of Build.State
     public class KnownBuildsViewModel : IRefreshBuildsTimer
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
@@ -179,34 +179,16 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private readonly ConcurrentDictionary<int, INotification> _notificationsByBuildId = new ConcurrentDictionary<int, INotification>();
 
+        private static readonly BuildStatus[] _finalizableStates = new BuildStatus[]
+        {
+            BuildStatus.Failed, BuildStatus.PartiallySucceeded, BuildStatus.Stopped, BuildStatus.Succeeded
+        };
+
         private void NotifyBuild(BuildInfo build)
         {
-            INotification notification = null;
-
-            switch (build.Status)
-            {
-                case BuildStatus.Failed:
-                    notification = _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
-                    FinalizeBuild(build);
-                    break;
-
-                case BuildStatus.PartiallySucceeded:
-                case BuildStatus.Stopped:
-                    notification = _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
-                    FinalizeBuild(build);
-                    break;
-
-                case BuildStatus.Succeeded:
-                    notification = _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
-                    FinalizeBuild(build);
-                    break;
-
-                case BuildStatus.None:
-                case BuildStatus.NotStarted:
-                case BuildStatus.InProgress:
-                    notification = _notifier.ShowInformation(new BuildMessage(build), _defaultOptions);
-                    break;
-            }
+            INotification notification = _notifier.ShowBuildInfoMessage(build, _defaultOptions);
+            if (_finalizableStates.Any(x => x == build.Status))
+                FinalizeBuild(build);
 
             if (notification != null)
                 _notificationsByBuildId.AddOrUpdate(build.Id, notification, (id, not) => UpdateNotificationForBuild(not, notification));
@@ -235,18 +217,16 @@ namespace MiP.TeamBuilds.UI.Notifications
         {
             var build = new BuildInfo(null)
             {
-                Status = BuildStatus.PartiallySucceeded,
-                BuildDefinitionName = "X3-Dev",
+                Status = BuildStatus.Failed,
+                BuildDefinitionName = "My-Build",
                 BuildSummary = new Uri("http://google.com"),
                 DropLocation = "C:\\",
                 RequestedBy = "Michael Praschl",
                 QueuedTime = DateTime.Now.AddMinutes(-23).AddSeconds(14),
                 FinishTime = DateTime.Now
             };
-            _notifier.ShowInformation(new BuildMessage(build), _defaultOptions);
-            _notifier.ShowSuccess(new BuildSuccessMessage(build), _defaultOptions);
-            _notifier.ShowWarning(new BuildFailureMessage(build), _defaultOptions);
-            _notifier.ShowError(new BuildFailureMessage(build), _defaultOptions);
+
+            _notifier.ShowBuildInfoMessage(build, _defaultOptions);
         }
     }
 }

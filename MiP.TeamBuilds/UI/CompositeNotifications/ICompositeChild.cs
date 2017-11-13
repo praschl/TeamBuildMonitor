@@ -1,4 +1,5 @@
-﻿using ToastNotifications.Core;
+﻿using System;
+using ToastNotifications.Core;
 
 namespace MiP.TeamBuilds.UI.CompositeNotifications
 {

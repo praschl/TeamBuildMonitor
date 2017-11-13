@@ -277,9 +277,11 @@
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />
     <Compile Include="UI\Ambient\AmbientViewModelBindingProxy.cs" />
-    <Compile Include="UI\Notifications\BuildFailureMessage.cs" />
-    <Compile Include="UI\Notifications\BuildMessage.cs" />
-    <Compile Include="UI\Notifications\BuildSuccessMessage.cs" />
+    <Compile Include="UI\Notifications\BuildInfoMessage.cs" />
+    <Compile Include="UI\Notifications\BuildInfoMessageExtensions.cs" />
+    <Compile Include="UI\Notifications\BuildInfoDisplayPart.xaml.cs">
+      <DependentUpon>BuildInfoDisplayPart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Notifications\ExceptionNotification.cs" />
     <Compile Include="UI\Notifications\IRefreshTimer.cs" />
     <Compile Include="UI\Notifications\KnownBuildsModel.cs" />
@@ -313,6 +315,10 @@
     <Page Include="UI\Notifications\BuildIcons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Notifications\BuildInfoDisplayPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Notifications\Notifications.xaml">
       <SubType>Designer</SubType>

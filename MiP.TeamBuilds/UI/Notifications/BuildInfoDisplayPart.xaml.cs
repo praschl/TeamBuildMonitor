@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 using ToastNotifications.Core;
 
-namespace MiP.TeamBuilds.UI.CompositeNotifications
+namespace MiP.TeamBuilds.UI.Notifications
 {
-    public partial class CompositeDisplayPart : NotificationDisplayPart
+    public partial class BuildInfoDisplayPart : NotificationDisplayPart
     {
-        private readonly CompositeMessage _viewModel;
+        private readonly BuildInfoMessage _viewModel;
 
-        public CompositeDisplayPart(CompositeMessage message)
+        public BuildInfoDisplayPart(BuildInfoMessage message)
         {
             InitializeComponent();
 

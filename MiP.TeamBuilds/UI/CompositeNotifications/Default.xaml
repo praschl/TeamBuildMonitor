@@ -57,7 +57,6 @@
                 <Setter Property="Background" Value="{DynamicResource InformationColorBrush}" />
             </DataTrigger>
         </Style.Triggers>
-        
     </Style>
 
     <Style TargetType="Rectangle" x:Key="NotificationIcon">
