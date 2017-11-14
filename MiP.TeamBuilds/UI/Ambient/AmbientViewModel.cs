@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
@@ -39,8 +40,14 @@ namespace MiP.TeamBuilds.UI.Ambient
         public ShowSettingsCommand ShowSettingsCommand { get; }
         public QuitCommand QuitCommand { get; }
         public KnownBuildsViewModel KnownBuildsViewModel { get; }
-
         public ICollectionView CurrentBuildsView { get; set; }
+
+        public Visibility DebugVisibility =>
+#if DEBUG
+                Visibility.Visible;
+#else
+                Visibility.Collapsed;
+#endif
 
         public event PropertyChangedEventHandler PropertyChanged;
 

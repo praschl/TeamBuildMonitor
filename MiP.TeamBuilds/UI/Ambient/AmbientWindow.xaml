@@ -19,6 +19,7 @@
         <amb:AmbientViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
 
         <ContextMenu x:Key="TaskBarMenu">
+            <MenuItem Header="TestMessages" Command="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.TestMessages}" Visibility="{Binding DebugVisibility}" />
             <MenuItem Header="Settings" Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowSettingsCommand}" />
             <Separator/>
             <MenuItem Header="Quit" Command="{Binding Source={StaticResource Proxy}, Path=Data.QuitCommand}" />

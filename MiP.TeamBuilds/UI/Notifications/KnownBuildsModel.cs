@@ -12,14 +12,13 @@ using MiP.TeamBuilds.UI.CompositeNotifications;
 using System.Windows.Threading;
 using System.Windows.Input;
 using MiP.TeamBuilds.UI.Commands;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using System.Linq;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
-    public class KnownBuildsViewModel : IRefreshBuildsTimer
+    public partial class KnownBuildsViewModel : IRefreshBuildsTimer
     {
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
@@ -54,8 +53,6 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         public void RestartTimer()
         {
-            DebugTestNotification();
-
             _timer.Stop();
 
             var uri = CreateTfsUri();
@@ -133,7 +130,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private async void RefreshBuildInfos()
         {
-            // async void should be ok here. Only used from the Timer_Tick and Initialization
+            // async-void should be ok here. Only used from the Timer_Tick and Initialization
             // and we catch the exception
             try
             {
@@ -209,24 +206,6 @@ namespace MiP.TeamBuilds.UI.Notifications
             Builds.Remove(build);
         }
 
-        /// <summary>
-        /// This is just for debugging / demo purpose and exists only in Debug builds.
-        /// </summary>
-        [Conditional("DEBUG")]
-        private void DebugTestNotification()
-        {
-            var build = new BuildInfo(null)
-            {
-                Status = BuildStatus.Failed,
-                BuildDefinitionName = "My-Build",
-                BuildSummary = new Uri("http://google.com"),
-                DropLocation = "C:\\",
-                RequestedBy = "Michael Praschl",
-                QueuedTime = DateTime.Now.AddMinutes(-23).AddSeconds(14),
-                FinishTime = DateTime.Now
-            };
-
-            _notifier.ShowBuildInfoMessage(build, _defaultOptions);
-        }
+        public ICommand TestMessages => new TestMessagesCommand(_notifier, _defaultOptions);
     }
 }

@@ -292,6 +292,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="UI\Commands\QuitCommand.cs" />
+    <Compile Include="UI\Notifications\TestMessagesCommand.cs" />
     <Compile Include="UI\Notifications\TextMessage.cs" />
     <Compile Include="UI\Notifications\TextWithLinkMessage.cs" />
     <Compile Include="UI\CompositeNotifications\CompositeMessage.cs" />
@@ -308,11 +309,15 @@
     </Compile>
     <Compile Include="UI\Commands\ShowSettingsCommand.cs" />
     <Compile Include="Snippets\Snippet.cs" />
-    <Page Include="Themes\Default.xaml">
+    <Page Include="Styles\NotificationTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Notifications\BuildIcons.xaml">
+    <Page Include="Styles\ToolTips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\BuildIcons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -320,11 +325,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Notifications\Notifications.xaml">
+    <Page Include="Styles\NotificationStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\CompositeNotifications\Default.xaml">
+    <Page Include="UI\CompositeNotifications\CompositeNotificationStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

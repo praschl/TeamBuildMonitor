@@ -21,13 +21,14 @@
                 
                 DynamicResource can also foreward-reference resources, but is a bit slower.
                 -->
-                
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/CompositeNotifications/Default.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Notifications/BuildIcons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/Notifications/Notifications.xaml" />
-                
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Themes/Default.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/CompositeNotifications/CompositeNotificationStyles.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/BuildIcons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/NotificationStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/NotificationTemplates.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/ToolTips.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

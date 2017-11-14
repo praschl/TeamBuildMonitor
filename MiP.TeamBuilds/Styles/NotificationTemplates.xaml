@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MiP.TeamBuilds.UI.Notifications">
+
+    <DataTemplate DataType="{x:Type local:TextMessage}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource NotificationText}" Text="{Binding Message}" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:TextWithLinkMessage}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource NotificationText}">
+                <Run Text="{Binding Message, Mode=OneTime}" />
+                <LineBreak />
+                <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
+                    <Run Text="{Binding LinkText, Mode=OneTime}" />
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ExceptionMessage}">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Style="{StaticResource NotificationText}">
+                <Run Text="{Binding Message, Mode=OneTime}" />
+                <LineBreak />
+                <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding LinkClickCommand, Mode=OneTime}">
+                    <Run Text="{Binding LinkText, Mode=OneTime}" />
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>
