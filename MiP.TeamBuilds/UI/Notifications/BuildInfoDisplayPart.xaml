@@ -25,7 +25,6 @@
                 By: <Run Text="{Binding RequestedBy, Mode=OneWay}" />
                 <LineBreak />
                 <Run Text="{Binding BuildState, Mode=OneWay}" />
-                <LineBreak />
             </TextBlock>
             <TextBlock Style="{StaticResource BuildSummaryText}">
                 <Hyperlink Style="{StaticResource NotificationLink}" Command="{Binding BuildSummaryCommand, Mode=OneTime}">
