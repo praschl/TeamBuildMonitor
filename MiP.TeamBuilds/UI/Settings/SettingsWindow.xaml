@@ -10,13 +10,15 @@
         Width="400"
         Height="160" 
         MinHeight="160"
+        MinWidth="300"
         Background="#EEEEEE"
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=ViewModel}"
         ResizeMode="CanResizeWithGrip"
-        WindowStyle="ToolWindow"
+        WindowStyle="SingleBorderWindow"
         FocusManager.FocusedElement="{Binding ElementName=tfsUrlTextbox}"
         Closing="Window_Closing"
         x:Name="settingsWindow"
+        Icon="..\..\assets\BuildIcon.ico"
         >
 
     <DockPanel>

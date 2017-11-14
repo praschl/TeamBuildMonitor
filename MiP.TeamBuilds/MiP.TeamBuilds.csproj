@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>assets\Bob.ico</ApplicationIcon>
+    <ApplicationIcon>assets\BuildIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -368,9 +368,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="assets\Bob.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="UI\CompositeNotifications\CREDITS.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -380,6 +377,8 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="assets\BuildIcon.ico" />
+    <Content Include="assets_source\BuildIcon.svg" />
     <Content Include="assets_source\Failed.svg" />
     <Content Include="assets_source\None.svg" />
     <Content Include="assets_source\Partial.svg" />
