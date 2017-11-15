@@ -37,6 +37,8 @@
 
     <Style TargetType="Border" x:Key="NotificationBorder">
         <Setter Property="Padding" Value="5" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect Opacity="0.5" ShadowDepth="1" BlurRadius="2" />

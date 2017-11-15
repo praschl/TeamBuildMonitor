@@ -6,7 +6,7 @@
              xmlns:core="clr-namespace:ToastNotifications.Core;assembly=ToastNotifications"
              mc:Ignorable="d" d:DesignWidth="250" >
 
-    <Border Style="{DynamicResource NotificationBorder}" UseLayoutRounding="True">
+    <Border Style="{DynamicResource NotificationBorder}">
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
                 <Rectangle DockPanel.Dock="Left" Style="{DynamicResource NotificationIcon}"/>
