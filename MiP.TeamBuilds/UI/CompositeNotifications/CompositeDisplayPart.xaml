@@ -21,7 +21,7 @@
                 <TextBlock x:Name="Text" Text="{Binding Content.Title, Mode=OneTime}" Style="{StaticResource NotificationTitle}" />
             </DockPanel>
             
-            <ContentControl Content="{Binding Content}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,5,0,5" />
+            <ContentControl Content="{Binding Content}" Margin="5,5,0,5" />
         </DockPanel>
     </Border>
 </core:NotificationDisplayPart>
