@@ -2,101 +2,85 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
 
-    <Canvas x:Key="PlayIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="2.32096338">
-            <Path.Data>
-                <PathGeometry Figures="M 188.97656 0 C 84.607647 -9.9411436e-5 -9.9411436e-5 84.607647 0 188.97656 -9.9411436e-5 293.34547 84.607647 377.95322 188.97656 377.95312 293.34547 377.95322 377.95322 293.34547 377.95312 188.97656 377.95322 84.607647 293.34547 -9.9411436e-5 188.97656 0 Z m -73.0581 53.07999 109.72021 63.34774 102.6733 58.26526 c 12.32435 7.4605 12.71244 20.35431 -1.51057 28.51221 l -101.16273 58.32019 -105.51868 60.92196 c -8.53047 4.48609 -20.532262 0.15918 -20.141474 -12.67989 V 188.97656 64.38133 c -0.06853 -9.259947 8.401654 -14.700938 15.939944 -11.30134 z" FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <MatrixTransform x:Key="FigureMatrix" Matrix="0.26458333 0 0 0.26458333 0 197"/>
+
+    <Style x:Key="WhiteIcon" TargetType="Path">
+        <Style.Setters>
+            <Setter Property="Fill" Value="#FFFFFFFF" />
+            <Setter Property="RenderTransform" Value="{StaticResource FigureMatrix}" />
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="IconCanvas" TargetType="Canvas">
+        <Style.Setters>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform X="0" Y="-197"/>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <PathGeometry x:Key="PlayFigure"
+                  Figures="M 188.97656 0 C 84.607647 -9.9411436e-5 -9.9411436e-5 84.607647 0 188.97656 -9.9411436e-5 293.34547 84.607647 377.95322 188.97656 377.95312 293.34547 377.95322 377.95322 293.34547 377.95312 188.97656 377.95322 84.607647 293.34547 -9.9411436e-5 188.97656 0 Z m -73.0581 53.07999 109.72021 63.34774 102.6733 58.26526 c 12.32435 7.4605 12.71244 20.35431 -1.51057 28.51221 l -101.16273 58.32019 -105.51868 60.92196 c -8.53047 4.48609 -20.532262 0.15918 -20.141474 -12.67989 V 188.97656 64.38133 c -0.06853 -9.259947 8.401654 -14.700938 15.939944 -11.30134 z"
+                  />
+
+    <Canvas x:Key="PlayIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource PlayFigure}" />
     </Canvas>
 
-    <Canvas x:Key="StopIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="2.32096338">
-            <Path.Data>
-                <PathGeometry Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 90.234375 90.234375 L 287.71875 90.234375 L 287.71875 287.71875 L 90.234375 287.71875 L 90.234375 90.234375 z " FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <PathGeometry x:Key="StopFigure"
+                  Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 90.234375 90.234375 L 287.71875 90.234375 L 287.71875 287.71875 L 90.234375 287.71875 L 90.234375 90.234375 z "
+                  />
+
+    <Canvas x:Key="StopIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource StopFigure}" />
     </Canvas>
 
-    <Canvas x:Key="PauseIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="2.32096338">
-            <Path.Data>
-                <PathGeometry Figures="M 188.4707 0 A 188.97638 188.97638 0 0 0 -0.50585938 188.97656 A 188.97638 188.97638 0 0 0 188.4707 377.95312 A 188.97638 188.97638 0 0 0 377.44727 188.97656 A 188.97638 188.97638 0 0 0 188.4707 0 z M 98.419922 88.466797 L 159.5332 88.466797 L 159.5332 289.48633 L 98.419922 289.48633 L 98.419922 88.466797 z M 217.91406 88.466797 L 279.02734 88.466797 L 279.02734 289.48633 L 217.91406 289.48633 L 217.91406 88.466797 z " FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <PathGeometry x:Key="PauseFigure"
+                  Figures="M 188.4707 0 A 188.97638 188.97638 0 0 0 -0.50585938 188.97656 A 188.97638 188.97638 0 0 0 188.4707 377.95312 A 188.97638 188.97638 0 0 0 377.44727 188.97656 A 188.97638 188.97638 0 0 0 188.4707 0 z M 98.419922 88.466797 L 159.5332 88.466797 L 159.5332 289.48633 L 98.419922 289.48633 L 98.419922 88.466797 z M 217.91406 88.466797 L 279.02734 88.466797 L 279.02734 289.48633 L 217.91406 289.48633 L 217.91406 88.466797 z "
+                  />
+
+    <Canvas x:Key="PauseIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource PauseFigure}" />
     </Canvas>
 
-    <Canvas x:Key="NoneIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="2.32096338">
-            <Path.Data>
-                <PathGeometry Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 188.97656 18.898438 A 170.07874 170.07874 0 0 1 359.05469 188.97656 A 170.07874 170.07874 0 0 1 188.97656 359.05469 A 170.07874 170.07874 0 0 1 18.898438 188.97656 A 170.07874 170.07874 0 0 1 188.97656 18.898438 z " FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <PathGeometry x:Key="NoneFigure"
+                  Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 188.97656 18.898438 A 170.07874 170.07874 0 0 1 359.05469 188.97656 A 170.07874 170.07874 0 0 1 188.97656 359.05469 A 170.07874 170.07874 0 0 1 18.898438 188.97656 A 170.07874 170.07874 0 0 1 188.97656 18.898438 z "
+                  />
+
+    <Canvas x:Key="NoneIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource NoneFigure}" />
     </Canvas>
 
-    <Canvas x:Key="FailedIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="1.09406006">
-            <Path.Data>
-                <PathGeometry Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 120.73828 66.146484 L 188.97656 134.38477 L 257.21484 66.146484 L 311.80664 120.73828 L 243.56836 188.97656 L 311.80664 257.21484 L 257.21484 311.80664 L 188.97656 243.56836 L 120.73828 311.80664 L 66.146484 257.21484 L 134.38477 188.97656 L 66.146484 120.73828 L 120.73828 66.146484 z " FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <PathGeometry x:Key="FailedFigure"
+                  Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 120.73828 66.146484 L 188.97656 134.38477 L 257.21484 66.146484 L 311.80664 120.73828 L 243.56836 188.97656 L 311.80664 257.21484 L 257.21484 311.80664 L 188.97656 243.56836 L 120.73828 311.80664 L 66.146484 257.21484 L 134.38477 188.97656 L 66.146484 120.73828 L 120.73828 66.146484 z "
+                  />
+
+    <Canvas x:Key="FailedIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource FailedFigure}" />
     </Canvas>
 
-    <Canvas x:Key="SucceededIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="3.44254494">
-            <Path.Data>
-                <PathGeometry Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 276.8125 78.845703 L 320.86523 122.89844 L 276.8125 166.95117 L 232.75977 211.00391 L 188.70703 255.05664 L 144.65625 299.10742 L 101.14062 255.5918 L 100.60352 255.05469 L 57.087891 211.53906 L 101.13867 167.48828 L 144.6543 211.00391 L 188.70703 166.95117 L 232.75977 122.89844 L 276.8125 78.845703 z " FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <PathGeometry x:Key="SucceededFigure"
+                  Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 276.8125 78.845703 L 320.86523 122.89844 L 276.8125 166.95117 L 232.75977 211.00391 L 188.70703 255.05664 L 144.65625 299.10742 L 101.14062 255.5918 L 100.60352 255.05469 L 57.087891 211.53906 L 101.13867 167.48828 L 144.6543 211.00391 L 188.70703 166.95117 L 232.75977 122.89844 L 276.8125 78.845703 z "
+                  />
+
+    <Canvas x:Key="SucceededIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource SucceededFigure}" />
     </Canvas>
 
-    <Canvas x:Key="PartialIcon">
-        <Canvas.RenderTransform>
-            <TranslateTransform X="0" Y="-197"/>
-        </Canvas.RenderTransform>
-        <Path Fill="#FFFFFFFF" StrokeThickness="3.44254494">
-            <Path.Data>
-                <PathGeometry Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 285.32031 67.939453 L 335.73828 118.35547 L 285.32227 168.77148 L 285.32031 168.77344 L 234.9043 219.18945 L 184.48633 269.60742 L 134.07227 320.02148 L 84.269531 270.21875 L 83.65625 269.60352 L 33.853516 219.80273 L 84.269531 169.38867 L 134.07031 219.18945 L 184.48633 168.77148 L 234.90234 118.35547 L 285.32031 67.939453 z M 286.35352 97.419922 L 243.08984 140.68359 L 199.82617 183.94727 L 156.5625 227.21094 L 134.16992 249.60547 L 119.81055 235.24609 L 102.19922 217.63477 L 84.585938 200.02148 L 84.332031 200.27734 L 63.71875 220.88867 L 81.332031 238.50195 L 98.943359 256.11328 L 113.30273 270.4707 L 116.55664 273.72656 L 134.16992 291.33789 L 155.03516 270.4707 L 177.42969 248.07812 L 220.69336 204.81445 L 263.95703 161.55078 L 263.95898 161.54883 L 307.2207 118.28711 L 286.35352 97.419922 z " FillRule="NonZero"/>
-            </Path.Data>
-            <Path.RenderTransform>
-                <MatrixTransform Matrix="0.26458333 0 0 0.26458333 0 197"/>
-            </Path.RenderTransform>
-        </Path>
+    <PathGeometry x:Key="PartialFigure"
+                  Figures="M 188.97656 0 A 188.97638 188.97638 0 0 0 0 188.97656 A 188.97638 188.97638 0 0 0 188.97656 377.95312 A 188.97638 188.97638 0 0 0 377.95312 188.97656 A 188.97638 188.97638 0 0 0 188.97656 0 z M 285.32031 67.939453 L 335.73828 118.35547 L 285.32227 168.77148 L 285.32031 168.77344 L 234.9043 219.18945 L 184.48633 269.60742 L 134.07227 320.02148 L 84.269531 270.21875 L 83.65625 269.60352 L 33.853516 219.80273 L 84.269531 169.38867 L 134.07031 219.18945 L 184.48633 168.77148 L 234.90234 118.35547 L 285.32031 67.939453 z M 286.35352 97.419922 L 243.08984 140.68359 L 199.82617 183.94727 L 156.5625 227.21094 L 134.16992 249.60547 L 119.81055 235.24609 L 102.19922 217.63477 L 84.585938 200.02148 L 84.332031 200.27734 L 63.71875 220.88867 L 81.332031 238.50195 L 98.943359 256.11328 L 113.30273 270.4707 L 116.55664 273.72656 L 134.16992 291.33789 L 155.03516 270.4707 L 177.42969 248.07812 L 220.69336 204.81445 L 263.95703 161.55078 L 263.95898 161.54883 L 307.2207 118.28711 L 286.35352 97.419922 z "
+                  />
+
+    <Canvas x:Key="PartialIcon" Style="{StaticResource IconCanvas}">
+        <Path Style="{StaticResource WhiteIcon}"
+              Data="{StaticResource PartialFigure}" />
     </Canvas>
 </ResourceDictionary>

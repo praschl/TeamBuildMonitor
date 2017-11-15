@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="Pause - Kopie.svg">
+   sodipodi:docname="Pause.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="87.252434"
+     inkscape:cx="173.1154"
      inkscape:cy="201.49399"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,14 +55,9 @@
      id="layer1"
      transform="translate(0,-197)">
     <path
-       style="opacity:1;fill:#147ec9;fill-opacity:1;stroke-width:0.25043896"
-       d="M 5.5310343,247.15719 V 197.44506 H 20.557372 35.58371 v 49.71213 49.71213 H 20.557372 5.5310343 Z"
-       id="path816"
-       inkscape:connector-curvature="0" />
-    <path
-       style="opacity:1;fill:#147ec9;fill-opacity:1;stroke-width:0.25043896"
-       d="m 64.63463,247.15719 v -49.71213 h 15.026334 15.026339 v 49.71213 49.71213 H 79.660964 64.63463 Z"
-       id="path818"
-       inkscape:connector-curvature="0" />
+       style="fill:#ffffff;stroke-width:2.32096338"
+       d="M 188.4707 0 A 188.97638 188.97638 0 0 0 -0.50585938 188.97656 A 188.97638 188.97638 0 0 0 188.4707 377.95312 A 188.97638 188.97638 0 0 0 377.44727 188.97656 A 188.97638 188.97638 0 0 0 188.4707 0 z M 98.419922 88.466797 L 159.5332 88.466797 L 159.5332 289.48633 L 98.419922 289.48633 L 98.419922 88.466797 z M 217.91406 88.466797 L 279.02734 88.466797 L 279.02734 289.48633 L 217.91406 289.48633 L 217.91406 88.466797 z "
+       transform="matrix(0.26458333,0,0,0.26458333,0,197)"
+       id="path3776" />
   </g>
 </svg>

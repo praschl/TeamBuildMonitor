@@ -14,6 +14,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public partial class KnownBuildsViewModel
     {
+        // TODO: This command should add some fake builds to the next call of GetCurrentBuildsAsync()
         public class TestMessagesCommand : ICommand
         {
             private Notifier _notifier;
@@ -34,16 +35,17 @@ namespace MiP.TeamBuilds.UI.Notifications
             public async void Execute(object parameter)
             {
                 // async-void without try catch... Justification = "This is just available in debug mode"
+                const int delay = 50;
 
                 _notifier.ShowInformation(new TextMessage("Info", "Information Message"), _defaultOptions);
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 _notifier.ShowSuccess(new TextMessage("Success", "Success Message"), _defaultOptions);
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 _notifier.ShowWarning(new TextWithLinkMessage("Warning", "Information Message", "This is a link", n=>n.Close()), _defaultOptions);
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 _notifier.ShowError(new ExceptionMessage("Error", new NotImplementedException(), _notifier), _defaultOptions);
 
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 var build = new BuildInfo(null)
                 {
                     Status = BuildStatus.Failed,
@@ -57,23 +59,23 @@ namespace MiP.TeamBuilds.UI.Notifications
 
                 _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 build.Status = BuildStatus.InProgress;
                 _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 build.Status = BuildStatus.NotStarted;
                 _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 build.Status = BuildStatus.PartiallySucceeded;
                 _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 build.Status = BuildStatus.Stopped;
                 _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
-                await Task.Delay(1000);
+                await Task.Delay(delay);
                 build.Status = BuildStatus.Succeeded;
                 _notifier.ShowBuildInfoMessage(build, _defaultOptions);
             }

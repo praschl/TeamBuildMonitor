@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="Pause - Kopie.svg">
+   sodipodi:docname="Play.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="87.252434"
-     inkscape:cy="201.49399"
+     inkscape:zoom="2.8"
+     inkscape:cx="140.50826"
+     inkscape:cy="175.22449"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -55,14 +55,11 @@
      id="layer1"
      transform="translate(0,-197)">
     <path
-       style="opacity:1;fill:#147ec9;fill-opacity:1;stroke-width:0.25043896"
-       d="M 5.5310343,247.15719 V 197.44506 H 20.557372 35.58371 v 49.71213 49.71213 H 20.557372 5.5310343 Z"
-       id="path816"
-       inkscape:connector-curvature="0" />
-    <path
-       style="opacity:1;fill:#147ec9;fill-opacity:1;stroke-width:0.25043896"
-       d="m 64.63463,247.15719 v -49.71213 h 15.026334 15.026339 v 49.71213 49.71213 H 79.660964 64.63463 Z"
-       id="path818"
-       inkscape:connector-curvature="0" />
+       style="fill:#ffffff;stroke-width:2.32096338"
+       d="M 188.97656,0 C 84.607647,-9.9411436e-5 -9.9411436e-5,84.607647 0,188.97656 -9.9411436e-5,293.34547 84.607647,377.95322 188.97656,377.95312 293.34547,377.95322 377.95322,293.34547 377.95312,188.97656 377.95322,84.607647 293.34547,-9.9411436e-5 188.97656,0 Z m -73.0581,53.07999 109.72021,63.34774 102.6733,58.26526 c 12.32435,7.4605 12.71244,20.35431 -1.51057,28.51221 l -101.16273,58.32019 -105.51868,60.92196 c -8.53047,4.48609 -20.532262,0.15918 -20.141474,-12.67989 V 188.97656 64.38133 c -0.06853,-9.259947 8.401654,-14.700938 15.939944,-11.30134 z"
+       transform="matrix(0.26458333,0,0,0.26458333,0,197)"
+       id="path3776"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccccc" />
   </g>
 </svg>

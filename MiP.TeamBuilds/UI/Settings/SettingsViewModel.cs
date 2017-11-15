@@ -18,6 +18,9 @@ namespace MiP.TeamBuilds.UI.Settings
             AutoStart = AutoStartHelper.IsStartupItem();
         }
 
+        // TODO: TfsUrl should not require the collection name
+        // TODO: Query all collections of the tfs url and connect to all of them.
+
         public string TfsUrl
         {
             get;

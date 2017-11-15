@@ -3,6 +3,12 @@
   <Namespace>Ionic.Zip</Namespace>
 </Query>
 
+/* This script is used to copy the output of a successful Release-build
+   into the release directory just beside the script (which is created if it does not exist).
+   The dlls are moved to a sub directory called "bin"
+   Then the whole directory is zipped as well.
+*/
+
 const string source = "MiP.TeamBuilds\\bin\\release";
 const string release = "release";
 const string bin = release + "\\bin";
