@@ -6,6 +6,15 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
+using System.Windows.Input;
+using static MiP.TeamBuilds.UI.Notifications.KnownBuildsViewModel;
+using ToastNotifications;
+using ToastNotifications.Core;
+using MiP.TeamBuilds.IoC;
+using Autofac;
+using MiP.TeamBuilds.UI.CompositeNotifications;
+using System.Threading.Tasks;
+using Microsoft.TeamFoundation.Build.Client;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
@@ -42,13 +51,6 @@ namespace MiP.TeamBuilds.UI.Ambient
         public KnownBuildsViewModel KnownBuildsViewModel { get; }
         public ICollectionView CurrentBuildsView { get; set; }
 
-        public Visibility DebugVisibility =>
-#if DEBUG
-                Visibility.Visible;
-#else
-                Visibility.Collapsed;
-#endif
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal void Initialize()
@@ -60,5 +62,13 @@ namespace MiP.TeamBuilds.UI.Ambient
         {
             return buildInfo is BuildInfo bi && bi.FinishTime == DateTime.MinValue;
         }
+
+#if DEBUG
+        public Visibility DebugVisibility => Visibility.Visible;
+        public ICommand TestMessages => new TestMessagesCommand();
+#else
+        public Visibility DebugVisibility =>   Visibility.Collapsed;
+#endif
+
     }
 }

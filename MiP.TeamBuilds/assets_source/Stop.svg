@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="Pause.svg">
+   sodipodi:docname="Stop.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="164.02403"
-     inkscape:cy="190.88739"
+     inkscape:cx="159.95753"
+     inkscape:cy="201.49399"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -55,23 +55,17 @@
      id="layer1"
      transform="translate(0,-197)">
     <rect
-       style="opacity:1;fill:#008080;fill-opacity:1;stroke-width:2.23066831"
+       style="opacity:1;fill:#008080;fill-opacity:0.92018777;stroke-width:2.23066831"
        id="rect816"
        width="100"
        height="100"
        x="0"
-       y="197"
+       y="197.00002"
        ry="23.469044" />
     <path
        style="opacity:1;fill:#ff0000;fill-opacity:0.9818184;stroke-width:0.50507629"
-       d="M 98.869188,188.83313 V 88.575495 h 30.304572 30.30458 V 188.83313 289.09077 H 129.17376 98.869188 Z"
+       d="M 90.282892,189.08567 V 90.5958 h 98.489868 98.48988 v 98.48987 98.48988 H 188.77276 90.282892 Z"
        id="path816"
-       inkscape:connector-curvature="0"
-       transform="matrix(0.26458333,0,0,0.26458333,0,197)" />
-    <path
-       style="opacity:1;fill:#ff0000;fill-opacity:0.9818184;stroke-width:0.50507629"
-       d="M 218.06719,188.83313 V 88.575495 h 30.30457 30.30458 V 188.83313 289.09077 h -30.30458 -30.30457 z"
-       id="path818"
        inkscape:connector-curvature="0"
        transform="matrix(0.26458333,0,0,0.26458333,0,197)" />
   </g>

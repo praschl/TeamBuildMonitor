@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="Pause.svg">
+   sodipodi:docname="Partial.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="164.02403"
-     inkscape:cy="190.88739"
+     inkscape:cx="167.81549"
+     inkscape:cy="194.91287"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -36,7 +36,10 @@
      inkscape:window-height="1137"
      inkscape:window-x="1912"
      inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     inkscape:measure-start="173.211,328.961"
+     inkscape:measure-end="235.512,328.961"
+     inkscape:snap-nodes="true" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -64,14 +67,8 @@
        ry="23.469044" />
     <path
        style="opacity:1;fill:#ff0000;fill-opacity:0.9818184;stroke-width:0.50507629"
-       d="M 98.869188,188.83313 V 88.575495 h 30.304572 30.30458 V 188.83313 289.09077 H 129.17376 98.869188 Z"
+       d="m 83.973309,269.66094 -49.747613,-49.74954 24.997935,-25.00176 24.997933,-25.00176 24.877556,24.87375 24.87755,24.87374 75.6358,-75.63454 75.6358,-75.63454 24.99881,25.002636 24.99881,25.002634 -100.50851,100.50946 c -55.27968,55.2802 -100.6228,100.50946 -100.76248,100.50946 -0.13969,0 -22.6404,-22.38729 -50.001591,-49.74954 z M 296.8627,107.78374 286.26102,97.173035 l -76.01783,76.016575 -76.01782,76.01658 -24.74575,-24.74962 -24.745752,-24.74962 -10.606893,10.6069 -10.606891,10.60689 35.353152,35.35586 35.353154,35.35585 86.619,-86.619 86.619,-86.619 z"
        id="path816"
-       inkscape:connector-curvature="0"
-       transform="matrix(0.26458333,0,0,0.26458333,0,197)" />
-    <path
-       style="opacity:1;fill:#ff0000;fill-opacity:0.9818184;stroke-width:0.50507629"
-       d="M 218.06719,188.83313 V 88.575495 h 30.30457 30.30458 V 188.83313 289.09077 h -30.30458 -30.30457 z"
-       id="path818"
        inkscape:connector-curvature="0"
        transform="matrix(0.26458333,0,0,0.26458333,0,197)" />
   </g>

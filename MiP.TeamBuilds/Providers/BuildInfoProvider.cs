@@ -12,6 +12,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MiP.TeamBuilds.Providers
 {
+    // TODO: for DEBUG builds:
+    // make interface + fake implementation which returns fake builds.
+    // create a new build definition (copy from DEBUG): "DEMO" and
+    // register fake implementation in the DEMO build
+
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IDisposable
     {

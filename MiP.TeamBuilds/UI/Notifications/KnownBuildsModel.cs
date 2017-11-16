@@ -205,7 +205,5 @@ namespace MiP.TeamBuilds.UI.Notifications
             _lastKnownBuilds.Remove(build.Id);
             Builds.Remove(build);
         }
-
-        public ICommand TestMessages => new TestMessagesCommand(_notifier, _defaultOptions);
     }
 }

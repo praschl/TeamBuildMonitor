@@ -274,6 +274,7 @@
     <Compile Include="IoC\ServiceLocator.cs" />
     <Compile Include="Providers\BuildInfoProvider.cs" />
     <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
+    <Compile Include="UI\Ambient\TestMessagesCommand.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />
     <Compile Include="UI\Ambient\AmbientViewModelBindingProxy.cs" />
@@ -309,6 +310,10 @@
     </Compile>
     <Compile Include="UI\Commands\ShowSettingsCommand.cs" />
     <Compile Include="Snippets\Snippet.cs" />
+    <Page Include="Styles\NormalIcons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\NotificationTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -317,7 +322,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\BuildIcons.xaml">
+    <Page Include="Styles\CircleIcons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -377,6 +382,11 @@
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets_source\Failed.svg" />
+    <Content Include="assets_source\None.svg" />
+    <Content Include="assets_source\Partial.svg" />
+    <Content Include="assets_source\Stop.svg" />
+    <Content Include="assets_source\Succeeded.svg" />
     <Content Include="assets_source\Succeeded_circle.svg" />
     <Resource Include="assets\BuildIcon.ico" />
     <Content Include="assets_source\BuildIcon.svg" />

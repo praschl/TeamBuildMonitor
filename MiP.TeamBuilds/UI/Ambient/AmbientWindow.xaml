@@ -19,7 +19,7 @@
         <amb:AmbientViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
 
         <ContextMenu x:Key="TaskBarMenu">
-            <MenuItem Header="TestMessages" Command="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.TestMessages}" Visibility="{Binding DebugVisibility}" />
+            <MenuItem Header="TestMessages" Command="{Binding Source={StaticResource Proxy}, Path=Data.TestMessages}" Visibility="{Binding DebugVisibility}" />
             <MenuItem Header="Settings" Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowSettingsCommand}" />
             <Separator/>
             <MenuItem Header="Quit" Command="{Binding Source={StaticResource Proxy}, Path=Data.QuitCommand}" />
@@ -33,16 +33,10 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="RequestedBy" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="{Binding BuildDefinitionName}" />
+                <Rectangle Grid.Column="0" Style="{StaticResource ToolTipIcon}" />
 
-                <Label Grid.Column="1">
-                    <Label.Content>
-                        <TextBlock>
-                            (<Run Text="{Binding Status}" />)
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
-                
+                <Label Grid.Column="1" Content="{Binding BuildDefinitionName}" />
+
                 <Label Grid.Column="2">
                     <Label.Content>
                         <TextBlock>

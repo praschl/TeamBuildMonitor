@@ -24,7 +24,8 @@
 
                 <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/CompositeNotifications/CompositeNotificationStyles.xaml" />
 
-                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/BuildIcons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/CircleIcons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/NormalIcons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/NotificationStyles.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/Styles/NotificationTemplates.xaml" />
 

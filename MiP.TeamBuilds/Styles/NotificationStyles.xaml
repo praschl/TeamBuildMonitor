@@ -86,49 +86,49 @@
             <DataTrigger Binding="{Binding Path=BuildState}" Value="Failed">
                 <Setter Property="Fill">
                     <Setter.Value>
-                        <VisualBrush Visual="{StaticResource FailedIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_FailedIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=BuildState}" Value="Stopped">
                 <Setter Property="Fill">
                       <Setter.Value>
-                        <VisualBrush Visual="{StaticResource StopIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_StopIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=BuildState}" Value="PartiallySucceeded">
                 <Setter Property="Fill">
                     <Setter.Value>
-                        <VisualBrush Visual="{StaticResource PartialIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_PartialIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=BuildState}" Value="Succeeded">
                 <Setter Property="Fill">
                     <Setter.Value>
-                        <VisualBrush Visual="{StaticResource SucceededIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_SucceededIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=BuildState}" Value="None">
                 <Setter Property="Fill">
                     <Setter.Value>
-                        <VisualBrush Visual="{StaticResource NoneIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_NoneIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=BuildState}" Value="InProgress">
                 <Setter Property="Fill">
                     <Setter.Value>
-                        <VisualBrush Visual="{StaticResource PlayIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_PlayIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=BuildState}" Value="NotStarted">
                 <Setter Property="Fill">
                     <Setter.Value>
-                        <VisualBrush Visual="{StaticResource PauseIcon}" />
+                        <VisualBrush Visual="{StaticResource Circle_PauseIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
