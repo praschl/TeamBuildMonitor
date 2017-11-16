@@ -7,14 +7,6 @@ using System.Windows.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Input;
-using static MiP.TeamBuilds.UI.Notifications.KnownBuildsViewModel;
-using ToastNotifications;
-using ToastNotifications.Core;
-using MiP.TeamBuilds.IoC;
-using Autofac;
-using MiP.TeamBuilds.UI.CompositeNotifications;
-using System.Threading.Tasks;
-using Microsoft.TeamFoundation.Build.Client;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
