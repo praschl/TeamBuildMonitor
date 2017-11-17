@@ -2,11 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     >
 
-    <!-- TODO: The source .svg files should only contain the inner path (e.g. > for the play button)
-    To build the play button with circle, create the canvas with the circle manually and add the PathGeometry for play button.
-    This ways all colors are under control.
-    -->
-
     <Style x:Key="WhiteIcon" TargetType="Path">
         <Style.Setters>
             <Setter Property="Fill" Value="#FFFFFFFF" />
