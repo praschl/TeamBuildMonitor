@@ -14,7 +14,7 @@ namespace MiP.TeamBuilds.Providers
             _build = build;
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string TeamProject { get; set; }
         public string BuildDefinitionName { get; set; }
         public string[] ServerItems { get; set; }

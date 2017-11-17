@@ -20,10 +20,13 @@ namespace MiP.TeamBuilds.UI.Notifications
 {
     public partial class KnownBuildsViewModel : IRefreshBuildsTimer
     {
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private readonly Dictionary<int, BuildInfo> _lastKnownBuilds = new Dictionary<int, BuildInfo>();
-        private readonly Notifier _notifier;
         private BuildInfoProvider _buildInfoProvider;
+
+        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly Notifier _notifier;
+
+        private readonly Dictionary<string, BuildInfo> _lastKnownBuilds = new Dictionary<string, BuildInfo>();
+        private readonly ConcurrentDictionary<string, INotification> _notificationsByBuildId = new ConcurrentDictionary<string, INotification>();
 
         private readonly MessageOptions _defaultOptions = new MessageOptions
         {
@@ -173,8 +176,6 @@ namespace MiP.TeamBuilds.UI.Notifications
                 }
             });
         }
-
-        private readonly ConcurrentDictionary<int, INotification> _notificationsByBuildId = new ConcurrentDictionary<int, INotification>();
 
         private static readonly BuildStatus[] _finalizableStates = new BuildStatus[]
         {

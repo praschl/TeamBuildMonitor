@@ -9,57 +9,105 @@ using Microsoft.TeamFoundation.Framework.Client;
 using System.Collections.Concurrent;
 using Microsoft.TeamFoundation.Framework.Common;
 using System.Diagnostics.CodeAnalysis;
+using static System.FormattableString;
 
 namespace MiP.TeamBuilds.Providers
 {
-    // TODO: for DEBUG builds:
-    // make interface + fake implementation which returns fake builds.
-    // create a new build definition (copy from DEBUG): "DEMO" and
-    // register fake implementation in the DEMO build
+    // TODO: allow a special url like "about:demo", 
+    // and for that url resolve a fake instance of IBuildInfoProvider which randomly returns build states.
 
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IDisposable
     {
         public delegate BuildInfoProvider Factory(Uri tfsUri);
 
+        private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
+        private readonly Uri _tfsUri;
+
+        private readonly ConcurrentBag<TfsTeamProjectCollection> _teamProjectCollections = new ConcurrentBag<TfsTeamProjectCollection>();
+
         public BuildInfoProvider(Uri tfsUri)
         {
-            _teamCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tfsUri);
+            _tfsUri = tfsUri;
         }
 
-        private readonly TfsTeamProjectCollection _teamCollection;
+        public async Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
+        {
+            await InitializeTeamCollectionsAsync().ConfigureAwait(false);
 
-        private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
+            var tasks = _teamProjectCollections.Select(c => GetCurrentBuildsAsync(c));
 
-        public Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            return tasks.Select(t => t.Result).SelectMany(bi => bi);
+        }
+
+        private Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync(TfsTeamProjectCollection collection)
         {
             return Task.Run(() =>
             {
-                var buildService = _teamCollection.GetService<IBuildServer>();
+                var buildService = collection.GetService<IBuildServer>();
 
                 var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
                 PreloadUserNames(foundBuilds);
 
-                return foundBuilds.QueuedBuilds.Select(Convert);
+                return foundBuilds.QueuedBuilds.Select(qb => Convert(qb, collection));
             });
+        }
+
+        private Task InitializeTeamCollectionsAsync()
+        {
+            return Task.Run(() =>
+            {
+                if (_teamProjectCollections.Count > 0)
+                    return;
+
+                foreach (var item in GetCollections())
+                {
+                    _teamProjectCollections.Add(item);
+                }
+            });
+        }
+
+        private IEnumerable<TfsTeamProjectCollection> GetCollections()
+        {
+            var configurationServer = TfsConfigurationServerFactory.GetConfigurationServer(_tfsUri);
+
+            var tpcService = configurationServer.GetService<ITeamProjectCollectionService>();
+
+            var configurationServerNode = configurationServer.CatalogNode;
+
+            var tpcNodes = configurationServerNode.QueryChildren(
+                    new Guid[] { CatalogResourceTypes.ProjectCollection }, false, CatalogQueryOptions.None);
+
+            var collectionNames = tpcNodes.Select(n => n.Resource.DisplayName);
+
+            var tfsTeamProjectCollections = collectionNames
+                .Select(cn => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsUri, cn)))
+                .ToArray();
+
+            return tfsTeamProjectCollections;
         }
 
         private void PreloadUserNames(IQueuedBuildQueryResult foundBuilds)
         {
-            var ims = _teamCollection.GetService<IIdentityManagementService>();
-            var unknownUserIds = foundBuilds.QueuedBuilds.Select(b => b.RequestedBy).Except(_userIdToUserName.Keys).ToArray();
-
-            var users = ims.ReadIdentities(IdentitySearchFactor.AccountName, unknownUserIds, MembershipQuery.None, ReadIdentityOptions.ExtendedProperties);
-
-            foreach (var user in users.SelectMany(T => T))
+            foreach (var collection in _teamProjectCollections)
             {
-                _userIdToUserName.TryAdd(user.UniqueName, user.DisplayName);
+                var ims = collection.GetService<IIdentityManagementService>();
+                var unknownUserIds = foundBuilds.QueuedBuilds.Select(b => b.RequestedBy).Except(_userIdToUserName.Keys).ToArray();
+
+                var users = ims.ReadIdentities(IdentitySearchFactor.AccountName, unknownUserIds, MembershipQuery.None, ReadIdentityOptions.ExtendedProperties);
+
+                foreach (var user in users.SelectMany(T => T))
+                {
+                    _userIdToUserName.TryAdd(user.UniqueName, user.DisplayName);
+                }
             }
         }
 
-        private BuildInfo Convert(IQueuedBuild build)
+        private BuildInfo Convert(IQueuedBuild build, TfsTeamProjectCollection collection)
         {
             string collectionUri = build.BuildServer.TeamProjectCollection.Uri.ToString();
             string project = build.BuildDefinition.TeamProject;
@@ -72,7 +120,7 @@ namespace MiP.TeamBuilds.Providers
 
             return new BuildInfo(build)
             {
-                Id = build.Id,
+                Id = Invariant($"[{collection}]/{build.Id}"),
                 TeamProject = build.TeamProject,
                 BuildDefinitionName = build.BuildDefinition.Name,
                 ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
@@ -97,7 +145,10 @@ namespace MiP.TeamBuilds.Providers
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used.")]
         public void Dispose()
         {
-            _teamCollection?.Dispose();
+            foreach (var item in _teamProjectCollections)
+            {
+                item.Dispose();
+            }
         }
     }
 }
