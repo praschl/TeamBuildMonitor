@@ -273,6 +273,8 @@
     <Compile Include="Providers\BuildInfo.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
     <Compile Include="Providers\BuildInfoProvider.cs" />
+    <Compile Include="Providers\BuildInfoProviderFactory.cs" />
+    <Compile Include="Providers\IBuildInfoProvider.cs" />
     <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\TestMessagesCommand.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />

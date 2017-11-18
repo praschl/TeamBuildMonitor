@@ -13,23 +13,15 @@ using static System.FormattableString;
 
 namespace MiP.TeamBuilds.Providers
 {
-    // TODO: allow a special url like "about:demo", 
-    // and for that url resolve a fake instance of IBuildInfoProvider which randomly returns build states.
-
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
-    public class BuildInfoProvider : IDisposable
+    public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
         public delegate BuildInfoProvider Factory(Uri tfsUri);
 
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
-        private readonly Uri _tfsUri;
+        private Uri _tfsUri;
 
         private readonly ConcurrentBag<TfsTeamProjectCollection> _teamProjectCollections = new ConcurrentBag<TfsTeamProjectCollection>();
-
-        public BuildInfoProvider(Uri tfsUri)
-        {
-            _tfsUri = tfsUri;
-        }
 
         public async Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
@@ -149,6 +141,11 @@ namespace MiP.TeamBuilds.Providers
             {
                 item.Dispose();
             }
+        }
+
+        public void Initialize(Uri uri)
+        {
+            _tfsUri = uri;
         }
     }
 }

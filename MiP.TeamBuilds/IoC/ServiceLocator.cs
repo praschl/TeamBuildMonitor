@@ -37,7 +37,8 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
 
             // helpers
-            builder.RegisterType<BuildInfoProvider>().AsSelf();
+            builder.RegisterType<BuildInfoProvider>().AsImplementedInterfaces();
+            builder.RegisterType<BuildInfoProviderFactory>().AsSelf();
 
             RegisterNotifier(builder);
 

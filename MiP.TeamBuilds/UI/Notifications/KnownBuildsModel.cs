@@ -15,12 +15,13 @@ using MiP.TeamBuilds.UI.Commands;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using System.Linq;
+using Autofac.Features.OwnedInstances;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
     public partial class KnownBuildsViewModel : IRefreshBuildsTimer
     {
-        private BuildInfoProvider _buildInfoProvider;
+        private Owned<IBuildInfoProvider> _buildInfoProvider;
 
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly Notifier _notifier;
@@ -36,9 +37,9 @@ namespace MiP.TeamBuilds.UI.Notifications
             NotificationClickAction = n => n.Close()
         };
 
-        private readonly BuildInfoProvider.Factory _buildInfoProviderFactory;
+        private readonly BuildInfoProviderFactory _buildInfoProviderFactory;
 
-        public KnownBuildsViewModel(Notifier notifier, ShowSettingsCommand showSettingsCommand, BuildInfoProvider.Factory buildInfoProviderFactory)
+        public KnownBuildsViewModel(Notifier notifier, ShowSettingsCommand showSettingsCommand, BuildInfoProviderFactory buildInfoProviderFactory)
         {
             _notifier = notifier;
             ShowSettingsCommand = showSettingsCommand;
@@ -68,7 +69,8 @@ namespace MiP.TeamBuilds.UI.Notifications
             }
 
             _buildInfoProvider?.Dispose();
-            _buildInfoProvider = _buildInfoProviderFactory(uri);
+            _buildInfoProvider = _buildInfoProviderFactory.GetProvider();
+            _buildInfoProvider.Value.Initialize(uri);
 
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Timer_Tick;
@@ -137,7 +139,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             // and we catch the exception
             try
             {
-                var buildInfos = await _buildInfoProvider.GetCurrentBuildsAsync();
+                var buildInfos = await _buildInfoProvider.Value.GetCurrentBuildsAsync();
                 foreach (var build in buildInfos)
                 {
                     TryAdd(build);
