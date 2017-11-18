@@ -63,14 +63,13 @@ namespace MiP.TeamBuilds.UI.Notifications
             if (uri == null)
                 return;
 
-            foreach (var build in Builds)
+            foreach (var build in Builds.ToArray())
             {
                 FinalizeBuild(build);
             }
 
             _buildInfoProvider?.Dispose();
-            _buildInfoProvider = _buildInfoProviderFactory.GetProvider();
-            _buildInfoProvider.Value.Initialize(uri);
+            _buildInfoProvider = _buildInfoProviderFactory.GetProvider(uri);
 
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Timer_Tick;

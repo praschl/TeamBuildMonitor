@@ -275,6 +275,7 @@
     <Compile Include="Providers\BuildInfoProvider.cs" />
     <Compile Include="Providers\BuildInfoProviderFactory.cs" />
     <Compile Include="Providers\IBuildInfoProvider.cs" />
+    <Compile Include="Providers\TestBuildInfoProvider.cs" />
     <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\TestMessagesCommand.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />

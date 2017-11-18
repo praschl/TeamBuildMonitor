@@ -10,6 +10,7 @@ using ToastNotifications.Position;
 using ToastNotifications.Lifetime;
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Ambient;
+using Autofac.Features.AttributeFilters;
 
 namespace MiP.TeamBuilds.IoC
 {
@@ -37,8 +38,9 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
 
             // helpers
-            builder.RegisterType<BuildInfoProvider>().AsImplementedInterfaces();
-            builder.RegisterType<BuildInfoProviderFactory>().AsSelf();
+            builder.RegisterType<BuildInfoProvider>().Keyed<IBuildInfoProvider>("http").AsImplementedInterfaces();
+            builder.RegisterType<TestBuildInfoProvider>().Keyed<IBuildInfoProvider>("demo").AsImplementedInterfaces();
+            builder.RegisterType<BuildInfoProviderFactory>().AsSelf().WithAttributeFiltering();
 
             RegisterNotifier(builder);
 
