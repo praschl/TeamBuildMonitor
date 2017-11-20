@@ -67,8 +67,6 @@ namespace MiP.TeamBuilds.Providers
         {
             var configurationServer = TfsConfigurationServerFactory.GetConfigurationServer(_tfsUri);
 
-            var tpcService = configurationServer.GetService<ITeamProjectCollectionService>();
-
             var configurationServerNode = configurationServer.CatalogNode;
 
             var tpcNodes = configurationServerNode.QueryChildren(
@@ -77,7 +75,7 @@ namespace MiP.TeamBuilds.Providers
             var collectionNames = tpcNodes.Select(n => n.Resource.DisplayName);
 
             var tfsTeamProjectCollections = collectionNames
-                .Select(cn => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsUri, cn)))
+                .Select(cn => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsUri + "/" + cn)))
                 .ToArray();
 
             return tfsTeamProjectCollections;
