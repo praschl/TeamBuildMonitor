@@ -19,6 +19,7 @@
         <amb:AmbientViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
 
         <ContextMenu x:Key="TaskBarMenu">
+            <!-- TODO: add Menu Items: disable notifications (for X minutes) -->
             <MenuItem Header="TestMessages" Command="{Binding Source={StaticResource Proxy}, Path=Data.TestMessages}" Visibility="{Binding DebugVisibility}" />
             <MenuItem Header="Settings" Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowSettingsCommand}" />
             <Separator/>
