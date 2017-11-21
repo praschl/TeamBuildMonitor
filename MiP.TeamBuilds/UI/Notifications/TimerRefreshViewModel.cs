@@ -28,7 +28,6 @@ namespace MiP.TeamBuilds.UI.Notifications
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Timer_Tick;
             _timer.Start();
-            _knownBuildsViewModel.RefreshBuildInfos(); // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
         }
 
         private void Timer_Tick(object sender, EventArgs e)

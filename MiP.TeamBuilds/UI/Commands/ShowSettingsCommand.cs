@@ -31,7 +31,7 @@ namespace MiP.TeamBuilds.UI.Commands
                 SettingsWindow currentInstance = _settingsWindowFactory();
                 if (currentInstance.ShowDialog() == true)
                 {
-                    _restartTimerCommand().Execute(null);
+                    _restartTimerCommand().Execute(null); // TODO: can just rebuild tfs provider in known build model, no need to restart timer.
                 }
             }
             finally

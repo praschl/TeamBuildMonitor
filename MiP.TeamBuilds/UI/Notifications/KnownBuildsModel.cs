@@ -19,6 +19,8 @@ using PropertyChanged;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
+    // TODO: move notification system out of KnownBuildsViewModel 
+
     [AddINotifyPropertyChangedInterface]
     public class KnownBuildsViewModel
     {
@@ -64,6 +66,8 @@ namespace MiP.TeamBuilds.UI.Notifications
 
             _buildInfoProvider?.Dispose();
             _buildInfoProvider = _buildInfoProviderFactory.GetProvider(uri);
+
+            RefreshBuildInfos(); // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
         }
 
         private Uri CreateTfsUri()
