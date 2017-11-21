@@ -6,9 +6,9 @@ namespace MiP.TeamBuilds.UI.Ambient
 {
     public class SleepCommand : ICommand
     {
-        private readonly Func<IRefreshBuildsTimer> _buildsTimer;
+        private readonly Func<ITimerRefreshViewModel> _buildsTimer;
 
-        public SleepCommand(Func<IRefreshBuildsTimer> buildsTimer)
+        public SleepCommand(Func<ITimerRefreshViewModel> buildsTimer)
         {
             _buildsTimer = buildsTimer;
         }

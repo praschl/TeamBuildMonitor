@@ -6,9 +6,9 @@ namespace MiP.TeamBuilds.UI.Commands
 {
     public class RestartTimerCommand : ICommand
     {
-        private readonly Func<IRefreshBuildsTimer> _refreshBuildsTimer;
+        private readonly Func<ITimerRefreshViewModel> _refreshBuildsTimer;
 
-        public RestartTimerCommand(Func<IRefreshBuildsTimer> refreshBuildsTimer)
+        public RestartTimerCommand(Func<ITimerRefreshViewModel> refreshBuildsTimer)
         {
             _refreshBuildsTimer = refreshBuildsTimer;
         }

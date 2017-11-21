@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
@@ -15,11 +14,6 @@ namespace MiP.TeamBuilds.UI.Ambient
             AmbientViewModel = ambientViewModel;
 
             InitializeComponent();
-        }
-
-        private void Window_Initialized(object sender, EventArgs e)
-        {
-            AmbientViewModel.Initialize();
         }
     }
 }

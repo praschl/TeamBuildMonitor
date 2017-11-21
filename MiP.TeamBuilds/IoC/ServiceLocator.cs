@@ -30,6 +30,7 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<KnownBuildsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AmbientViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<SettingsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<TimerRefreshViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // commands
             builder.RegisterType<ShowSettingsCommand>().AsSelf().SingleInstance();
@@ -38,7 +39,7 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<SleepCommand>().AsSelf().SingleInstance();
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
 
-            // helpers
+            // tfs build providers
             builder.RegisterType<BuildInfoProvider>().Keyed<IBuildInfoProvider>("http").AsImplementedInterfaces();
             builder.RegisterType<TestBuildInfoProvider>().Keyed<IBuildInfoProvider>("demo").AsImplementedInterfaces();
             builder.RegisterType<BuildInfoProviderFactory>().AsSelf().WithAttributeFiltering();

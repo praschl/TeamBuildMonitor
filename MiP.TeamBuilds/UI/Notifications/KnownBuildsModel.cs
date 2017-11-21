@@ -9,7 +9,6 @@ using MiP.TeamBuilds.Providers;
 using ToastNotifications;
 using ToastNotifications.Core;
 using MiP.TeamBuilds.UI.CompositeNotifications;
-using System.Windows.Threading;
 using System.Windows.Input;
 using MiP.TeamBuilds.UI.Commands;
 using System.Collections.ObjectModel;
@@ -21,20 +20,14 @@ using PropertyChanged;
 namespace MiP.TeamBuilds.UI.Notifications
 {
     [AddINotifyPropertyChangedInterface]
-    public partial class KnownBuildsViewModel : IRefreshBuildsTimer
+    public class KnownBuildsViewModel
     {
-        // TODO: Divorce KnownBuilds (list of known builds) and Timer + calling refresh into two models
-        // KnownBuildsModel + RefreshTimerModel
-
         private Owned<IBuildInfoProvider> _buildInfoProvider;
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
 
         private readonly Notifier _notifier;
 
         private readonly Dictionary<string, BuildInfo> _lastKnownBuilds = new Dictionary<string, BuildInfo>();
         private readonly ConcurrentDictionary<string, INotification> _notificationsByBuildId = new ConcurrentDictionary<string, INotification>();
-
-        private DateTime _sleepUntil;
 
         private readonly MessageOptions _defaultOptions = new MessageOptions
         {
@@ -54,20 +47,12 @@ namespace MiP.TeamBuilds.UI.Notifications
         }
 
         public ObservableCollection<BuildInfo> Builds { get; } = new ObservableCollection<BuildInfo>();
+        public bool NotificationsEnabled { get; set; } = true;
 
         public ICommand ShowSettingsCommand { get; }
 
-        public int SleepForMinutes { get; private set; }
-
-        internal void Initialize()
+        public void RefreshTfsProvider()
         {
-            RestartTimer();
-        }
-
-        public void RestartTimer()
-        {
-            _timer.Stop();
-
             var uri = CreateTfsUri();
             if (uri == null)
                 return;
@@ -79,11 +64,6 @@ namespace MiP.TeamBuilds.UI.Notifications
 
             _buildInfoProvider?.Dispose();
             _buildInfoProvider = _buildInfoProviderFactory.GetProvider(uri);
-
-            _timer.Interval = TimeSpan.FromSeconds(5);
-            _timer.Tick += Timer_Tick;
-            _timer.Start();
-            RefreshBuildInfos(); // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
         }
 
         private Uri CreateTfsUri()
@@ -136,12 +116,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             _notifier.ShowError(new ExceptionMessage("Exception", ex, _notifier), errorDisplayOptions);
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            RefreshBuildInfos();
-        }
-
-        private async void RefreshBuildInfos()
+        public async void RefreshBuildInfos()
         {
             // async-void should be ok here. Only used from the Timer_Tick and Initialization
             // and we catch the exception
@@ -194,7 +169,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private void NotifyBuild(BuildInfo build)
         {
-            if (_sleepUntil < DateTime.Now)
+            if (NotificationsEnabled)
             {
                 INotification notification = _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
@@ -220,14 +195,5 @@ namespace MiP.TeamBuilds.UI.Notifications
             Builds.Remove(build);
         }
 
-        public void StopRefreshingFor(int minutes)
-        {
-            SleepForMinutes = minutes;
-
-            if (minutes == -1)
-                _sleepUntil = DateTime.MaxValue;
-            else
-                _sleepUntil = DateTime.Now.AddMinutes(minutes);
-        }
     }
 }

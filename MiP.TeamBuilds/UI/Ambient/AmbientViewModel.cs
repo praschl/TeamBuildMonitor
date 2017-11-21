@@ -14,11 +14,12 @@ namespace MiP.TeamBuilds.UI.Ambient
     {
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Generated OnPropertyChanged by Fody, Event has no subscribers at this time.")]
         public AmbientViewModel(ShowSettingsCommand showSettingsCommand, QuitCommand quitCommand, SleepCommand sleepCommand,
-            KnownBuildsViewModel knownBuildsViewModel)
+            ITimerRefreshViewModel timerRefreshViewModel, KnownBuildsViewModel knownBuildsViewModel)
         {
             ShowSettingsCommand = showSettingsCommand;
             QuitCommand = quitCommand;
             SleepCommand = sleepCommand;
+            TimerRefreshViewModel = timerRefreshViewModel;
             KnownBuildsViewModel = knownBuildsViewModel;
 
             CurrentBuildsView = CollectionViewSource.GetDefaultView(knownBuildsViewModel.Builds);
@@ -43,16 +44,12 @@ namespace MiP.TeamBuilds.UI.Ambient
         public ShowSettingsCommand ShowSettingsCommand { get; }
         public QuitCommand QuitCommand { get; }
         public SleepCommand SleepCommand { get; }
-        public KnownBuildsViewModel KnownBuildsViewModel { get; } // TODO: IRefreshBuildsTimer + move init to app.xaml.cs
+        public KnownBuildsViewModel KnownBuildsViewModel { get; }
+        public ITimerRefreshViewModel TimerRefreshViewModel { get; }
 
         public ICollectionView CurrentBuildsView { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        internal void Initialize()
-        {
-            KnownBuildsViewModel.Initialize();
-        }
 
         private bool CurrentBuildsFilter(object buildInfo)
         {

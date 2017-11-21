@@ -4,6 +4,7 @@ using MiP.TeamBuilds.IoC;
 using System.Windows;
 using System.Collections.Generic;
 using MiP.TeamBuilds.UI.Ambient;
+using MiP.TeamBuilds.UI.Notifications;
 
 namespace MiP.TeamBuilds
 {
@@ -15,9 +16,11 @@ namespace MiP.TeamBuilds
         {
             if (SingleInstance<App>.InitializeAsFirstInstance(UniqueApplicationKey))
             {
+                var model = ServiceLocator.Instance.Resolve<ITimerRefreshViewModel>();
                 var window = ServiceLocator.Instance.Resolve<AmbientWindow>();
 
                 // start in hidden mode
+                model.RestartTimer();
                 window.Hide();
             }
             else

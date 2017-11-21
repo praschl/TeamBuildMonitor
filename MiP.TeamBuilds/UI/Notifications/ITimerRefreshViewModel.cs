@@ -1,7 +1,9 @@
 ﻿namespace MiP.TeamBuilds.UI.Notifications
 {
-    public interface IRefreshBuildsTimer
+    public interface ITimerRefreshViewModel
     {
+        int SleepForMinutes { get; }
+
         void RestartTimer();
 
         void StopRefreshingFor(int minutes);
