@@ -16,17 +16,18 @@ namespace MiP.TeamBuilds.Providers
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
-        public delegate BuildInfoProvider Factory(Uri tfsUri);
-
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;
 
         private readonly ConcurrentBag<TfsTeamProjectCollection> _teamProjectCollections = new ConcurrentBag<TfsTeamProjectCollection>();
 
+        private static readonly IEnumerable<BuildInfo> _emptyResult = Enumerable.Empty<BuildInfo>();
+
         public async Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
             await InitializeTeamCollectionsAsync().ConfigureAwait(false);
 
+            if (_disposed) return _emptyResult; // dispose may run on a different thread.
             var tasks = _teamProjectCollections.Select(c => GetCurrentBuildsAsync(c));
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -131,12 +132,14 @@ namespace MiP.TeamBuilds.Providers
                 return displayName;
             else
                 return requestedBy;
-
         }
+
+        private bool _disposed;
 
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used.")]
         public void Dispose()
         {
+            _disposed = true;
             foreach (var item in _teamProjectCollections)
             {
                 item.Dispose();
