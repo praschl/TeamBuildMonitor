@@ -74,8 +74,10 @@ namespace MiP.TeamBuilds.Providers
 
             var collectionNames = tpcNodes.Select(n => n.Resource.DisplayName);
 
+            var pathSeparator = _tfsUri.AbsoluteUri.EndsWith("/") ? string.Empty : "/";
+
             var tfsTeamProjectCollections = collectionNames
-                .Select(cn => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsUri + "/" + cn)))
+                .Select(cn => TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(_tfsUri + pathSeparator + cn)))
                 .ToArray();
 
             return tfsTeamProjectCollections;
