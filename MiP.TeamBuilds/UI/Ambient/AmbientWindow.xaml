@@ -19,7 +19,18 @@
         <amb:AmbientViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
 
         <ContextMenu x:Key="TaskBarMenu">
-            <!-- TODO: add Menu Items: disable notifications (for X minutes) -->
+            <MenuItem Header="Notifications">
+                <MenuItem Header="Off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="-1" 
+                          IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=-1}, Mode=OneWay}" />
+                <MenuItem Header="1 hour off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="60" 
+                          IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=60}, Mode=OneWay}" />
+                <MenuItem Header="30 min. off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="30" 
+                          IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=30}, Mode=OneWay}" />
+                <MenuItem Header="15 min. off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="15" 
+                          IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=15}, Mode=OneWay}" />
+                <MenuItem Header="On" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="0" 
+                          IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.KnownBuildsViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=0}, Mode=OneWay}" />
+            </MenuItem>
             <MenuItem Header="TestMessages" Command="{Binding Source={StaticResource Proxy}, Path=Data.TestMessages}" Visibility="{Binding DebugVisibility}" />
             <MenuItem Header="Settings" Command="{Binding Source={StaticResource Proxy}, Path=Data.ShowSettingsCommand}" />
             <Separator/>

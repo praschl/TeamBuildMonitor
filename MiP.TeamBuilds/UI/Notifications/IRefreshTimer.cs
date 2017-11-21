@@ -3,5 +3,7 @@
     public interface IRefreshBuildsTimer
     {
         void RestartTimer();
+
+        void StopRefreshingFor(int minutes);
     }
 }

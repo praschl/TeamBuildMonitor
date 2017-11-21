@@ -16,18 +16,25 @@ using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
 using System.Linq;
 using Autofac.Features.OwnedInstances;
+using PropertyChanged;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
+    [AddINotifyPropertyChangedInterface]
     public partial class KnownBuildsViewModel : IRefreshBuildsTimer
     {
-        private Owned<IBuildInfoProvider> _buildInfoProvider;
+        // TODO: Divorce KnownBuilds (list of known builds) and Timer + calling refresh into two models
+        // KnownBuildsModel + RefreshTimerModel
 
+        private Owned<IBuildInfoProvider> _buildInfoProvider;
         private readonly DispatcherTimer _timer = new DispatcherTimer();
+
         private readonly Notifier _notifier;
 
         private readonly Dictionary<string, BuildInfo> _lastKnownBuilds = new Dictionary<string, BuildInfo>();
         private readonly ConcurrentDictionary<string, INotification> _notificationsByBuildId = new ConcurrentDictionary<string, INotification>();
+
+        private DateTime _sleepUntil;
 
         private readonly MessageOptions _defaultOptions = new MessageOptions
         {
@@ -49,6 +56,8 @@ namespace MiP.TeamBuilds.UI.Notifications
         public ObservableCollection<BuildInfo> Builds { get; } = new ObservableCollection<BuildInfo>();
 
         public ICommand ShowSettingsCommand { get; }
+
+        public int SleepForMinutes { get; private set; }
 
         internal void Initialize()
         {
@@ -185,12 +194,15 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private void NotifyBuild(BuildInfo build)
         {
-            INotification notification = _notifier.ShowBuildInfoMessage(build, _defaultOptions);
+            if (_sleepUntil < DateTime.Now)
+            {
+                INotification notification = _notifier.ShowBuildInfoMessage(build, _defaultOptions);
+
+                if (notification != null)
+                    _notificationsByBuildId.AddOrUpdate(build.Id, notification, (id, not) => UpdateNotificationForBuild(not, notification));
+            }
             if (_finalizableStates.Any(x => x == build.Status))
                 FinalizeBuild(build);
-
-            if (notification != null)
-                _notificationsByBuildId.AddOrUpdate(build.Id, notification, (id, not) => UpdateNotificationForBuild(not, notification));
         }
 
         private INotification UpdateNotificationForBuild(INotification oldNotification, INotification newNotification)
@@ -206,6 +218,16 @@ namespace MiP.TeamBuilds.UI.Notifications
             build.BuildUpdated -= Build_BuildUpdated;
             _lastKnownBuilds.Remove(build.Id);
             Builds.Remove(build);
+        }
+
+        public void StopRefreshingFor(int minutes)
+        {
+            SleepForMinutes = minutes;
+
+            if (minutes == -1)
+                _sleepUntil = DateTime.MaxValue;
+            else
+                _sleepUntil = DateTime.Now.AddMinutes(minutes);
         }
     }
 }

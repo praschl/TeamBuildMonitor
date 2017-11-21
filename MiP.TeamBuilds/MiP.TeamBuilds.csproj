@@ -277,6 +277,8 @@
     <Compile Include="Providers\IBuildInfoProvider.cs" />
     <Compile Include="Providers\TestBuildInfoProvider.cs" />
     <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
+    <Compile Include="UI\Ambient\EqualsInt32ToVisibilityConverter.cs" />
+    <Compile Include="UI\Ambient\SleepCommand.cs" />
     <Compile Include="UI\Ambient\TestMessagesCommand.cs" />
     <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />

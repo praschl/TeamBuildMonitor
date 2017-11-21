@@ -35,6 +35,7 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<ShowSettingsCommand>().AsSelf().SingleInstance();
             builder.RegisterType<SaveSettingsCommand>().AsSelf().SingleInstance();
             builder.RegisterType<RestartTimerCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<SleepCommand>().AsSelf().SingleInstance();
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
 
             // helpers
