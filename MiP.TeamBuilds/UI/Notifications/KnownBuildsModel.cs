@@ -186,6 +186,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private INotification UpdateNotificationForBuild(INotification oldNotification, INotification newNotification)
         {
+            // TODO: oldNotification was null while debugging...fix this.
             oldNotification.Close();
 
             return newNotification;

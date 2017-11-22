@@ -102,12 +102,16 @@ namespace MiP.TeamBuilds.Providers
 
         private BuildInfo Convert(IQueuedBuild build, TfsTeamProjectCollection collection)
         {
+            // TODO: more explicit handling of build.Build == null
+            // build.Build?.Status
+            // build.Build?.FinishTime
+
             string collectionUri = build.BuildServer.TeamProjectCollection.Uri.ToString();
             string project = build.BuildDefinition.TeamProject;
-            string id = build.Build.Uri.ToString().Split('/').Last();
+            string id = build.Build?.Uri.ToString().Split('/').Last();
 
             string buildSummary = $"{collectionUri}/{project}/_build?_a=summary&buildId={id}";
-            string dropLocation = build.Build.DropLocation;
+            string dropLocation = build.Build?.DropLocation;
             if (string.IsNullOrEmpty(dropLocation))
                 dropLocation = build.DropLocation;
 
@@ -118,11 +122,11 @@ namespace MiP.TeamBuilds.Providers
                 BuildDefinitionName = build.BuildDefinition.Name,
                 ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
                 RequestedBy = GetRequestedBy(build.RequestedBy),
-                Status = build.Build.Status,
+                Status = build.Build?.Status ?? BuildStatus.None,
                 BuildSummary = new Uri(buildSummary),
                 DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null,
                 QueuedTime = build.QueueTime,
-                FinishTime = build.Build.FinishTime
+                FinishTime = build.Build?.FinishTime ?? DateTime.MinValue
             };
         }
 

@@ -13,6 +13,9 @@ const string source = "MiP.TeamBuilds\\bin\\release";
 const string release = "release";
 const string bin = release + "\\bin";
 
+// set directory to that of this query, because Environment.CurrentDirectory will point to the linqpad.exe, when linqpad was already open before opening this query.
+Environment.CurrentDirectory = Path.GetDirectoryName(Util.CurrentQueryPath);
+
 if (!Directory.Exists(bin))
 	Directory.CreateDirectory(bin);
 
