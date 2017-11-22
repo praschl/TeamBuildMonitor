@@ -19,8 +19,6 @@ using PropertyChanged;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
-    // TODO: move notification system out of KnownBuildsViewModel 
-
     [AddINotifyPropertyChangedInterface]
     public class KnownBuildsViewModel
     {
@@ -186,8 +184,10 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private INotification UpdateNotificationForBuild(INotification oldNotification, INotification newNotification)
         {
-            // TODO: oldNotification was null while debugging...log this somewhere, wonder how this happened.
-            oldNotification.Close();
+            // Closing notifications which have not yet been shown (because there are too many) will cause a NullReferenceException.
+            // However, the Id of such notifications is still 0, so we can check that.
+            if (oldNotification.Id != 0)
+                oldNotification.Close();
 
             return newNotification;
         }
