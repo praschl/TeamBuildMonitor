@@ -102,10 +102,6 @@ namespace MiP.TeamBuilds.Providers
 
         private BuildInfo Convert(IQueuedBuild build, TfsTeamProjectCollection collection)
         {
-            // TODO: more explicit handling of build.Build == null
-            // build.Build?.Status
-            // build.Build?.FinishTime
-
             string collectionUri = build.BuildServer.TeamProjectCollection.Uri.ToString();
             string project = build.BuildDefinition.TeamProject;
             string id = build.Build?.Uri.ToString().Split('/').Last();
@@ -114,6 +110,9 @@ namespace MiP.TeamBuilds.Providers
             string dropLocation = build.Build?.DropLocation;
             if (string.IsNullOrEmpty(dropLocation))
                 dropLocation = build.DropLocation;
+
+            // TODO: create QueueStatus property with build.Status, and update it in BuildInfo.Build_StatusChanged()
+            // TODO: display icon for QueueStatus when build.Status == None
 
             return new BuildInfo(build)
             {

@@ -44,8 +44,6 @@ namespace MiP.TeamBuilds.Providers
         {
             IsChanged = false;
 
-            // TODO: _build.Build can be null. In this case, get status from _build.Status
-            // TODO: Icon PartiallySucceeded should be changed to (!)
             Status = _build.Build?.Status ?? BuildStatus.None;
             FinishTime = _build.Build?.FinishTime ?? DateTime.MinValue;
 
