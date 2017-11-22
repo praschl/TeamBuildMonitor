@@ -186,6 +186,7 @@ namespace MiP.TeamBuilds.UI.Notifications
         {
             // Closing notifications which have not yet been shown (because there are too many) will cause a NullReferenceException.
             // However, the Id of such notifications is still 0, so we can check that.
+            // in such cases, the "InProgress" status will not remove the notification for "NotStarted" and both are displayed.
             if (oldNotification.Id != 0)
                 oldNotification.Close();
 
