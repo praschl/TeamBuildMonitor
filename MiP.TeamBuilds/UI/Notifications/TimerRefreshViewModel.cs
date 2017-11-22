@@ -23,7 +23,7 @@ namespace MiP.TeamBuilds.UI.Notifications
         {
             _timer.Stop();
 
-            _knownBuildsViewModel.RefreshTfsProvider();
+            _knownBuildsViewModel.RebuildTfsProvider();
 
             _timer.Interval = TimeSpan.FromSeconds(5);
             _timer.Tick += Timer_Tick;

@@ -27,7 +27,7 @@ namespace MiP.TeamBuilds.Providers
         {
             await InitializeTeamCollectionsAsync().ConfigureAwait(false);
 
-            if (_disposed) return _emptyResult; // dispose may run on a different thread.
+            if (_disposed) return _emptyResult; // dispose may be run from the UI thread.
             var tasks = _teamProjectCollections.Select(c => GetCurrentBuildsAsync(c));
 
             await Task.WhenAll(tasks).ConfigureAwait(false);

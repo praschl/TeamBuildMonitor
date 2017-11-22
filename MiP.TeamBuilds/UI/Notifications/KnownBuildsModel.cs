@@ -53,7 +53,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         public ICommand ShowSettingsCommand { get; }
 
-        public void RefreshTfsProvider()
+        public void RebuildTfsProvider()
         {
             var uri = CreateTfsUri();
             if (uri == null)
@@ -186,7 +186,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private INotification UpdateNotificationForBuild(INotification oldNotification, INotification newNotification)
         {
-            // TODO: oldNotification was null while debugging...fix this.
+            // TODO: oldNotification was null while debugging...log this somewhere, wonder how this happened.
             oldNotification.Close();
 
             return newNotification;

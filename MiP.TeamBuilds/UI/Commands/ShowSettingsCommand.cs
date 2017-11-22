@@ -9,9 +9,9 @@ namespace MiP.TeamBuilds.UI.Commands
         private bool _canExecute = true;
 
         private readonly Func<SettingsWindow> _settingsWindowFactory;
-        private readonly Func<RestartTimerCommand> _restartTimerCommand;
+        private readonly Func<RebuildTfsProviderCommand> _restartTimerCommand;
 
-        public ShowSettingsCommand(Func<SettingsWindow> settingsWindowFunc, Func<RestartTimerCommand> restartTimerCommand)
+        public ShowSettingsCommand(Func<SettingsWindow> settingsWindowFunc, Func<RebuildTfsProviderCommand> restartTimerCommand)
         {
             _settingsWindowFactory = settingsWindowFunc;
             _restartTimerCommand = restartTimerCommand;
@@ -31,7 +31,7 @@ namespace MiP.TeamBuilds.UI.Commands
                 SettingsWindow currentInstance = _settingsWindowFactory();
                 if (currentInstance.ShowDialog() == true)
                 {
-                    _restartTimerCommand().Execute(null); // TODO: can just rebuild tfs provider in known build model, no need to restart timer.
+                    _restartTimerCommand().Execute(null);
                 }
             }
             finally

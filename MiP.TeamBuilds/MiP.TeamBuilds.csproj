@@ -280,9 +280,9 @@
     <Compile Include="UI\Ambient\EqualsInt32ToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\SleepCommand.cs" />
     <Compile Include="UI\Ambient\TestMessagesCommand.cs" />
-    <Compile Include="UI\Commands\RestartTimerCommand.cs" />
     <Compile Include="UI\Ambient\AmbientViewModel.cs" />
     <Compile Include="UI\Ambient\AmbientViewModelBindingProxy.cs" />
+    <Compile Include="UI\Commands\RebuildTfsProviderCommand.cs" />
     <Compile Include="UI\Notifications\BuildInfoMessage.cs" />
     <Compile Include="UI\Notifications\BuildInfoMessageExtensions.cs" />
     <Compile Include="UI\Notifications\BuildInfoDisplayPart.xaml.cs">

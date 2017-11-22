@@ -4,13 +4,13 @@ using System.Windows.Input;
 
 namespace MiP.TeamBuilds.UI.Commands
 {
-    public class RestartTimerCommand : ICommand
+    public class RebuildTfsProviderCommand : ICommand
     {
-        private readonly Func<ITimerRefreshViewModel> _refreshBuildsTimer;
+        private readonly Func<KnownBuildsViewModel> _knownBuildsViewModel;
 
-        public RestartTimerCommand(Func<ITimerRefreshViewModel> refreshBuildsTimer)
+        public RebuildTfsProviderCommand(Func<KnownBuildsViewModel> knownBuildsViewModel)
         {
-            _refreshBuildsTimer = refreshBuildsTimer;
+            _knownBuildsViewModel = knownBuildsViewModel;
         }
 
 #pragma warning disable CS0067
@@ -24,7 +24,7 @@ namespace MiP.TeamBuilds.UI.Commands
 
         public void Execute(object parameter)
         {
-            _refreshBuildsTimer().RestartTimer();
+            _knownBuildsViewModel().RebuildTfsProvider();
         }
     }
 }
