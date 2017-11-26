@@ -21,11 +21,11 @@
             <MenuItem Header="Notifications">
                 <MenuItem Header="Off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="-1" 
                           IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.TimerRefreshViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=-1}, Mode=OneWay}" />
-                <MenuItem Header="1 hour off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="60" 
+                <MenuItem Header="Off 1 hour" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="60" 
                           IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.TimerRefreshViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=60}, Mode=OneWay}" />
-                <MenuItem Header="30 min. off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="30" 
+                <MenuItem Header="Off 30 min." Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="30" 
                           IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.TimerRefreshViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=30}, Mode=OneWay}" />
-                <MenuItem Header="15 min. off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="15" 
+                <MenuItem Header="Off 15 min." Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="15" 
                           IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.TimerRefreshViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=15}, Mode=OneWay}" />
                 <MenuItem Header="On" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="0" 
                           IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.TimerRefreshViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=0}, Mode=OneWay}" />

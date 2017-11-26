@@ -32,7 +32,9 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Set SleepForMinutes to 60/30/15/0 when times are reached to check the correct menu item.
+            if (_sleepUntil < DateTime.Now.AddMinutes(30)) SleepForMinutes = 30;
+            else if (_sleepUntil < DateTime.Now.AddMinutes(15)) SleepForMinutes = 15;
+            else if (_sleepUntil < DateTime.Now) SleepForMinutes = 0;
 
             _knownBuildsViewModel.NotificationsEnabled = _sleepUntil < DateTime.Now;
             _knownBuildsViewModel.RefreshBuildInfos();
