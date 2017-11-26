@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Input;
+using MiP.TeamBuilds.UI.Overview;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
@@ -14,11 +15,12 @@ namespace MiP.TeamBuilds.UI.Ambient
     {
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Generated OnPropertyChanged by Fody, Event has no subscribers at this time.")]
         public AmbientViewModel(ShowSettingsCommand showSettingsCommand, QuitCommand quitCommand, SleepCommand sleepCommand,
-            ITimerRefreshViewModel timerRefreshViewModel, KnownBuildsViewModel knownBuildsViewModel)
+            ITimerRefreshViewModel timerRefreshViewModel, KnownBuildsViewModel knownBuildsViewModel, OpenOverviewCommand openOverviewCommand)
         {
             ShowSettingsCommand = showSettingsCommand;
             QuitCommand = quitCommand;
             SleepCommand = sleepCommand;
+            OpenOverviewCommand = openOverviewCommand;
             TimerRefreshViewModel = timerRefreshViewModel;
             KnownBuildsViewModel = knownBuildsViewModel;
 
@@ -44,6 +46,7 @@ namespace MiP.TeamBuilds.UI.Ambient
         public ShowSettingsCommand ShowSettingsCommand { get; }
         public QuitCommand QuitCommand { get; }
         public SleepCommand SleepCommand { get; }
+        public OpenOverviewCommand OpenOverviewCommand { get; }
         public KnownBuildsViewModel KnownBuildsViewModel { get; }
         public ITimerRefreshViewModel TimerRefreshViewModel { get; }
 

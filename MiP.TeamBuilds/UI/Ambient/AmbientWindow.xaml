@@ -62,7 +62,8 @@
     <Grid>
         <!-- TODO: Dynamically change the icon to display the number of builds running
         https://stackoverflow.com/questions/1127647/convert-system-drawing-icon-to-system-media-imagesource -->
-        <tb:TaskbarIcon x:Name="_taskbarIcon" IconSource="../../assets/BuildIcon.ico" ContextMenu="{StaticResource TaskBarMenu}">
+        <tb:TaskbarIcon x:Name="_taskbarIcon" IconSource="../../assets/BuildIcon.ico" ContextMenu="{StaticResource TaskBarMenu}"
+                        DoubleClickCommand="{Binding OpenOverviewCommand}">
             <tb:TaskbarIcon.TrayToolTip>
                 <Border Style="{StaticResource TooltipStyle}">
                     <Grid>

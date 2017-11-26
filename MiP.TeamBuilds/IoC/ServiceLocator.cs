@@ -11,6 +11,7 @@ using ToastNotifications.Lifetime;
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Ambient;
 using Autofac.Features.AttributeFilters;
+using MiP.TeamBuilds.UI.Overview;
 
 namespace MiP.TeamBuilds.IoC
 {
@@ -25,12 +26,14 @@ namespace MiP.TeamBuilds.IoC
             // controls
             builder.RegisterType<AmbientWindow>().AsSelf();
             builder.RegisterType<SettingsWindow>().AsSelf();
+            builder.RegisterType<OverviewWindow>().AsSelf();
 
             // viewmodel
             builder.RegisterType<KnownBuildsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<AmbientViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<SettingsViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<TimerRefreshViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<OverviewViewModel>().AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // commands
             builder.RegisterType<ShowSettingsCommand>().AsSelf().SingleInstance();
@@ -38,6 +41,7 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<RebuildTfsProviderCommand>().AsSelf().SingleInstance();
             builder.RegisterType<SleepCommand>().AsSelf().SingleInstance();
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<OpenOverviewCommand>().AsSelf().SingleInstance();
 
             // tfs build providers
             builder.RegisterType<BuildInfoProvider>().Keyed<IBuildInfoProvider>("http").AsImplementedInterfaces();

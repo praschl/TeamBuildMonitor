@@ -308,6 +308,11 @@
     <Compile Include="UI\CompositeNotifications\ICompositeChild.cs" />
     <Compile Include="UI\CompositeNotifications\NotificationStyle.cs" />
     <Compile Include="UI\Notifications\TimerRefreshViewModel.cs" />
+    <Compile Include="UI\Overview\OpenOverviewCommand.cs" />
+    <Compile Include="UI\Overview\OverviewViewModel.cs" />
+    <Compile Include="UI\Overview\OverviewWindow.xaml.cs">
+      <DependentUpon>OverviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Settings\SaveSettingsCommand.cs" />
     <Compile Include="UI\Settings\SettingsViewModel.cs" />
     <Compile Include="UI\Settings\SettingsWindow.xaml.cs">
@@ -358,6 +363,10 @@
     <Page Include="UI\CompositeNotifications\CompositeDisplayPart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Overview\OverviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Settings\SettingsWindow.xaml">
       <SubType>Designer</SubType>
