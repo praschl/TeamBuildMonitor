@@ -15,7 +15,7 @@ namespace MiP.TeamBuilds.Providers
     /// It returns faked BuildInfos from GetCurrentBuildsAsync, and also changes their state.
     /// This makes the application look like it is connected to a very busy TFS.
     /// </summary>
-    public class TestBuildInfoProvider : IBuildInfoProvider, IDisposable
+    public sealed class TestBuildInfoProvider : IBuildInfoProvider, IDisposable
     {
         public Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
@@ -86,7 +86,7 @@ namespace MiP.TeamBuilds.Providers
         {
             // lets create a random build.
             // unfortunately we need these test classes, too.
-            TestQueuedBuild build = new TestQueuedBuild();
+            var build = new TestQueuedBuild();
             build.Build = new TestBuildDetail();
 
             // some random values for display.
@@ -98,11 +98,13 @@ namespace MiP.TeamBuilds.Providers
                 DropLocation = Pick(_dropLocations),
                 QueuedTime = DateTime.Now,
                 RequestedBy = Pick(_users),
-                Status = Pick(_status)
+                BuildStatus = Pick(_status),
+                QueueStatus = Pick(_queueStatus)
             };
 
             // we also set the status of the faked TFS build.
-            build.Build.Status = result.Status;
+            build.Build.Status = result.BuildStatus;
+            build.Status = Pick(_queueStatus);
 
             // the build will finish after 15-30 seconds.
             var plannedFinish = DateTime.Now.AddSeconds(_random.Next(15, 30));
@@ -124,7 +126,8 @@ namespace MiP.TeamBuilds.Providers
         private readonly string[] _dropLocations = { "C:/builds/myBuild", "C:/builds/testBuild", "C:/builds/integration", "C:/builds/prod-de", "C:/builds/prod-EN" };
         private readonly string[] _users = { "me", "you", "him", "someone else", "someone completely unknown" };
         private readonly BuildStatus[] _status = { BuildStatus.InProgress, BuildStatus.NotStarted };
-        private readonly BuildStatus[] _finishedStatus = { BuildStatus.Failed, BuildStatus.PartiallySucceeded, BuildStatus.Stopped, BuildStatus.Succeeded };
+        private readonly BuildStatus[] _finishedStatus = { BuildStatus.Failed, BuildStatus.PartiallySucceeded, BuildStatus.Stopped, BuildStatus.Succeeded, BuildStatus.None };
+        private readonly QueueStatus[] _queueStatus = { QueueStatus.Canceled, QueueStatus.Completed, QueueStatus.InProgress, QueueStatus.Postponed, QueueStatus.Queued, QueueStatus.Retry };
 
         public void Dispose()
         {
@@ -134,6 +137,7 @@ namespace MiP.TeamBuilds.Providers
         private class TestQueuedBuild : IQueuedBuild
         {
             public IBuildDetail Build { get; set; }
+            public QueueStatus Status { get; set; }
 
             public QueuePriority Priority { get; set; }
             public Guid BatchId { get; }
@@ -157,7 +161,6 @@ namespace MiP.TeamBuilds.Providers
             public string RequestedFor { get; }
             public string RequestedForDisplayName { get; }
             public string ShelvesetName { get; }
-            public QueueStatus Status { get; }
 
             public event StatusChangedEventHandler StatusChanged;
             public event PollingCompletedEventHandler PollingCompleted;

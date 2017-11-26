@@ -111,8 +111,7 @@ namespace MiP.TeamBuilds.Providers
             if (string.IsNullOrEmpty(dropLocation))
                 dropLocation = build.DropLocation;
 
-            // TODO: create QueueStatus property with build.Status, and update it in BuildInfo.Build_StatusChanged()
-            // TODO: display icon for QueueStatus when build.Status == None
+            // TODO: display icon for QueueStatus when build.BuildStatus == None
 
             return new BuildInfo(build)
             {
@@ -121,7 +120,8 @@ namespace MiP.TeamBuilds.Providers
                 BuildDefinitionName = build.BuildDefinition.Name,
                 ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
                 RequestedBy = GetRequestedBy(build.RequestedBy),
-                Status = build.Build?.Status ?? BuildStatus.None,
+                QueueStatus = build.Status,
+                BuildStatus = build.Build?.Status ?? BuildStatus.None,
                 BuildSummary = new Uri(buildSummary),
                 DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null,
                 QueuedTime = build.QueueTime,

@@ -10,6 +10,20 @@
         <Setter Property="FontSize" Value="13" />
     </Style>
 
+    <Style TargetType="TextBlock" x:Key="QueueStatusText">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="None">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="Hyperlink" x:Key="NotificationLink">
         <Setter Property="Foreground" Value="White"/>
     </Style>
@@ -18,13 +32,13 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Visibility" Value="Collapsed" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Failed">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Failed">
                 <Setter Property="Visibility" Value="Visible"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="PartiallySucceeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="PartiallySucceeded">
                 <Setter Property="Visibility" Value="Visible"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Stopped">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Stopped">
                 <Setter Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </Style.Triggers>
@@ -34,10 +48,10 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Visibility" Value="Collapsed" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Succeeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Succeeded">
                 <Setter Property="Visibility" Value="Visible"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="PartiallySucceeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="PartiallySucceeded">
                 <Setter Property="Visibility" Value="Visible"/>
             </DataTrigger>
         </Style.Triggers>
@@ -54,25 +68,25 @@
         </Setter>
 
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Failed">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Failed">
                 <Setter Property="Background" Value="{DynamicResource ErrorColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Stopped">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Stopped">
                 <Setter Property="Background" Value="{DynamicResource WarningColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="PartiallySucceeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="PartiallySucceeded">
                 <Setter Property="Background" Value="{DynamicResource WarningColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Succeeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Succeeded">
                 <Setter Property="Background" Value="{DynamicResource SuccessColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="None">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="None">
                 <Setter Property="Background" Value="{DynamicResource InformationColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="NotStarted">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="NotStarted">
                 <Setter Property="Background" Value="{DynamicResource InformationColorBrush}" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="InProgress">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="InProgress">
                 <Setter Property="Background" Value="{DynamicResource InformationColorBrush}" />
             </DataTrigger>
         </Style.Triggers>
@@ -83,49 +97,49 @@
         <Setter Property="Height" Value="24"/>
         <Setter Property="VerticalAlignment" Value="Center" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Failed">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Failed">
                 <Setter Property="Fill">
                     <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_FailedIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Stopped">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Stopped">
                 <Setter Property="Fill">
                       <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_StopIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="PartiallySucceeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="PartiallySucceeded">
                 <Setter Property="Fill">
                     <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_PartialIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="Succeeded">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="Succeeded">
                 <Setter Property="Fill">
                     <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_SucceededIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="None">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="None">
                 <Setter Property="Fill">
                     <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_NoneIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="InProgress">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="InProgress">
                 <Setter Property="Fill">
                     <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_PlayIcon}" />
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=BuildState}" Value="NotStarted">
+            <DataTrigger Binding="{Binding Path=BuildStatus}" Value="NotStarted">
                 <Setter Property="Fill">
                     <Setter.Value>
                         <VisualBrush Visual="{StaticResource Circle_PauseIcon}" />
