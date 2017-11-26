@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiP.TeamBuilds.UI.Overview"
+        xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
         mc:Ignorable="d"
         Title="Build overview" 
         Width="800"
@@ -11,10 +12,84 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=OverviewViewModel}"
         >
 
-    <Grid>
-
-        <Label>Hallo</Label>
+    <ListView ItemsSource="{Binding BuildsView}">
+        <ListView.Resources>
+            <ResourceDictionary>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <!-- Align headers to left -->
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </ResourceDictionary>
+        </ListView.Resources>
         
-    </Grid>
-    
+        <ListView.View>
+            <GridView>
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="TeamProject">
+                            <TextBlock Text="Team project" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <TextBlock Margin="3,0" Text="{Binding TeamProject}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildDefinitionName">
+                            <TextBlock Text="Build definition" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <TextBlock Margin="3,0" Text="{Binding BuildDefinitionName}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+
+
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="QueuedTime">
+                            <TextBlock Text="Queued at" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <TextBlock Margin="3,0" Text="{Binding QueuedTime}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedBy">
+                            <TextBlock Text="Requested by" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <TextBlock Margin="3,0" Text="{Binding RequestedBy}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedBy">
+                            <TextBlock Text="State" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <Rectangle Style="{StaticResource ToolTipIcon}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </ListView.View>
+    </ListView>
+
 </Window>

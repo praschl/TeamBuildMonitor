@@ -93,6 +93,7 @@ namespace MiP.TeamBuilds.Providers
             var result = new BuildInfo(build)
             {
                 Id = "TestBuildInfoProvider_" + Guid.NewGuid(),
+                TeamProject = Pick(_teamProjects),
                 BuildDefinitionName = Pick(_buildDefinitionNames),
                 BuildSummary = Pick(_buildSummaries),
                 DropLocation = Pick(_dropLocations),
@@ -121,6 +122,7 @@ namespace MiP.TeamBuilds.Providers
             return items[index];
         }
 
+        private readonly string[] _teamProjects = { "Project 1", "Project 2", "Project 3", "Holy Grail" };
         private readonly string[] _buildDefinitionNames = { "My Build", "Test Build", "Integration", "Production-DE", "Production-EN" };
         private readonly Uri[] _buildSummaries = { new Uri("http://localhost/build_summary_1"), new Uri("http://localhost/build_summary_2"), new Uri("http://localhost/build_summary_3") };
         private readonly string[] _dropLocations = { "C:/builds/myBuild", "C:/builds/testBuild", "C:/builds/integration", "C:/builds/prod-de", "C:/builds/prod-EN" };
