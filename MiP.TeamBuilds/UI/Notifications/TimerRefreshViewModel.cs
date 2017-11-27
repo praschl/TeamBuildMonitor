@@ -32,9 +32,12 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (_sleepUntil < DateTime.Now.AddMinutes(30)) SleepForMinutes = 30;
-            else if (_sleepUntil < DateTime.Now.AddMinutes(15)) SleepForMinutes = 15;
-            else if (_sleepUntil < DateTime.Now) SleepForMinutes = 0;
+            double minutesLeft = (_sleepUntil - DateTime.Now).TotalMinutes;
+
+            if (minutesLeft > 30) SleepForMinutes = 60;
+            else if (minutesLeft <= 0) SleepForMinutes = 0;
+            else if (minutesLeft <= 15) SleepForMinutes = 15;
+            else if (minutesLeft <= 30) SleepForMinutes = 30;
 
             _knownBuildsViewModel.NotificationsEnabled = _sleepUntil < DateTime.Now;
             _knownBuildsViewModel.RefreshBuildInfos();
