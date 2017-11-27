@@ -24,7 +24,8 @@ namespace MiP.TeamBuilds.UI.Ambient
             TimerRefreshViewModel = timerRefreshViewModel;
             KnownBuildsViewModel = knownBuildsViewModel;
 
-            CurrentBuildsView = CollectionViewSource.GetDefaultView(knownBuildsViewModel.Builds);
+            CurrentBuildsView = new CollectionViewSource { Source = knownBuildsViewModel.Builds }.View;
+
             CurrentBuildsView.SortDescriptions.Add(new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending));
 
             /*
@@ -36,11 +37,12 @@ namespace MiP.TeamBuilds.UI.Ambient
                 (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
 
             // TODO: the next will be relevant when the collection may contain finished builds.
-            //CurrentBuildsView.Filter = CurrentBuildsFilter;
-            //if (CurrentBuildsView is ICollectionViewLiveShaping live)
-            //{
-            //    live.LiveFilteringProperties.Add(nameof(BuildInfo.FinishTime));
-            //}
+            CurrentBuildsView.Filter = CurrentBuildsFilter;
+            if (CurrentBuildsView is ICollectionViewLiveShaping live)
+            {
+                live.LiveFilteringProperties.Add(nameof(BuildInfo.FinishTime));
+                live.IsLiveFiltering = true;
+            }
         }
 
         public ShowSettingsCommand ShowSettingsCommand { get; }
@@ -56,7 +58,9 @@ namespace MiP.TeamBuilds.UI.Ambient
 
         private bool CurrentBuildsFilter(object buildInfo)
         {
-            return buildInfo is BuildInfo bi && bi.FinishTime == DateTime.MinValue;
+            var finished = buildInfo is BuildInfo bi && bi.FinishTime == DateTime.MinValue;
+            Console.WriteLine("finished " + !finished);
+            return finished;
         }
 
 #if DEBUG

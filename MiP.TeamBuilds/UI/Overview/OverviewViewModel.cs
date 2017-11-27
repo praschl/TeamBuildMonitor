@@ -2,12 +2,12 @@
 using MiP.TeamBuilds.UI.Notifications;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: Keep finished builds (filter them in tooltip)
         // TODO: Overview: When initializing, get older builds
         // TODO: Overview: Implement sorting (SortCommand)
         // TODO: Overview: Filter builds by text + Label "Showing 17 / 239 builds"
@@ -15,8 +15,10 @@ namespace MiP.TeamBuilds.UI.Overview
         // TODO: Overview: Menu for Droplocation, Buildsummary
         // TODO: Overview: Display progress based on older known builds
         // TODO: Overview: Menu for Stop build, Retry build
-        
+
         private readonly KnownBuildsViewModel _knownBuildsViewModel;
+
+        public ICommand SortCommand => null;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,7 +28,12 @@ namespace MiP.TeamBuilds.UI.Overview
         {
             _knownBuildsViewModel = knownBuildsViewModel;
 
-            BuildsView = CollectionViewSource.GetDefaultView(knownBuildsViewModel.Builds);
+            /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view 
+             * for the same collection. So, to use different collection views (for different controls) on the same collection instance,
+             * the collection view has to be instantiated like this: 
+             */
+            BuildsView = new CollectionViewSource { Source = knownBuildsViewModel.Builds }.View;
+
             BuildsView.SortDescriptions.Add(new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending));
 
             knownBuildsViewModel.Builds.CollectionChanged +=

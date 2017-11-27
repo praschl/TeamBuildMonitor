@@ -26,7 +26,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private readonly Notifier _notifier;
 
-        private readonly Dictionary<string, BuildInfo> _lastKnownBuilds = new Dictionary<string, BuildInfo>();
+        private readonly Dictionary<string, BuildInfo> _buildsById = new Dictionary<string, BuildInfo>();
         private readonly ConcurrentDictionary<string, INotification> _notificationsByBuildId = new ConcurrentDictionary<string, INotification>();
 
         private readonly MessageOptions _defaultOptions = new MessageOptions
@@ -138,10 +138,10 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private void TryAdd(BuildInfo buildInfo)
         {
-            if (_lastKnownBuilds.ContainsKey(buildInfo.Id))
+            if (_buildsById.ContainsKey(buildInfo.Id))
                 return; // we know that build already and we are connected to it.
 
-            _lastKnownBuilds.Add(buildInfo.Id, buildInfo);
+            _buildsById.Add(buildInfo.Id, buildInfo);
             Builds.Add(buildInfo);
 
             NotifyBuild(buildInfo);
@@ -197,9 +197,8 @@ namespace MiP.TeamBuilds.UI.Notifications
         {
             build.Disconnect();
             build.BuildUpdated -= Build_BuildUpdated;
-            _lastKnownBuilds.Remove(build.Id);
-            Builds.Remove(build);
+            _buildsById.Remove(build.Id);
+            //Builds.Remove(build);
         }
-
     }
 }
