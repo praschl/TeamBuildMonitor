@@ -52,7 +52,7 @@ namespace MiP.TeamBuilds.UI.Ambient
             await Task.Delay(delay);
             var build = new BuildInfo(null)
             {
-                Status = BuildStatus.Failed,
+                BuildStatus = BuildStatus.Failed,
                 BuildDefinitionName = "My-Build",
                 BuildSummary = new Uri("http://google.com"),
                 DropLocation = "C:\\",
@@ -64,23 +64,23 @@ namespace MiP.TeamBuilds.UI.Ambient
             _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
             await Task.Delay(delay);
-            build.Status = BuildStatus.InProgress;
+            build.BuildStatus = BuildStatus.InProgress;
             _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
             await Task.Delay(delay);
-            build.Status = BuildStatus.NotStarted;
+            build.BuildStatus = BuildStatus.NotStarted;
             _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
             await Task.Delay(delay);
-            build.Status = BuildStatus.PartiallySucceeded;
+            build.BuildStatus = BuildStatus.PartiallySucceeded;
             _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
             await Task.Delay(delay);
-            build.Status = BuildStatus.Stopped;
+            build.BuildStatus = BuildStatus.Stopped;
             _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
             await Task.Delay(delay);
-            build.Status = BuildStatus.Succeeded;
+            build.BuildStatus = BuildStatus.Succeeded;
             _notifier.ShowBuildInfoMessage(build, _defaultOptions);
         }
     }

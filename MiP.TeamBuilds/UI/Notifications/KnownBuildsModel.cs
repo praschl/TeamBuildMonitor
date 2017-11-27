@@ -180,7 +180,7 @@ namespace MiP.TeamBuilds.UI.Notifications
                 if (notification != null)
                     _notificationsByBuildId.AddOrUpdate(build.Id, notification, (id, not) => UpdateNotificationForBuild(not, notification));
             }
-            if (_finalizableStates.Any(x => x == build.Status))
+            if (_finalizableStates.Any(x => x == build.BuildStatus))
                 FinalizeBuild(build);
         }
 

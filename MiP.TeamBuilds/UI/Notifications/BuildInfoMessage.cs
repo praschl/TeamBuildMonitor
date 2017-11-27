@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using ToastNotifications.Core;
 using System.Diagnostics;
+using Microsoft.TeamFoundation.Build.Client;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
@@ -11,7 +12,8 @@ namespace MiP.TeamBuilds.UI.Notifications
     {
         private BuildInfo _buildInfo;
 
-        public string BuildState => _buildInfo.Status.ToString();
+        public QueueStatus QueueStatus => _buildInfo.QueueStatus;
+        public BuildStatus BuildStatus => _buildInfo.BuildStatus;
         public string BuildDefinitionName => _buildInfo.BuildDefinitionName;
         public string RequestedBy => _buildInfo.RequestedBy;
 

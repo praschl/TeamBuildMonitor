@@ -21,7 +21,8 @@ namespace MiP.TeamBuilds.Providers
         public string RequestedBy { get; set; }
         public Uri BuildSummary { get; set; }
         public string DropLocation { get; set; }
-        public BuildStatus Status { get; set; }
+        public BuildStatus BuildStatus { get; set; }
+        public QueueStatus QueueStatus { get; set; }
         public Exception PollingException { get; internal set; }
         public DateTime QueuedTime { get; internal set; }
         public DateTime FinishTime { get; internal set; }
@@ -44,7 +45,8 @@ namespace MiP.TeamBuilds.Providers
         {
             IsChanged = false;
 
-            Status = _build.Build?.Status ?? BuildStatus.None;
+            QueueStatus = _build.Status;
+            BuildStatus = _build.Build?.Status ?? BuildStatus.None;
             FinishTime = _build.Build?.FinishTime ?? DateTime.MinValue;
 
             if (IsChanged)
