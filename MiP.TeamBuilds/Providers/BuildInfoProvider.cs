@@ -19,16 +19,21 @@ namespace MiP.TeamBuilds.Providers
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;
 
-        private readonly ConcurrentBag<TfsTeamProjectCollection> _teamProjectCollections = new ConcurrentBag<TfsTeamProjectCollection>();
+        private readonly ConcurrentDictionary<Guid, TfsTeamProjectCollection> _teamProjectCollections = new ConcurrentDictionary<Guid, TfsTeamProjectCollection>();
 
         private static readonly IEnumerable<BuildInfo> _emptyResult = Enumerable.Empty<BuildInfo>();
+
+        public void Initialize(Uri uri)
+        {
+            _tfsUri = uri;
+        }
 
         public async Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync()
         {
             await InitializeTeamCollectionsAsync().ConfigureAwait(false);
 
             if (_disposed) return _emptyResult; // dispose may be run from the UI thread.
-            var tasks = _teamProjectCollections.Select(c => GetCurrentBuildsAsync(c));
+            var tasks = _teamProjectCollections.Select(c => GetCurrentBuildsAsync(c.Value));
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
@@ -42,6 +47,37 @@ namespace MiP.TeamBuilds.Providers
                 var buildService = collection.GetService<IBuildServer>();
 
                 var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
+                buildSpec.QueryOptions = QueryOptions.Definitions;
+
+                var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
+                PreloadUserNames(foundBuilds);
+
+                return foundBuilds.QueuedBuilds.Select(qb => Convert(qb, collection));
+            });
+        }
+
+        public async Task<IEnumerable<BuildInfo>> GetRecentlyFinishedBuildsAsync()
+        {
+            await InitializeTeamCollectionsAsync().ConfigureAwait(false);
+
+            if (_disposed) return _emptyResult; // dispose may be run from the UI thread.
+            var tasks = _teamProjectCollections.Select(c => GetRecentlyFinishedBuildsAsync(c.Value));
+
+            await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            return tasks.Select(t => t.Result).SelectMany(bi => bi);
+        }
+
+        private Task<IEnumerable<BuildInfo>> GetRecentlyFinishedBuildsAsync(TfsTeamProjectCollection collection)
+        {
+            return Task.Run(() =>
+            {
+                var buildService = collection.GetService<IBuildServer>();
+
+                var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
+                buildSpec.QueryOptions = QueryOptions.Definitions;
+                buildSpec.CompletedWindow = TimeSpan.FromMinutes(60*6); // TODO: make a setting for last hours
+                buildSpec.Status = QueueStatus.Completed;
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
                 PreloadUserNames(foundBuilds);
@@ -57,9 +93,11 @@ namespace MiP.TeamBuilds.Providers
                 if (_teamProjectCollections.Count > 0)
                     return;
 
-                foreach (var item in GetCollections())
+                foreach (var collection in GetCollections())
                 {
-                    _teamProjectCollections.Add(item);
+                    // since this is called from GetCurrentBuildsAsync and GetRecentlyFinishedBuildsAsync
+                    // and those will run asynchronously, one of them might have added the collection already.
+                    _teamProjectCollections.TryAdd(collection.InstanceId, collection);
                 }
             });
         }
@@ -86,7 +124,7 @@ namespace MiP.TeamBuilds.Providers
 
         private void PreloadUserNames(IQueuedBuildQueryResult foundBuilds)
         {
-            foreach (var collection in _teamProjectCollections)
+            foreach (var collection in _teamProjectCollections.Values)
             {
                 var ims = collection.GetService<IIdentityManagementService>();
                 var unknownUserIds = foundBuilds.QueuedBuilds.Select(b => b.RequestedBy).Except(_userIdToUserName.Keys).ToArray();
@@ -143,15 +181,10 @@ namespace MiP.TeamBuilds.Providers
         public void Dispose()
         {
             _disposed = true;
-            foreach (var item in _teamProjectCollections)
+            foreach (var collection in _teamProjectCollections)
             {
-                item.Dispose();
+                collection.Value.Dispose();
             }
-        }
-
-        public void Initialize(Uri uri)
-        {
-            _tfsUri = uri;
         }
     }
 }

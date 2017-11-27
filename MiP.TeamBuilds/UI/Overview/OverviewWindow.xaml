@@ -7,8 +7,8 @@
         xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
         mc:Ignorable="d"
         Title="Build overview" 
-        Width="800"
-        Height="400" 
+        Width="1000"
+        Height="600" 
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=OverviewViewModel}"
         >
 
@@ -59,7 +59,7 @@
                     </GridViewColumn.Header>
                     <GridViewColumn.CellTemplate>
                         <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding QueuedTime}" />
+                            <TextBlock Margin="3,0" Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd hh:mm:ss'}" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
@@ -78,13 +78,40 @@
 
                 <GridViewColumn>
                     <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedBy">
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="State">
                             <TextBlock Text="State" />
                         </GridViewColumnHeader>
                     </GridViewColumn.Header>
                     <GridViewColumn.CellTemplate>
                         <DataTemplate DataType="providers:BuildInfo">
                             <Rectangle Style="{StaticResource ToolTipIcon}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="FinishTime">
+                            <TextBlock Text="Finished at" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <TextBlock Margin="3,0" Text="{Binding FinishTime, StringFormat='yyyy-MM-dd hh:mm:ss'}"
+                                        Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn>
+                    <GridViewColumn.Header>
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Duration">
+                            <TextBlock Text="Duration" />
+                        </GridViewColumnHeader>
+                    </GridViewColumn.Header>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate DataType="providers:BuildInfo">
+                            <TextBlock Margin="3,0" Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" 
+                                       Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>

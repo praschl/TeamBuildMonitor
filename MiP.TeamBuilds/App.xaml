@@ -11,15 +11,15 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <!-- 
-                Note to self: 
-                StaticResources are resolved at compile time, in the order they are defined. 
-
-                DynamicResources are resolved at run time.
-                
-                StaticResource can not foreward-reference other resources, only resources, which have already been parsed.
-                Trying to forward-reference will result in a runtime error "Resource with key 'Xyz' not found"
-                
-                DynamicResource can also foreward-reference resources, but is a bit slower.
+                * NOTE TO SELF: 
+                * StaticResources are resolved at compile time, in the order they are defined. 
+                * 
+                * DynamicResources are resolved at run time.
+                * 
+                * StaticResource can not foreward-reference other resources, only resources, which have already been parsed.
+                * Trying to forward-reference will result in a runtime error "Resource with key 'Xyz' not found"
+                * 
+                * DynamicResource can also foreward-reference resources, but is a bit slower.
                 -->
 
                 <ResourceDictionary Source="pack://application:,,,/MiP.TeamBuilds;component/UI/CompositeNotifications/CompositeNotificationStyles.xaml" />

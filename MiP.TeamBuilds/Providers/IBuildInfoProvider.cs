@@ -9,5 +9,7 @@ namespace MiP.TeamBuilds.Providers
         void Initialize(Uri uri);
 
         Task<IEnumerable<BuildInfo>> GetCurrentBuildsAsync();
+
+        Task<IEnumerable<BuildInfo>> GetRecentlyFinishedBuildsAsync();
     }
 }

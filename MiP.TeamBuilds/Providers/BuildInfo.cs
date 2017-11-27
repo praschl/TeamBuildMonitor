@@ -26,6 +26,7 @@ namespace MiP.TeamBuilds.Providers
         public Exception PollingException { get; internal set; }
         public DateTime QueuedTime { get; internal set; }
         public DateTime FinishTime { get; internal set; }
+        public TimeSpan Duration => FinishTime - QueuedTime;
 
         public bool IsChanged { get; set; }
 

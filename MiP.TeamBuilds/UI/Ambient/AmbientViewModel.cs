@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Input;
 using MiP.TeamBuilds.UI.Overview;
+using System.Globalization;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
@@ -24,25 +25,22 @@ namespace MiP.TeamBuilds.UI.Ambient
             TimerRefreshViewModel = timerRefreshViewModel;
             KnownBuildsViewModel = knownBuildsViewModel;
 
-            CurrentBuildsView = new CollectionViewSource { Source = knownBuildsViewModel.Builds }.View;
-
-            CurrentBuildsView.SortDescriptions.Add(new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending));
-
-            /*
-             Note to self: CollectionView only subscribes to the PropertyChanged-event, not to CollectionChanged.
-             ObservableCollection does not have a PropertyChanged-event, so we subscribe ourself to CollectionChanged,
-             and raise a PropertyChanged, to update the view.
+            /* NOTE TO SELF: CollectionView only subscribes to the PropertyChanged-event, not to CollectionChanged.
+             * ObservableCollection does not have a PropertyChanged-event, so we subscribe ourself to CollectionChanged,
+             * and raise a PropertyChanged, to update the view.
              */
             knownBuildsViewModel.Builds.CollectionChanged +=
                 (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
 
-            // TODO: the next will be relevant when the collection may contain finished builds.
-            CurrentBuildsView.Filter = CurrentBuildsFilter;
-            if (CurrentBuildsView is ICollectionViewLiveShaping live)
+            var collectionViewSource = new CollectionViewSource
             {
-                live.LiveFilteringProperties.Add(nameof(BuildInfo.FinishTime));
-                live.IsLiveFiltering = true;
-            }
+                Source = knownBuildsViewModel.Builds,
+                IsLiveFilteringRequested = true,
+                LiveFilteringProperties = { nameof(BuildInfo.FinishTime) },
+                SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
+            };
+            CurrentBuildsView = collectionViewSource.View;
+            CurrentBuildsView.Filter = CurrentBuildsFilter;
         }
 
         public ShowSettingsCommand ShowSettingsCommand { get; }
@@ -58,9 +56,7 @@ namespace MiP.TeamBuilds.UI.Ambient
 
         private bool CurrentBuildsFilter(object buildInfo)
         {
-            var finished = buildInfo is BuildInfo bi && bi.FinishTime == DateTime.MinValue;
-            Console.WriteLine("finished " + !finished);
-            return finished;
+            return buildInfo is BuildInfo bi && bi.FinishTime == DateTime.MinValue;
         }
 
 #if DEBUG

@@ -61,10 +61,13 @@ namespace MiP.TeamBuilds.UI.Notifications
             {
                 FinalizeBuild(build);
             }
+            Builds.Clear();
+            _buildsById.Clear(); // should already be clear by calling FinalizeBuild(build) for all buildinfos
 
             _buildInfoProvider?.Dispose();
             _buildInfoProvider = _buildInfoProviderFactory.GetProvider(uri);
 
+            RefreshFinishedBuildInfos();
             RefreshBuildInfos(); // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
         }
 
@@ -116,6 +119,23 @@ namespace MiP.TeamBuilds.UI.Notifications
             };
 
             _notifier.ShowError(new ExceptionMessage("Exception", ex, _notifier), errorDisplayOptions);
+        }
+
+        public async void RefreshFinishedBuildInfos()
+        {
+            try
+            {
+                var buildInfos = (await _buildInfoProvider.Value.GetRecentlyFinishedBuildsAsync()).ToArray();
+
+                foreach (var build in buildInfos)
+                {
+                    Builds.Add(build);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+            }
         }
 
         public async void RefreshBuildInfos()

@@ -31,6 +31,16 @@ namespace MiP.TeamBuilds.Providers
             return Task.FromResult((IEnumerable<BuildInfo>)result);
         }
 
+        public Task<IEnumerable<BuildInfo>> GetRecentlyFinishedBuildsAsync()
+        {
+            var results = new List<BuildInfo>();
+            for(int i=0;i<10;i++)
+            {
+                results.Add(CreateRandomFinishedBuildInfo());
+            }
+            return Task.FromResult((IEnumerable<BuildInfo>)results);
+        }
+
         private DispatcherTimer _timer;
 
         public void Initialize(Uri uri)
@@ -81,6 +91,28 @@ namespace MiP.TeamBuilds.Providers
         private readonly Random _random = new Random();
 
         private Dictionary<TestQueuedBuild, DateTime> _running = new Dictionary<TestQueuedBuild, DateTime>();
+
+        private BuildInfo CreateRandomFinishedBuildInfo()
+        {
+            var build = new TestQueuedBuild();
+            build.Build = new TestBuildDetail();
+
+            var result = new BuildInfo(build)
+            {
+                Id = "TestBuildInfoProvider_" + Guid.NewGuid(),
+                TeamProject = Pick(_teamProjects),
+                BuildDefinitionName = Pick(_buildDefinitionNames),
+                BuildSummary = Pick(_buildSummaries),
+                DropLocation = Pick(_dropLocations),
+                RequestedBy = Pick(_users),
+                BuildStatus = Pick(_finishedStatus),
+                QueueStatus = QueueStatus.Completed,
+                QueuedTime = DateTime.Now.AddMinutes(-_random.Next(200, 600)),
+                FinishTime = DateTime.Now.AddMinutes(-_random.Next(0, 200)),
+            };
+
+            return result;
+        }
 
         private BuildInfo CreateRandomBuildInfo()
         {

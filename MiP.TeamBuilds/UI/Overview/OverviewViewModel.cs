@@ -8,7 +8,8 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: When initializing, get older builds
+        // TODO: Overview: Display Tooltip for BuildState
+        // TODO: Overview: Display a "loading..." overlay while initializing
         // TODO: Overview: Implement sorting (SortCommand)
         // TODO: Overview: Filter builds by text + Label "Showing 17 / 239 builds"
         // TODO: Overview: Second Listview for finished builds
@@ -27,17 +28,18 @@ namespace MiP.TeamBuilds.UI.Overview
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel)
         {
             _knownBuildsViewModel = knownBuildsViewModel;
+            knownBuildsViewModel.Builds.CollectionChanged +=
+                          (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsView)));
 
             /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view 
              * for the same collection. So, to use different collection views (for different controls) on the same collection instance,
              * the collection view has to be instantiated like this: 
              */
-            BuildsView = new CollectionViewSource { Source = knownBuildsViewModel.Builds }.View;
-
-            BuildsView.SortDescriptions.Add(new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending));
-
-            knownBuildsViewModel.Builds.CollectionChanged +=
-                          (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsView)));
+            BuildsView = new CollectionViewSource
+            {
+                Source = knownBuildsViewModel.Builds,
+                SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) }
+            }.View;
         }
     }
 }
