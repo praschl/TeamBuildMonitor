@@ -173,6 +173,8 @@ namespace MiP.TeamBuilds.UI.Notifications
         {
             if (NotificationsEnabled)
             {
+                // TODO: UI to specify which builds trigger Notifications
+
                 INotification notification = _notifier.ShowBuildInfoMessage(build, _defaultOptions);
 
                 if (notification != null)
