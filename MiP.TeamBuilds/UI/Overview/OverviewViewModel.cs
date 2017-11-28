@@ -70,6 +70,7 @@ namespace MiP.TeamBuilds.UI.Overview
 
             return buildInfo.TeamProject.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
                 || buildInfo.BuildDefinitionName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.RequestedByDisplayName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
                 || buildInfo.RequestedBy.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
                 ;
         }

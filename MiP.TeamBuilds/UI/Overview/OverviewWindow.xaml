@@ -78,13 +78,13 @@
                         </GridViewColumn>
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedBy">
+                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedByDisplayName">
                                     <TextBlock Text="Requested by" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding RequestedBy}" />
+                                    <TextBlock Margin="3,0" Text="{Binding RequestedByDisplayName}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

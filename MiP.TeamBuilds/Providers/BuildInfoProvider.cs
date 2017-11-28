@@ -5,7 +5,6 @@ using System.Linq;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
 using System.Threading.Tasks;
-using Microsoft.TeamFoundation.Framework.Client;
 using System.Collections.Concurrent;
 using Microsoft.TeamFoundation.Framework.Common;
 using System.Diagnostics.CodeAnalysis;
@@ -16,7 +15,7 @@ namespace MiP.TeamBuilds.Providers
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
-        const int MaxBuildAgeInMinutes = 60 * 6;
+        const int MaxBuildAgeInMinutes = 60 * 12;
 
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;
@@ -52,7 +51,6 @@ namespace MiP.TeamBuilds.Providers
                 buildSpec.QueryOptions = QueryOptions.Definitions;
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
-                PreloadUserNames(foundBuilds);
 
                 return foundBuilds.QueuedBuilds.Select(qb => Convert(qb, collection));
             });
@@ -82,7 +80,6 @@ namespace MiP.TeamBuilds.Providers
                 buildSpec.Status = QueueStatus.Completed;
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
-                PreloadUserNames(foundBuilds);
 
                 return foundBuilds.QueuedBuilds.Select(qb => Convert(qb, collection));
             });
@@ -123,23 +120,6 @@ namespace MiP.TeamBuilds.Providers
 
             return tfsTeamProjectCollections;
         }
-        
-        // TODO: remove preload usernames, can be done with .RequestedByDisplayName
-        private void PreloadUserNames(IQueuedBuildQueryResult foundBuilds)
-        {
-            foreach (var collection in _teamProjectCollections.Values)
-            {
-                var ims = collection.GetService<IIdentityManagementService>();
-                var unknownUserIds = foundBuilds.QueuedBuilds.Select(b => b.RequestedBy).Except(_userIdToUserName.Keys).ToArray();
-
-                var users = ims.ReadIdentities(IdentitySearchFactor.AccountName, unknownUserIds, MembershipQuery.None, ReadIdentityOptions.ExtendedProperties);
-
-                foreach (var user in users.SelectMany(T => T))
-                {
-                    _userIdToUserName.TryAdd(user.UniqueName, user.DisplayName);
-                }
-            }
-        }
 
         private BuildInfo Convert(IQueuedBuild build, TfsTeamProjectCollection collection)
         {
@@ -160,7 +140,8 @@ namespace MiP.TeamBuilds.Providers
                 TeamProject = build.TeamProject,
                 BuildDefinitionName = build.BuildDefinition.Name,
                 ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
-                RequestedBy = GetRequestedBy(build.RequestedBy),
+                RequestedByDisplayName = build.RequestedByDisplayName,
+                RequestedBy = build.RequestedBy,
                 QueueStatus = build.Status,
                 BuildStatus = build.Build?.Status ?? BuildStatus.None,
                 BuildSummary = new Uri(buildSummary),
@@ -168,14 +149,6 @@ namespace MiP.TeamBuilds.Providers
                 QueuedTime = build.QueueTime,
                 FinishTime = build.Build?.FinishTime ?? DateTime.MinValue
             };
-        }
-
-        private string GetRequestedBy(string requestedBy)
-        {
-            if (_userIdToUserName.TryGetValue(requestedBy, out string displayName))
-                return displayName;
-            else
-                return requestedBy;
         }
 
         private bool _disposed;

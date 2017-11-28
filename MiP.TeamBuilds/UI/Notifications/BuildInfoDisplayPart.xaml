@@ -25,7 +25,7 @@
                 <Run Text="{Binding QueueStatus, Mode=OneWay}" />
             </TextBlock>
             <TextBlock Style="{StaticResource NotificationText}">
-                By: <Run Text="{Binding RequestedBy, Mode=OneWay}" />
+                By: <Run Text="{Binding RequestedByDisplayName, Mode=OneWay}" />
                 <LineBreak />
                 <Run Text="{Binding BuildStatus, Mode=OneWay}" />
             </TextBlock>

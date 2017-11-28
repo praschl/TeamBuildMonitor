@@ -56,7 +56,7 @@ namespace MiP.TeamBuilds.UI.Ambient
                 BuildDefinitionName = "My-Build",
                 BuildSummary = new Uri("http://google.com"),
                 DropLocation = "C:\\",
-                RequestedBy = "Michael Praschl",
+                RequestedByDisplayName = "Michael Praschl",
                 QueuedTime = DateTime.Now.AddMinutes(-23).AddSeconds(14),
                 FinishTime = DateTime.Now
             };

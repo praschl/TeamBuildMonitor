@@ -40,7 +40,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="BuildDefinitionName" />
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Status" />
-                    <ColumnDefinition Width="Auto" SharedSizeGroup="RequestedBy" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="RequestedByDisplayName" />
                 </Grid.ColumnDefinitions>
 
                 <Rectangle Grid.Column="0" Style="{StaticResource ToolTipIcon}" />
@@ -50,7 +50,7 @@
                 <Label Grid.Column="2">
                     <Label.Content>
                         <TextBlock>
-                            by <Run Text="{Binding RequestedBy}" />
+                            by <Run Text="{Binding RequestedByDisplayName}" />
                         </TextBlock>
                     </Label.Content>
                 </Label>
