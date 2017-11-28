@@ -10,8 +10,11 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: Filter builds by text + Label "Showing 17 / 239 builds"
+        // TODO: Overview: Filter builds by text 
+        // TODO: Overview: + Label "Showing 17 / 239 builds"
+        // TODO: Overview: Filter builds by age
         // TODO: Overview: Second Listview for finished builds
+        // TODO: Overview: ?Filter builds by state?
         // TODO: Overview: Menu for Droplocation, Buildsummary
         // TODO: Overview: Display progress based on older known builds
         // TODO: Overview: Menu for Stop build, Retry build
