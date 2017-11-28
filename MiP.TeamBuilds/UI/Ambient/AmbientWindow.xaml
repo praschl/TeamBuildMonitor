@@ -16,6 +16,7 @@
         <amb:AmbientViewModelBindingProxy x:Key="Proxy" Data="{Binding}" />
 
         <ContextMenu x:Key="TaskBarMenu">
+            <MenuItem Header="Open Build Overview" Command="{Binding OpenOverviewCommand}" FontWeight="Bold" />
             <MenuItem Header="Notifications">
                 <MenuItem Header="Off" Command="{Binding Source={StaticResource Proxy}, Path=Data.SleepCommand}" CommandParameter="-1" 
                           IsChecked="{Binding Source={StaticResource Proxy}, Path=Data.TimerRefreshViewModel.SleepForMinutes, Converter={amb:EqualsInt32ToBooleanConverter ComparisonValue=-1}, Mode=OneWay}" />

@@ -8,7 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Input;
 using MiP.TeamBuilds.UI.Overview;
-using System.Globalization;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
