@@ -42,7 +42,8 @@ namespace MiP.TeamBuilds.UI.Overview
             var collectionViewSource = new CollectionViewSource
             {
                 Source = knownBuildsViewModel.Builds,
-                SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) }
+                SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
+                IsLiveSortingRequested = true
             };
             BuildsView = collectionViewSource.View;
 
@@ -75,8 +76,9 @@ namespace MiP.TeamBuilds.UI.Overview
                     direction = currentSort.Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
                 _collectionViewSource.SortDescriptions.Clear();
-
                 _collectionViewSource.SortDescriptions.Add(new SortDescription(newSort, direction));
+                _collectionViewSource.LiveSortingProperties.Clear();
+                _collectionViewSource.LiveSortingProperties.Add(newSort);
             }
         }
     }
