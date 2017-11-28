@@ -19,7 +19,7 @@
         <KeyBinding Key="ESC" Command="{commands:CloseCommand}" CommandParameter="{Binding ElementName=window}" />
     </Window.InputBindings>
 
-    <xctk:BusyIndicator IsBusy="{Binding KnownBuildsViewModel.IsBusy}">
+    <xctk:BusyIndicator IsBusy="{Binding IsBusy}">
 
         <ListView ItemsSource="{Binding BuildsView}">
             <ListView.Resources>

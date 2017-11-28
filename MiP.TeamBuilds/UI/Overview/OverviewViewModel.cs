@@ -17,19 +17,23 @@ namespace MiP.TeamBuilds.UI.Overview
         // TODO: Overview: Menu for Stop build, Retry build
         // TODO: Overview: Display direction of sort in list headers
 
-        public KnownBuildsViewModel KnownBuildsViewModel { get; set; }
+        private KnownBuildsViewModel _knownBuildsViewModel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICollectionView BuildsView { get; set; }
+        public bool IsBusy { get; set; }
 
         public ICommand SortCommand { get; set; }
 
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel)
         {
-            KnownBuildsViewModel = knownBuildsViewModel;
-            KnownBuildsViewModel.Builds.CollectionChanged +=
+            _knownBuildsViewModel = knownBuildsViewModel;
+            _knownBuildsViewModel.Builds.CollectionChanged +=
                           (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsView)));
+
+            _knownBuildsViewModel.IsBusyChanged += (o, e) => IsBusy = _knownBuildsViewModel.IsBusy;
+            IsBusy = _knownBuildsViewModel.IsBusy;
 
             /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view 
              * for the same collection. So, to use different collection views (for different controls) on the same collection instance,
