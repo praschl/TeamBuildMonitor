@@ -5,13 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiP.TeamBuilds.UI.Overview"
         xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
+        xmlns:commands="clr-namespace:MiP.TeamBuilds.UI.Commands"
         mc:Ignorable="d"
         Title="Build overview" 
         Width="1000"
         Height="600" 
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=OverviewViewModel}"
+        x:Name="window"
         >
 
+    <Window.InputBindings>
+        <KeyBinding Key="ESC" Command="{commands:CloseCommand}" CommandParameter="{Binding ElementName=window}" />
+    </Window.InputBindings>
+    
     <ListView ItemsSource="{Binding BuildsView}">
         <ListView.Resources>
             <ResourceDictionary>

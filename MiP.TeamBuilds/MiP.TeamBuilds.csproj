@@ -308,6 +308,7 @@
     <Compile Include="UI\CompositeNotifications\ICompositeChild.cs" />
     <Compile Include="UI\CompositeNotifications\NotificationStyle.cs" />
     <Compile Include="UI\Notifications\TimerRefreshViewModel.cs" />
+    <Compile Include="UI\Commands\CloseCommand.cs" />
     <Compile Include="UI\Overview\EqualsDateTimeVisibilityConverter.cs" />
     <Compile Include="UI\Overview\OpenOverviewCommand.cs" />
     <Compile Include="UI\Overview\OverviewViewModel.cs" />
