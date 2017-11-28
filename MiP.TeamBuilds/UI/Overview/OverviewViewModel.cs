@@ -27,6 +27,12 @@ namespace MiP.TeamBuilds.UI.Overview
         public ICollectionView BuildsView { get; set; }
         public bool IsBusy { get; set; }
 
+        public string FilterText { get; set; }
+        private void OnFilterTextChanged() // called by Fody when FilterText changes
+        {
+            BuildsView.Refresh();
+        }
+
         public ICommand SortCommand { get; set; }
 
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel)
@@ -46,11 +52,26 @@ namespace MiP.TeamBuilds.UI.Overview
             {
                 Source = knownBuildsViewModel.Builds,
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
-                IsLiveSortingRequested = true
+                IsLiveSortingRequested = true,
             };
             BuildsView = collectionViewSource.View;
+            BuildsView.Filter = FilterBuilds;
 
             SortCommand = new SortCommandImpl(collectionViewSource);
+        }
+
+        private bool FilterBuilds(object obj)
+        {
+            if (!(obj is BuildInfo buildInfo))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(FilterText))
+                return true;
+
+            return buildInfo.TeamProject.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.BuildDefinitionName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.RequestedBy.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
+                ;
         }
 
         public class SortCommandImpl : ICommand

@@ -16,7 +16,7 @@ namespace MiP.TeamBuilds.Providers
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
-        const int MaxBuildAgeInMinutes = 60 * 2;
+        const int MaxBuildAgeInMinutes = 60 * 6;
 
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;
@@ -123,7 +123,8 @@ namespace MiP.TeamBuilds.Providers
 
             return tfsTeamProjectCollections;
         }
-
+        
+        // TODO: remove preload usernames, can be done with .RequestedByDisplayName
         private void PreloadUserNames(IQueuedBuildQueryResult foundBuilds)
         {
             foreach (var collection in _teamProjectCollections.Values)
