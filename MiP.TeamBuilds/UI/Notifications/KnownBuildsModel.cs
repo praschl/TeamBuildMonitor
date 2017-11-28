@@ -16,6 +16,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using Autofac.Features.OwnedInstances;
 using PropertyChanged;
+using System.Threading.Tasks;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
@@ -49,26 +50,46 @@ namespace MiP.TeamBuilds.UI.Notifications
         public ObservableCollection<BuildInfo> Builds { get; } = new ObservableCollection<BuildInfo>();
         public bool NotificationsEnabled { get; set; } = true;
 
+        public bool IsBusy { get; set; }
+        public event EventHandler<EventArgs> IsBusyChanged;
+        private void OnIsBusyChanged() // called by IsBusy.set (modified by Fody.PropertyChanged)
+        {
+            IsBusyChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public ICommand ShowSettingsCommand { get; }
 
-        public void RebuildTfsProvider()
+        public async void RebuildTfsProvider()
         {
-            var uri = CreateTfsUri();
-            if (uri == null)
-                return;
-
-            foreach (var build in Builds.ToArray())
+            try
             {
-                FinalizeBuild(build);
+                IsBusy = true;
+
+                var uri = CreateTfsUri();
+                if (uri == null)
+                    return;
+
+                foreach (var build in Builds.ToArray())
+                {
+                    FinalizeBuild(build);
+                }
+                Builds.Clear();
+                _buildsById.Clear(); // should already be clear by calling FinalizeBuild(build) for all buildinfos
+                _buildInfoProvider?.Dispose();
+                _buildInfoProvider = _buildInfoProviderFactory.GetProvider(uri);
+
+                var finished = RefreshFinishedBuildInfosAsync();
+                var current = RefreshBuildInfosAsync();
+                await Task.WhenAll(finished, current);
             }
-            Builds.Clear();
-            _buildsById.Clear(); // should already be clear by calling FinalizeBuild(build) for all buildinfos
-
-            _buildInfoProvider?.Dispose();
-            _buildInfoProvider = _buildInfoProviderFactory.GetProvider(uri);
-
-            RefreshFinishedBuildInfos();
-            RefreshBuildInfos(); // NOTE: when there is a UI for finished builds, refreshing the first time must also get the finished builds
+            catch(Exception ex)
+            {
+                ShowException(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private Uri CreateTfsUri()
@@ -121,7 +142,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             _notifier.ShowError(new ExceptionMessage("Exception", ex, _notifier), errorDisplayOptions);
         }
 
-        public async void RefreshFinishedBuildInfos()
+        public async Task RefreshFinishedBuildInfosAsync()
         {
             try
             {
@@ -138,10 +159,8 @@ namespace MiP.TeamBuilds.UI.Notifications
             }
         }
 
-        public async void RefreshBuildInfos()
+        public async Task RefreshBuildInfosAsync()
         {
-            // async-void should be ok here. Only used from the Timer_Tick and Initialization
-            // and we catch the exception
             try
             {
                 var buildInfos = await _buildInfoProvider.Value.GetCurrentBuildsAsync();

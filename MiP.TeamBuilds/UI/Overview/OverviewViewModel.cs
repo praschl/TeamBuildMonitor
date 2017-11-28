@@ -1,5 +1,6 @@
 ﻿using MiP.TeamBuilds.Providers;
 using MiP.TeamBuilds.UI.Notifications;
+using PropertyChanged;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -8,7 +9,6 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: Display a "loading..." overlay while initializing
         // TODO: Overview: Implement sorting (SortCommand)
         // TODO: Overview: Filter builds by text + Label "Showing 17 / 239 builds"
         // TODO: Overview: Second Listview for finished builds
@@ -16,7 +16,7 @@ namespace MiP.TeamBuilds.UI.Overview
         // TODO: Overview: Display progress based on older known builds
         // TODO: Overview: Menu for Stop build, Retry build
 
-        private readonly KnownBuildsViewModel _knownBuildsViewModel;
+        public KnownBuildsViewModel KnownBuildsViewModel { get; set; }
 
         public ICommand SortCommand => null;
 
@@ -26,8 +26,8 @@ namespace MiP.TeamBuilds.UI.Overview
 
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel)
         {
-            _knownBuildsViewModel = knownBuildsViewModel;
-            knownBuildsViewModel.Builds.CollectionChanged +=
+            KnownBuildsViewModel = knownBuildsViewModel;
+            KnownBuildsViewModel.Builds.CollectionChanged +=
                           (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsView)));
 
             /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view 

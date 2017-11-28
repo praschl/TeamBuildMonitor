@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MiP.TeamBuilds.UI.Overview"
         xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
         xmlns:commands="clr-namespace:MiP.TeamBuilds.UI.Commands"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Build overview" 
         Width="1000"
@@ -17,112 +18,115 @@
     <Window.InputBindings>
         <KeyBinding Key="ESC" Command="{commands:CloseCommand}" CommandParameter="{Binding ElementName=window}" />
     </Window.InputBindings>
-    
-    <ListView ItemsSource="{Binding BuildsView}">
-        <ListView.Resources>
-            <ResourceDictionary>
-                <Style TargetType="{x:Type GridViewColumnHeader}">
-                    <!-- Align headers to left -->
-                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                </Style>
-            </ResourceDictionary>
-        </ListView.Resources>
-        
-        <ListView.View>
-            <GridView>
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="TeamProject">
-                            <TextBlock Text="Team project" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding TeamProject}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
 
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildDefinitionName">
-                            <TextBlock Text="Build definition" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding BuildDefinitionName}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
+    <xctk:BusyIndicator IsBusy="{Binding KnownBuildsViewModel.IsBusy}">
+
+        <ListView ItemsSource="{Binding BuildsView}">
+            <ListView.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <!-- Align headers to left -->
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    </Style>
+                </ResourceDictionary>
+            </ListView.Resources>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="TeamProject">
+                                <TextBlock Text="Team project" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <TextBlock Margin="3,0" Text="{Binding TeamProject}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildDefinitionName">
+                                <TextBlock Text="Build definition" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <TextBlock Margin="3,0" Text="{Binding BuildDefinitionName}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
 
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="QueuedTime">
-                            <TextBlock Text="Queued at" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedBy">
-                            <TextBlock Text="Requested by" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding RequestedBy}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="QueuedTime">
+                                <TextBlock Text="Queued at" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <TextBlock Margin="3,0" Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedBy">
+                                <TextBlock Text="Requested by" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <TextBlock Margin="3,0" Text="{Binding RequestedBy}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildStatus">
-                            <TextBlock Text="Status" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <Rectangle Style="{StaticResource ToolTipIcon}" ToolTip="{Binding BuildStatus}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="FinishTime">
-                            <TextBlock Text="Finished at" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildStatus">
+                                <TextBlock Text="Status" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <Rectangle Style="{StaticResource ToolTipIcon}" ToolTip="{Binding BuildStatus}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="FinishTime">
+                                <TextBlock Text="Finished at" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <TextBlock Margin="3,0" Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
                                         Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn>
-                    <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Duration">
-                            <TextBlock Text="Duration" />
-                        </GridViewColumnHeader>
-                    </GridViewColumn.Header>
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate DataType="providers:BuildInfo">
-                            <TextBlock Margin="3,0" Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" 
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Duration">
+                                <TextBlock Text="Duration" />
+                            </GridViewColumnHeader>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate DataType="providers:BuildInfo">
+                                <TextBlock Margin="3,0" Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" 
                                        Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-            </GridView>
-        </ListView.View>
-    </ListView>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
+    </xctk:BusyIndicator>
 </Window>

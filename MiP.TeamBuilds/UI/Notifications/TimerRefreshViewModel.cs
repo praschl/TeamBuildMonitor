@@ -30,7 +30,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             _timer.Start();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick(object sender, EventArgs e)
         {
             double minutesLeft = (_sleepUntil - DateTime.Now).TotalMinutes;
 
@@ -40,7 +40,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             else if (minutesLeft <= 30) SleepForMinutes = 30;
 
             _knownBuildsViewModel.NotificationsEnabled = _sleepUntil < DateTime.Now;
-            _knownBuildsViewModel.RefreshBuildInfos();
+            await _knownBuildsViewModel.RefreshBuildInfosAsync();
         }
 
         public void StopRefreshingFor(int minutes)
