@@ -78,13 +78,13 @@
 
                 <GridViewColumn>
                     <GridViewColumn.Header>
-                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="State">
-                            <TextBlock Text="State" />
+                        <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildStatus">
+                            <TextBlock Text="Status" />
                         </GridViewColumnHeader>
                     </GridViewColumn.Header>
                     <GridViewColumn.CellTemplate>
                         <DataTemplate DataType="providers:BuildInfo">
-                            <Rectangle Style="{StaticResource ToolTipIcon}" />
+                            <Rectangle Style="{StaticResource ToolTipIcon}" ToolTip="{Binding BuildStatus}" />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>

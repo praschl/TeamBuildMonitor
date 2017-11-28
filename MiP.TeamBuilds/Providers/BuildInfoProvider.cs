@@ -16,7 +16,7 @@ namespace MiP.TeamBuilds.Providers
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
-        const int MaxBuildAgeInMinutes = 60 * 4;
+        const int MaxBuildAgeInMinutes = 60 * 12;
 
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;

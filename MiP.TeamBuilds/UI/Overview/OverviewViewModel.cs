@@ -8,7 +8,6 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: Display Tooltip for BuildState
         // TODO: Overview: Display a "loading..." overlay while initializing
         // TODO: Overview: TrayIcon Menu
         // TODO: Overview: ESC -> Close
