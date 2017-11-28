@@ -10,6 +10,8 @@ namespace MiP.TeamBuilds.UI.Overview
     {
         // TODO: Overview: Display Tooltip for BuildState
         // TODO: Overview: Display a "loading..." overlay while initializing
+        // TODO: Overview: TrayIcon Menu
+        // TODO: Overview: ESC -> Close
         // TODO: Overview: Implement sorting (SortCommand)
         // TODO: Overview: Filter builds by text + Label "Showing 17 / 239 builds"
         // TODO: Overview: Second Listview for finished builds

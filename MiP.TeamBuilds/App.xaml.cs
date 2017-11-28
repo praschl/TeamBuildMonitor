@@ -5,6 +5,7 @@ using System.Windows;
 using System.Collections.Generic;
 using MiP.TeamBuilds.UI.Ambient;
 using MiP.TeamBuilds.UI.Notifications;
+using MiP.TeamBuilds.UI.Overview;
 
 namespace MiP.TeamBuilds
 {
@@ -19,7 +20,9 @@ namespace MiP.TeamBuilds
                 var model = ServiceLocator.Instance.Resolve<ITimerRefreshViewModel>();
                 var window = ServiceLocator.Instance.Resolve<AmbientWindow>();
 
-                // start in hidden mode
+                // TODO: Setting to start visible : ServiceLocator.Instance.Resolve<OverviewWindow>().Show();
+
+                // always start background window in hidden mode
                 model.RestartTimer();
                 window.Hide();
             }
@@ -36,6 +39,7 @@ namespace MiP.TeamBuilds
 
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
+            // TODO: Open Overview window when application was opened a second time.
             // application was opened a second time.
             // this method is called in the first instance of the application with the args that were passed to the second.
 

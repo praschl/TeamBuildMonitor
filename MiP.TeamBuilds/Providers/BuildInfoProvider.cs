@@ -16,6 +16,8 @@ namespace MiP.TeamBuilds.Providers
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
+        const int MaxBuildAgeInMinutes = 60 * 4;
+
         private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;
 
@@ -76,7 +78,7 @@ namespace MiP.TeamBuilds.Providers
 
                 var buildSpec = buildService.CreateBuildQueueSpec("*", "*");
                 buildSpec.QueryOptions = QueryOptions.Definitions;
-                buildSpec.CompletedWindow = TimeSpan.FromMinutes(60*6); // TODO: make a setting for last hours
+                buildSpec.CompletedWindow = TimeSpan.FromMinutes(MaxBuildAgeInMinutes); // TODO: make a setting for last hours
                 buildSpec.Status = QueueStatus.Completed;
 
                 var foundBuilds = buildService.QueryQueuedBuilds(buildSpec);
