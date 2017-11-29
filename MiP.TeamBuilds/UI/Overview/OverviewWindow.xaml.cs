@@ -1,10 +1,9 @@
-﻿using System.Windows;
+﻿using MiP.TeamBuilds.Providers;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
-    /// <summary>
-    /// Interaction logic for OverviewWindow.xaml
-    /// </summary>
     public partial class OverviewWindow : Window
     {
         public OverviewViewModel OverviewViewModel { get; }
@@ -14,6 +13,12 @@ namespace MiP.TeamBuilds.UI.Overview
             OverviewViewModel = overviewViewModel;
 
             InitializeComponent();
+        }
+
+        private void ListViewItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is ListViewItem item && item.Content is BuildInfo info)
+                OverviewViewModel.OpenBuildSummaryCommand.Execute(info.BuildSummary);
         }
     }
 }

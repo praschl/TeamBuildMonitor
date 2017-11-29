@@ -46,6 +46,9 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=3.13.5.907, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.13.5\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
     </Reference>
@@ -328,6 +331,7 @@
     <Compile Include="UI\Notifications\TimerRefreshViewModel.cs" />
     <Compile Include="UI\Commands\CloseCommand.cs" />
     <Compile Include="UI\Overview\EqualsDateTimeVisibilityConverter.cs" />
+    <Compile Include="UI\Overview\OpenBuildSummaryCommand.cs" />
     <Compile Include="UI\Overview\OpenOverviewCommand.cs" />
     <Compile Include="UI\Overview\OverviewViewModel.cs" />
     <Compile Include="UI\Overview\OverviewWindow.xaml.cs">

@@ -6,15 +6,17 @@ using System.Windows.Input;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
         // TODO: Overview: + Label "Showing 17 / 239 builds"
+        // TODO: Overview: Refresh button to reload (and refilter) old builds.
         // TODO: Overview: Second Listview for finished builds
         // TODO: Overview: ?Filter builds by state?
-        // TODO: Overview: Menu for Droplocation, Buildsummary
+        // TODO: Overview: Menu for Droplocation
         // TODO: Overview: Display progress based on older known builds
         // TODO: Overview: Menu for Stop build, Retry build
         // TODO: Overview: Display direction of sort in list headers
@@ -32,7 +34,8 @@ namespace MiP.TeamBuilds.UI.Overview
             SetFilter();
         }
 
-        public ICommand SortCommand { get; set; }
+        public ICommand SortCommand { get; }
+        public ICommand OpenBuildSummaryCommand { get; }
 
         public List<string> FilterBuildByAgeItems { get; } = new List<string>
         {
@@ -69,7 +72,7 @@ namespace MiP.TeamBuilds.UI.Overview
             SetFilter();
         }
 
-        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel)
+        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand)
         {
             _knownBuildsViewModel = knownBuildsViewModel;
             _knownBuildsViewModel.Builds.CollectionChanged +=
@@ -90,6 +93,7 @@ namespace MiP.TeamBuilds.UI.Overview
             };
             BuildsView = collectionViewSource.View;
             SortCommand = new SortCommandImpl(collectionViewSource, SetFilter);
+            OpenBuildSummaryCommand = openBuildSummaryCommand;
         }
 
         private void SetFilter()
@@ -120,6 +124,7 @@ namespace MiP.TeamBuilds.UI.Overview
                 ;
         }
 
+        // TODO: refactor SortCommandImpl: make own file, class name (Impl), make injectable.
         public class SortCommandImpl : ICommand
         {
             private readonly CollectionViewSource _collectionViewSource;
@@ -157,11 +162,5 @@ namespace MiP.TeamBuilds.UI.Overview
                 _setFilter();
             }
         }
-    }
-
-    public class FilterBuildByAgeItem
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

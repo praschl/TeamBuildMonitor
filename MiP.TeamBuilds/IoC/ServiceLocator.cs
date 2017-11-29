@@ -42,6 +42,7 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<SleepCommand>().AsSelf().SingleInstance();
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
             builder.RegisterType<OpenOverviewCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<OpenBuildSummaryCommand>().AsSelf().SingleInstance();
 
             // tfs build providers
             builder.RegisterType<BuildInfoProvider>().Keyed<IBuildInfoProvider>("http").AsImplementedInterfaces();

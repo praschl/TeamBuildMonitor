@@ -25,24 +25,23 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
                 <xctk:WatermarkTextBox Watermark="Filter" Width="200" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
 
-                <ComboBox Width="90" Margin="5,0,0,0" ItemsSource="{Binding FilterBuildByAgeItems}" SelectedIndex="{Binding SelectedFilterBuildByAgeIndex}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type local:FilterBuildByAgeItem}">
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <ComboBox Width="90" Margin="5,0,0,0" ItemsSource="{Binding FilterBuildByAgeItems}" 
+                          SelectedIndex="{Binding SelectedFilterBuildByAgeIndex}" />
             </StackPanel>
-            <ListView ItemsSource="{Binding BuildsView}" Margin="5,0,5,5">
+            <ListView ItemsSource="{Binding BuildsView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
                 <ListView.Resources>
                     <ResourceDictionary>
                         <Style TargetType="{x:Type GridViewColumnHeader}">
                             <!-- Align headers to left -->
                             <Setter Property="HorizontalContentAlignment" Value="Left" />
                         </Style>
+
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+                        </Style>
                     </ResourceDictionary>
                 </ListView.Resources>
-
+                
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
