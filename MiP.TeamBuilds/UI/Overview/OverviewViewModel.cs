@@ -29,6 +29,8 @@ namespace MiP.TeamBuilds.UI.Overview
         public string FilterText { get; set; }
         private void OnFilterTextChanged() // called by Fody when FilterText changes
         {
+            SetFilter();
+
             BuildsView.Refresh();
         }
 
@@ -54,9 +56,15 @@ namespace MiP.TeamBuilds.UI.Overview
                 IsLiveSortingRequested = true,
             };
             BuildsView = collectionViewSource.View;
-            BuildsView.Filter = FilterBuilds;
+            SortCommand = new SortCommandImpl(collectionViewSource, SetFilter);
+        }
 
-            SortCommand = new SortCommandImpl(collectionViewSource);
+        private void SetFilter()
+        {
+            if (string.IsNullOrWhiteSpace(FilterText))
+                BuildsView.Filter = null;
+            else
+                BuildsView.Filter = FilterBuilds;
         }
 
         private bool FilterBuilds(object obj)
@@ -64,23 +72,24 @@ namespace MiP.TeamBuilds.UI.Overview
             if (!(obj is BuildInfo buildInfo))
                 return false;
 
-            if (string.IsNullOrWhiteSpace(FilterText))
-                return true;
+            string filter = FilterText.Trim();
 
-            return buildInfo.TeamProject.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.BuildDefinitionName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.RequestedByDisplayName.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.RequestedBy.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0
+            return buildInfo.TeamProject.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.BuildDefinitionName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.RequestedByDisplayName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.RequestedBy.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
                 ;
         }
 
         public class SortCommandImpl : ICommand
         {
             private readonly CollectionViewSource _collectionViewSource;
+            private readonly Action _setFilter;
 
-            public SortCommandImpl(CollectionViewSource collectionViewSource)
+            public SortCommandImpl(CollectionViewSource collectionViewSource, Action setFilter)
             {
                 _collectionViewSource = collectionViewSource;
+                _setFilter = setFilter;
             }
 
             public CollectionView CollectionView { get; set; }
@@ -99,10 +108,14 @@ namespace MiP.TeamBuilds.UI.Overview
                 if (newSort == currentSort.PropertyName)
                     direction = currentSort.Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
-                _collectionViewSource.SortDescriptions.Clear();
-                _collectionViewSource.SortDescriptions.Add(new SortDescription(newSort, direction));
-                _collectionViewSource.LiveSortingProperties.Clear();
-                _collectionViewSource.LiveSortingProperties.Add(newSort);
+                using (_collectionViewSource.DeferRefresh())
+                {
+                    _collectionViewSource.SortDescriptions.Clear();
+                    _collectionViewSource.SortDescriptions.Add(new SortDescription(newSort, direction));
+                    _collectionViewSource.LiveSortingProperties.Clear();
+                    _collectionViewSource.LiveSortingProperties.Add(newSort);
+                }
+                _setFilter();
             }
         }
     }

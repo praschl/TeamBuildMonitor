@@ -17,7 +17,6 @@ namespace MiP.TeamBuilds.Providers
     {
         const int MaxBuildAgeInMinutes = 60 * 12;
 
-        private readonly ConcurrentDictionary<string, string> _userIdToUserName = new ConcurrentDictionary<string, string>();
         private Uri _tfsUri;
 
         private readonly ConcurrentDictionary<Guid, TfsTeamProjectCollection> _teamProjectCollections = new ConcurrentDictionary<Guid, TfsTeamProjectCollection>();
