@@ -5,13 +5,13 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
         // TODO: Overview: + Label "Showing 17 / 239 builds"
-        // TODO: Overview: Filter builds by age
         // TODO: Overview: Second Listview for finished builds
         // TODO: Overview: ?Filter builds by state?
         // TODO: Overview: Menu for Droplocation, Buildsummary
@@ -30,11 +30,44 @@ namespace MiP.TeamBuilds.UI.Overview
         private void OnFilterTextChanged() // called by Fody when FilterText changes
         {
             SetFilter();
-
-            BuildsView.Refresh();
         }
 
         public ICommand SortCommand { get; set; }
+
+        public List<string> FilterBuildByAgeItems { get; } = new List<string>
+        {
+            "age",
+            "5 minutes",
+            "15 minutes",
+            "1 hour",
+            "2 hours",
+            "8 hours",
+            "1 day",
+            "2 days",
+            "1 week",
+            "1 month",
+            "1 year"
+        };
+        private static TimeSpan[] _filterBuildAgeTimeSpans =
+        {
+            TimeSpan.FromDays(100*365),
+            TimeSpan.FromMinutes(5),
+            TimeSpan.FromMinutes(15),
+            TimeSpan.FromHours(1),
+            TimeSpan.FromHours(2),
+            TimeSpan.FromHours(8),
+            TimeSpan.FromDays(1),
+            TimeSpan.FromDays(2),
+            TimeSpan.FromDays(7),
+            TimeSpan.FromDays(30),
+            TimeSpan.FromDays(365)
+        };
+
+        public int SelectedFilterBuildByAgeIndex { get; set; }
+        public void OnSelectedFilterBuildByAgeIndexChanged()
+        {
+            SetFilter();
+        }
 
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel)
         {
@@ -61,10 +94,12 @@ namespace MiP.TeamBuilds.UI.Overview
 
         private void SetFilter()
         {
-            if (string.IsNullOrWhiteSpace(FilterText))
+            if (string.IsNullOrWhiteSpace(FilterText) && SelectedFilterBuildByAgeIndex == 0)
                 BuildsView.Filter = null;
             else
                 BuildsView.Filter = FilterBuilds;
+
+            BuildsView.Refresh();
         }
 
         private bool FilterBuilds(object obj)
@@ -72,12 +107,16 @@ namespace MiP.TeamBuilds.UI.Overview
             if (!(obj is BuildInfo buildInfo))
                 return false;
 
-            string filter = FilterText.Trim();
+            string filterText = (FilterText ?? "").Trim();
+            DateTime earliestQueueTime = DateTime.Now - _filterBuildAgeTimeSpans[SelectedFilterBuildByAgeIndex];
 
-            return buildInfo.TeamProject.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.BuildDefinitionName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.RequestedByDisplayName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.RequestedBy.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
+            return (string.IsNullOrWhiteSpace(filterText)
+                || buildInfo.TeamProject.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.BuildDefinitionName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.RequestedByDisplayName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0
+                || buildInfo.RequestedBy.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0)
+                &&
+                buildInfo.QueuedTime > earliestQueueTime
                 ;
         }
 
@@ -118,5 +157,11 @@ namespace MiP.TeamBuilds.UI.Overview
                 _setFilter();
             }
         }
+    }
+
+    public class FilterBuildByAgeItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

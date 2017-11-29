@@ -24,6 +24,14 @@
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
                 <xctk:WatermarkTextBox Watermark="Filter" Width="200" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox Width="90" Margin="5,0,0,0" ItemsSource="{Binding FilterBuildByAgeItems}" SelectedIndex="{Binding SelectedFilterBuildByAgeIndex}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:FilterBuildByAgeItem}">
+                            <TextBlock Text="{Binding}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
             <ListView ItemsSource="{Binding BuildsView}" Margin="5,0,5,5">
                 <ListView.Resources>
