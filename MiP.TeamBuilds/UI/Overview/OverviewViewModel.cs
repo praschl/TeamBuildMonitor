@@ -6,14 +6,14 @@ using System.Windows.Input;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using MiP.TeamBuilds.UI.Commands;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
         // TODO: Overview: + Label "Showing 17 / 239 builds"
-        // TODO: Overview: Refresh button to reload (and refilter) old builds.
+        // TODO: Overview: Refresh button to reload (and refilter) old builds (F5 already works).
         // TODO: Overview: Second Listview for finished builds
         // TODO: Overview: ?Filter builds by state?
         // TODO: Overview: Menu for Droplocation
@@ -36,6 +36,7 @@ namespace MiP.TeamBuilds.UI.Overview
 
         public ICommand SortCommand { get; }
         public ICommand OpenBuildSummaryCommand { get; }
+        public ICommand RefreshOldBuildsCommand { get; }
 
         public List<string> FilterBuildByAgeItems { get; } = new List<string>
         {
@@ -72,7 +73,7 @@ namespace MiP.TeamBuilds.UI.Overview
             SetFilter();
         }
 
-        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand)
+        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand, RefreshOldBuildsCommand refreshOldBuildsCommand)
         {
             _knownBuildsViewModel = knownBuildsViewModel;
             _knownBuildsViewModel.Builds.CollectionChanged +=
@@ -94,6 +95,7 @@ namespace MiP.TeamBuilds.UI.Overview
             BuildsView = collectionViewSource.View;
             SortCommand = new SortCommandImpl(collectionViewSource, SetFilter);
             OpenBuildSummaryCommand = openBuildSummaryCommand;
+            RefreshOldBuildsCommand = refreshOldBuildsCommand;
         }
 
         private void SetFilter()

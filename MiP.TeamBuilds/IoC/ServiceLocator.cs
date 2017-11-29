@@ -43,6 +43,7 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<QuitCommand>().AsSelf().SingleInstance();
             builder.RegisterType<OpenOverviewCommand>().AsSelf().SingleInstance();
             builder.RegisterType<OpenBuildSummaryCommand>().AsSelf().SingleInstance();
+            builder.RegisterType<RefreshOldBuildsCommand>().AsSelf().SingleInstance();
 
             // tfs build providers
             builder.RegisterType<BuildInfoProvider>().Keyed<IBuildInfoProvider>("http").AsImplementedInterfaces();

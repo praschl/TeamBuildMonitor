@@ -17,6 +17,7 @@
 
     <Window.InputBindings>
         <KeyBinding Key="ESC" Command="{commands:CloseCommand}" CommandParameter="{Binding ElementName=window}" />
+        <KeyBinding Key="F5" Command="{Binding RefreshOldBuildsCommand}" />
     </Window.InputBindings>
 
     <xctk:BusyIndicator IsBusy="{Binding IsBusy}">
