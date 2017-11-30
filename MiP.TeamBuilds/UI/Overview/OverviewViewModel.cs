@@ -12,10 +12,11 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: + Label "Showing 17 / 239 builds"
         // TODO: Overview: Refresh button to reload (and refilter) old builds (F5 already works).
-        // TODO: Overview: Second Listview for finished builds
         // TODO: Overview: ?Filter builds by state?
+        // TODO: Overview: When sorting by FinishTime, filter running builds to top instead of bottom
+        // TODO: Overview: + Label "Showing 17 / 239 builds"
+        // TODO: Overview: Second Listview for finished builds
         // TODO: Overview: Menu for Droplocation
         // TODO: Overview: Display progress based on older known builds
         // TODO: Overview: Menu for Stop build, Retry build
@@ -104,6 +105,8 @@ namespace MiP.TeamBuilds.UI.Overview
                 BuildsView.Filter = null;
             else
                 BuildsView.Filter = FilterBuilds;
+
+            // TODO: When AgeFilter is set, refresh the filter (not the data) every minute - BuildsView.Refresh() should be sufficient
 
             BuildsView.Refresh();
         }

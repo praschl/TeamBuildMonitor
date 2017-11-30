@@ -15,7 +15,7 @@ namespace MiP.TeamBuilds.UI.Notifications
         public QueueStatus QueueStatus => _buildInfo.QueueStatus;
         public BuildStatus BuildStatus => _buildInfo.BuildStatus;
         public string BuildDefinitionName => _buildInfo.BuildDefinitionName;
-        public string RequestedBy => _buildInfo.RequestedByDisplayName;
+        public string RequestedByDisplayName => _buildInfo.RequestedByDisplayName;
 
         public ICommand DropLocationCommand => new LinkClickCommand(n =>
         {
