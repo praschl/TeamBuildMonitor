@@ -23,12 +23,15 @@
     <xctk:BusyIndicator IsBusy="{Binding IsBusy}">
 
         <DockPanel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="5">
-                <xctk:WatermarkTextBox Watermark="Filter" Width="200" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
-
-                <ComboBox Width="90" Margin="5,0,0,0" ItemsSource="{Binding FilterBuildByAgeItems}" 
-                          SelectedIndex="{Binding SelectedFilterBuildByAgeIndex}" />
+            <StackPanel Orientation="Vertical" Margin="5" DockPanel.Dock="Top" >
+                <Border Background="#FFDDDD" BorderBrush="#AA0000" BorderThickness="1" Margin="0,0,0,5" Padding="5"
+                        Visibility="{Binding FilterErrorText, Converter={local:StringEmptyToVisibilityConverter EmptyResult=Collapsed, ElseResult=Visible}}">
+                    <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
+                </Border>
+                
+                <xctk:WatermarkTextBox Watermark="Filter" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
+          
             <ListView ItemsSource="{Binding BuildsView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
                 <ListView.Resources>
                     <ResourceDictionary>
@@ -53,7 +56,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding TeamProject}" />
+                                    <TextBlock Text="{Binding TeamProject}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -66,7 +69,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding BuildDefinitionName}" />
+                                    <TextBlock Text="{Binding BuildDefinitionName}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -80,7 +83,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                    <TextBlock Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -92,7 +95,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding RequestedByDisplayName}" />
+                                    <TextBlock Text="{Binding RequestedByDisplayName}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -118,7 +121,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
+                                    <TextBlock Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
                                         Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -131,7 +134,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Margin="3,0" Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" 
+                                    <TextBlock Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" 
                                        Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

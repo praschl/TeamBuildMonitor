@@ -4,16 +4,18 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using MiP.TeamBuilds.UI.Commands;
+using System.Windows.Markup;
+using System.Globalization;
+using System.Windows;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
+        // TODO: Overview: Filter: Expressions Help -> Display under
+        // TODO: Overview: Filter: "Advanced filter" window
         // TODO: Overview: Refresh button to reload (and refilter) old builds (F5 already works).
-        // TODO: Overview: ?Filter builds by state?
         // TODO: Overview: When sorting by FinishTime, filter running builds to top instead of bottom
         // TODO: Overview: + Label "Showing 17 / 239 builds"
         // TODO: Overview: Second Listview for finished builds
@@ -22,7 +24,10 @@ namespace MiP.TeamBuilds.UI.Overview
         // TODO: Overview: Menu for Stop build, Retry build
         // TODO: Overview: Display direction of sort in list headers
 
-        private KnownBuildsViewModel _knownBuildsViewModel;
+        private readonly KnownBuildsViewModel _knownBuildsViewModel;
+
+        private readonly FilterBuilder _filterBuilder = new FilterBuilder();
+        private Func<BuildInfo, bool> _currentFilter = bi => true;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,47 +37,13 @@ namespace MiP.TeamBuilds.UI.Overview
         public string FilterText { get; set; }
         private void OnFilterTextChanged() // called by Fody when FilterText changes
         {
-            SetFilter();
+            CreateFilterFuncFromText();
         }
+        public string FilterErrorText { get; set; }
 
         public ICommand SortCommand { get; }
         public ICommand OpenBuildSummaryCommand { get; }
         public ICommand RefreshOldBuildsCommand { get; }
-
-        public List<string> FilterBuildByAgeItems { get; } = new List<string>
-        {
-            "age",
-            "5 minutes",
-            "15 minutes",
-            "1 hour",
-            "2 hours",
-            "8 hours",
-            "1 day",
-            "2 days",
-            "1 week",
-            "1 month",
-            "1 year"
-        };
-        private static TimeSpan[] _filterBuildAgeTimeSpans =
-        {
-            TimeSpan.FromDays(100*365),
-            TimeSpan.FromMinutes(5),
-            TimeSpan.FromMinutes(15),
-            TimeSpan.FromHours(1),
-            TimeSpan.FromHours(2),
-            TimeSpan.FromHours(8),
-            TimeSpan.FromDays(1),
-            TimeSpan.FromDays(2),
-            TimeSpan.FromDays(7),
-            TimeSpan.FromDays(30),
-            TimeSpan.FromDays(365)
-        };
-
-        public int SelectedFilterBuildByAgeIndex { get; set; }
-        public void OnSelectedFilterBuildByAgeIndexChanged()
-        {
-            SetFilter();
-        }
 
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand, RefreshOldBuildsCommand refreshOldBuildsCommand)
         {
@@ -94,17 +65,27 @@ namespace MiP.TeamBuilds.UI.Overview
                 IsLiveSortingRequested = true,
             };
             BuildsView = collectionViewSource.View;
-            SortCommand = new SortCommandImpl(collectionViewSource, SetFilter);
+
+            // somehow, the _collectionViewSource and _collectionView lose the current Filter 
+            // when _collectionViewSource.SortDescriptions.Clear() is called, so we need to set it again,
+            // thus: () => BuildsView.Filter = FilterBuilds, TODO: get rid of that, its ugly.
+            SortCommand = new SortCommand(collectionViewSource, () => BuildsView.Filter = FilterBuilds);
+
             OpenBuildSummaryCommand = openBuildSummaryCommand;
             RefreshOldBuildsCommand = refreshOldBuildsCommand;
         }
 
-        private void SetFilter()
+        private void CreateFilterFuncFromText()
         {
-            if (string.IsNullOrWhiteSpace(FilterText) && SelectedFilterBuildByAgeIndex == 0)
+            string filterText = (FilterText ?? "").Trim();
+
+            if (string.IsNullOrWhiteSpace(filterText))
                 BuildsView.Filter = null;
             else
                 BuildsView.Filter = FilterBuilds;
+
+            _currentFilter = _filterBuilder.ParseToFilter(filterText);
+            FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.Errors);
 
             // TODO: When AgeFilter is set, refresh the filter (not the data) every minute - BuildsView.Refresh() should be sufficient
 
@@ -116,56 +97,33 @@ namespace MiP.TeamBuilds.UI.Overview
             if (!(obj is BuildInfo buildInfo))
                 return false;
 
-            string filterText = (FilterText ?? "").Trim();
-            DateTime earliestQueueTime = DateTime.Now - _filterBuildAgeTimeSpans[SelectedFilterBuildByAgeIndex];
+            return _currentFilter(buildInfo);
+        }
+    }
 
-            return (string.IsNullOrWhiteSpace(filterText)
-                || buildInfo.TeamProject.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.BuildDefinitionName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.RequestedByDisplayName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0
-                || buildInfo.RequestedBy.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) >= 0)
-                &&
-                buildInfo.QueuedTime > earliestQueueTime
-                ;
+    public class StringEmptyToVisibilityConverter : MarkupExtension, IValueConverter
+    {
+        public Visibility EmptyResult { get; set; } = Visibility.Collapsed;
+        public Visibility ElseResult { get; set; } = Visibility.Visible;
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return EmptyResult;
+            if (string.Empty.Equals(value))
+                return EmptyResult;
+
+            return ElseResult;
         }
 
-        // TODO: refactor SortCommandImpl: make own file, class name (Impl), make injectable.
-        public class SortCommandImpl : ICommand
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            private readonly CollectionViewSource _collectionViewSource;
-            private readonly Action _setFilter;
+            throw new NotImplementedException();
+        }
 
-            public SortCommandImpl(CollectionViewSource collectionViewSource, Action setFilter)
-            {
-                _collectionViewSource = collectionViewSource;
-                _setFilter = setFilter;
-            }
-
-            public CollectionView CollectionView { get; set; }
-
-            public event EventHandler CanExecuteChanged;
-            public bool CanExecute(object parameter) => true;
-
-            public void Execute(object parameter)
-            {
-                if (!(parameter is string newSort))
-                    return;
-
-                var currentSort = _collectionViewSource.SortDescriptions.First();
-                var direction = ListSortDirection.Ascending;
-
-                if (newSort == currentSort.PropertyName)
-                    direction = currentSort.Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
-
-                using (_collectionViewSource.DeferRefresh())
-                {
-                    _collectionViewSource.SortDescriptions.Clear();
-                    _collectionViewSource.SortDescriptions.Add(new SortDescription(newSort, direction));
-                    _collectionViewSource.LiveSortingProperties.Clear();
-                    _collectionViewSource.LiveSortingProperties.Add(newSort);
-                }
-                _setFilter();
-            }
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
         }
     }
 }
