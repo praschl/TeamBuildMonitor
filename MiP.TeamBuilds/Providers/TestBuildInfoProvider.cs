@@ -104,6 +104,7 @@ namespace MiP.TeamBuilds.Providers
                 BuildDefinitionName = Pick(_buildDefinitionNames),
                 BuildSummary = Pick(_buildSummaries),
                 DropLocation = Pick(_dropLocations),
+                RequestedBy = Pick(_users),
                 RequestedByDisplayName = Pick(_users),
                 BuildStatus = Pick(_finishedStatus),
                 QueueStatus = QueueStatus.Completed,
@@ -130,6 +131,7 @@ namespace MiP.TeamBuilds.Providers
                 BuildSummary = Pick(_buildSummaries),
                 DropLocation = Pick(_dropLocations),
                 QueuedTime = DateTime.Now,
+                RequestedBy = Pick(_users),
                 RequestedByDisplayName = Pick(_users),
                 BuildStatus = Pick(_status),
                 QueueStatus = Pick(_queueStatus)

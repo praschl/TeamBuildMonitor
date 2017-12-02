@@ -5,16 +5,13 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System;
 using MiP.TeamBuilds.UI.Commands;
-using System.Windows.Markup;
-using System.Globalization;
-using System.Windows;
 using MiP.TeamBuilds.UI.Overview.Filters;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Overview: Filter: Expressions Help -> Display under
+        // TODO: Try Humanizer for displaying dates, with Tooltip of exact date
         // TODO: Overview: Filter: "Advanced filter" window
         // TODO: Overview: Refresh button to reload (and refilter) old builds (F5 already works).
         // TODO: Overview: When sorting by FinishTime, filter running builds to top instead of bottom
@@ -40,7 +37,9 @@ namespace MiP.TeamBuilds.UI.Overview
         {
             CreateFilterFuncFromText();
         }
+
         public string FilterErrorText { get; set; }
+        public string FilterHelpText => OverviewResources.FilterHelp;
 
         public ICommand SortCommand { get; }
         public ICommand OpenBuildSummaryCommand { get; }
@@ -101,32 +100,6 @@ namespace MiP.TeamBuilds.UI.Overview
                 return false;
 
             return _currentFilter(buildInfo);
-        }
-    }
-
-    public class StringEmptyToVisibilityConverter : MarkupExtension, IValueConverter
-    {
-        public Visibility EmptyResult { get; set; } = Visibility.Collapsed;
-        public Visibility ElseResult { get; set; } = Visibility.Visible;
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value == null)
-                return EmptyResult;
-            if (string.Empty.Equals(value))
-                return EmptyResult;
-
-            return ElseResult;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
         }
     }
 }

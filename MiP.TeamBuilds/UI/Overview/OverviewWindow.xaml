@@ -13,6 +13,7 @@
         Height="600" 
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=OverviewViewModel}"
         x:Name="window"
+        SnapsToDevicePixels="True"
         >
 
     <Window.InputBindings>
@@ -23,15 +24,25 @@
     <xctk:BusyIndicator IsBusy="{Binding IsBusy}">
 
         <DockPanel>
+            <!-- TODO: Move all the styles into a Styles dictionary -->
             <StackPanel Orientation="Vertical" Margin="5" DockPanel.Dock="Top" >
+                <!-- Display of filter-parse-errors -->
                 <Border Background="#FFDDDD" BorderBrush="#AA0000" BorderThickness="1" Margin="0,0,0,5" Padding="5"
                         Visibility="{Binding FilterErrorText, Converter={local:StringEmptyToVisibilityConverter EmptyResult=Collapsed, ElseResult=Visible}}">
                     <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
                 </Border>
-                
-                <xctk:WatermarkTextBox Watermark="Filter" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+                <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
+                    <xctk:WatermarkTextBox.InputBindings>
+                        <KeyBinding Key="F1" Command="{local:OpenPopupCommand}" CommandParameter="{Binding ElementName=filterHelpPopup}" />
+                    </xctk:WatermarkTextBox.InputBindings>
+                </xctk:WatermarkTextBox>
+                <Popup x:Name="filterHelpPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=filterTextBox}" StaysOpen="False">
+                    <Border Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Padding="5">
+                        <TextBlock Text="{Binding FilterHelpText, Mode=OneTime}" />
+                    </Border>
+                </Popup>
             </StackPanel>
-          
+
             <ListView ItemsSource="{Binding BuildsView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
                 <ListView.Resources>
                     <ResourceDictionary>
@@ -45,7 +56,7 @@
                         </Style>
                     </ResourceDictionary>
                 </ListView.Resources>
-                
+
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>

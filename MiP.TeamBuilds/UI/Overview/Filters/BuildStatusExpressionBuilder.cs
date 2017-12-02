@@ -31,7 +31,12 @@ namespace MiP.TeamBuilds.UI.Overview.Filters
 
             int filterValue = parts.Select(ConvertToStatus).Select(s => (int)s).Aggregate((a, b) => a | b);
 
-            return bi => ((int)bi.BuildStatus & filterValue) != 0;
+            return buildInfo => Filter(buildInfo, filterValue);
+        }
+
+        private bool Filter(BuildInfo buildInfo, int filterValue)
+        {
+            return ((int)buildInfo.BuildStatus & filterValue) != 0;
         }
     }
 }

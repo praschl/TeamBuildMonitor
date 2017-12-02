@@ -55,8 +55,12 @@ namespace MiP.TeamBuilds.UI.Overview.Filters
                     return builder.CreateExpression(value, _errors);
             }
 
-            return buildInfo =>
-                buildInfo.TeamProject.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
+            return buildInfo => Filter(buildInfo, filter); // making a method allowes for better stacktraces when an error happens
+        }
+
+        private bool Filter(BuildInfo buildInfo, string filter)
+        {
+            return buildInfo.TeamProject.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
                 || buildInfo.BuildDefinitionName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
                 || buildInfo.RequestedByDisplayName.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0
                 || buildInfo.RequestedBy.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0;
