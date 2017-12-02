@@ -12,6 +12,7 @@ using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Ambient;
 using Autofac.Features.AttributeFilters;
 using MiP.TeamBuilds.UI.Overview;
+using MiP.TeamBuilds.UI.Overview.Filters;
 
 namespace MiP.TeamBuilds.IoC
 {
@@ -49,6 +50,12 @@ namespace MiP.TeamBuilds.IoC
             builder.RegisterType<BuildInfoProvider>().Keyed<IBuildInfoProvider>("http").AsImplementedInterfaces();
             builder.RegisterType<TestBuildInfoProvider>().Keyed<IBuildInfoProvider>("demo").AsImplementedInterfaces();
             builder.RegisterType<BuildInfoProviderFactory>().AsSelf().WithAttributeFiltering();
+
+            // Overview Filters
+            builder.RegisterType<FilterBuilder>().AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(IExpressionBuilder).Assembly)
+                .Where(t => t.Namespace == typeof(IExpressionBuilder).Namespace)
+                .AsImplementedInterfaces();
 
             RegisterNotifier(builder);
 

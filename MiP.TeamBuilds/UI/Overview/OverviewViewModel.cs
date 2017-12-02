@@ -8,6 +8,7 @@ using MiP.TeamBuilds.UI.Commands;
 using System.Windows.Markup;
 using System.Globalization;
 using System.Windows;
+using MiP.TeamBuilds.UI.Overview.Filters;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
@@ -26,7 +27,7 @@ namespace MiP.TeamBuilds.UI.Overview
 
         private readonly KnownBuildsViewModel _knownBuildsViewModel;
 
-        private readonly FilterBuilder _filterBuilder = new FilterBuilder();
+        private readonly IFilterBuilder _filterBuilder;
         private Func<BuildInfo, bool> _currentFilter = bi => true;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -45,9 +46,14 @@ namespace MiP.TeamBuilds.UI.Overview
         public ICommand OpenBuildSummaryCommand { get; }
         public ICommand RefreshOldBuildsCommand { get; }
 
-        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand, RefreshOldBuildsCommand refreshOldBuildsCommand)
+        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand, RefreshOldBuildsCommand refreshOldBuildsCommand, IFilterBuilder filterBuilder)
         {
             _knownBuildsViewModel = knownBuildsViewModel;
+
+            OpenBuildSummaryCommand = openBuildSummaryCommand;
+            RefreshOldBuildsCommand = refreshOldBuildsCommand;
+            _filterBuilder = filterBuilder;
+
             _knownBuildsViewModel.Builds.CollectionChanged +=
                           (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsView)));
 
@@ -70,9 +76,6 @@ namespace MiP.TeamBuilds.UI.Overview
             // when _collectionViewSource.SortDescriptions.Clear() is called, so we need to set it again,
             // thus: () => BuildsView.Filter = FilterBuilds, TODO: get rid of that, its ugly.
             SortCommand = new SortCommand(collectionViewSource, () => BuildsView.Filter = FilterBuilds);
-
-            OpenBuildSummaryCommand = openBuildSummaryCommand;
-            RefreshOldBuildsCommand = refreshOldBuildsCommand;
         }
 
         private void CreateFilterFuncFromText()
@@ -85,7 +88,7 @@ namespace MiP.TeamBuilds.UI.Overview
                 BuildsView.Filter = FilterBuilds;
 
             _currentFilter = _filterBuilder.ParseToFilter(filterText);
-            FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.Errors);
+            FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.GetErrors());
 
             // TODO: When AgeFilter is set, refresh the filter (not the data) every minute - BuildsView.Refresh() should be sufficient
 
