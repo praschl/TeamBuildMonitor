@@ -12,7 +12,6 @@ namespace MiP.TeamBuilds.UI.Overview
     public class OverviewViewModel : INotifyPropertyChanged
     {
         // TODO: Overview: Filter: "Advanced filter" window
-        // TODO: Overview: Refresh button to reload (and refilter) old builds (F5 already works).
         // TODO: Overview: When sorting by FinishTime, filter running builds to top instead of bottom
         // TODO: Overview: + Label "Showing 17 / 239 builds"
         // TODO: Overview: Second Listview for finished builds

@@ -33,11 +33,14 @@
                         Visibility="{Binding FilterErrorText, Converter={local:StringEmptyToVisibilityConverter EmptyResult=Collapsed, ElseResult=Visible}}">
                     <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
                 </Border>
-                <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
-                    <xctk:WatermarkTextBox.InputBindings>
-                        <KeyBinding Key="F1" Command="{local:OpenPopupCommand}" CommandParameter="{Binding ElementName=filterHelpPopup}" />
-                    </xctk:WatermarkTextBox.InputBindings>
-                </xctk:WatermarkTextBox>
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Content="Reload" Command="{Binding RefreshOldBuildsCommand}" Margin="5,0,0,0" Padding="10,0" />
+                    <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
+                        <xctk:WatermarkTextBox.InputBindings>
+                            <KeyBinding Key="F1" Command="{local:OpenPopupCommand}" CommandParameter="{Binding ElementName=filterHelpPopup}" />
+                        </xctk:WatermarkTextBox.InputBindings>
+                    </xctk:WatermarkTextBox>
+                </DockPanel>
                 <Popup x:Name="filterHelpPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=filterTextBox}" StaysOpen="False">
                     <Border Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Padding="5">
                         <TextBlock Text="{Binding FilterHelpText, Mode=OneTime}" />
@@ -100,7 +103,7 @@
                                     <TextBlock Text="{Binding QueuedTime, Converter={local:HumanizerConverter}}">
                                         <i:Interaction.Behaviors>
                                             <b:PeriodicBindingUpdateBehavior Interval="0:00:05" Property="{x:Static TextBlock.TextProperty}" Mode="UpdateTarget" />
-                                        </i:Interaction.Behaviors>          
+                                        </i:Interaction.Behaviors>
                                         <TextBlock.ToolTip>
                                             <ToolTip>
                                                 <TextBlock Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
