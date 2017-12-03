@@ -7,6 +7,8 @@
         xmlns:providers="clr-namespace:MiP.TeamBuilds.Providers"
         xmlns:commands="clr-namespace:MiP.TeamBuilds.UI.Commands"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:b="clr-namespace:Lloyd.Shared.Behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="Build Overview" 
         Width="1000"
@@ -67,6 +69,7 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
+                                    <!-- TODO: BUG: when clicking on TextBlock, the column cannot be dragged -->
                                     <TextBlock Text="{Binding TeamProject}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -95,6 +98,9 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
                                     <TextBlock Text="{Binding QueuedTime, Converter={local:HumanizerConverter}}">
+                                        <i:Interaction.Behaviors>
+                                            <b:PeriodicBindingUpdateBehavior Interval="0:00:05" Property="{x:Static TextBlock.TextProperty}" Mode="UpdateTarget" />
+                                        </i:Interaction.Behaviors>          
                                         <TextBlock.ToolTip>
                                             <ToolTip>
                                                 <TextBlock Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
@@ -140,6 +146,9 @@
                                 <DataTemplate DataType="providers:BuildInfo">
                                     <TextBlock Text="{Binding FinishTime, Converter={local:HumanizerConverter}}"
                                                Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}">
+                                        <i:Interaction.Behaviors>
+                                            <b:PeriodicBindingUpdateBehavior Interval="0:00:05" Property="{x:Static TextBlock.TextProperty}" Mode="UpdateTarget" />
+                                        </i:Interaction.Behaviors>
                                         <TextBlock.ToolTip>
                                             <ToolTip>
                                                 <TextBlock Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
@@ -152,7 +161,6 @@
                         <GridViewColumn>
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Command="{local:SortCommand PropertyName='Duration'}" CommandParameter="{Binding BuildsCollectionView, Mode=OneTime}">
-                                    <!-- TODO: BUG: when clicking on TextBlock, the column cannot be dragged -->
                                     <TextBlock Text="Duration" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>

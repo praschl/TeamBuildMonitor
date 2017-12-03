@@ -68,12 +68,6 @@ namespace MiP.TeamBuilds.UI.Overview
                 IsLiveSorting = true,
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
             };
-
-            //var timer = new DispatcherTimer();
-            //timer.Interval = TimeSpan.FromSeconds(5);
-            //timer.Tick += delegate { }
-            // TODO: update date/time properties periodically
-            //timer.Start();
         }
 
         private void CreateFilterFuncFromText()
@@ -83,7 +77,10 @@ namespace MiP.TeamBuilds.UI.Overview
             _currentFilter = _filterBuilder.ParseToFilter(filterText);
             FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.GetErrors());
 
-            // TODO: When AgeFilter is set, refresh the filter (not the data) every minute - BuildsView.Refresh() should be sufficient
+            // TODO: When AgeFilter is set, periodically check for items which should be removed from view.
+            // do not: use BuildsView.Refresh(), this will cause a userannoying behaviour as it removes the focus from the current element.
+            // do not: duplicate items into a new collection, because this will not take new buildinfos into account
+            // do not: make a property for filtering on the build info, because this wont work well when there is more than one collection view filtering on it.
 
             BuildsCollectionView.Refresh();
         }
