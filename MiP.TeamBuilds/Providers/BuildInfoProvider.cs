@@ -15,7 +15,7 @@ namespace MiP.TeamBuilds.Providers
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
-        const int MaxBuildAgeInMinutes = 60 * 12;
+        const int MaxBuildAgeInMinutes = 60 * 1200;
 
         private Uri _tfsUri;
 

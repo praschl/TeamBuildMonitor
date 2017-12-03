@@ -38,8 +38,8 @@ namespace MiP.TeamBuilds.UI.Ambient
                 LiveFilteringProperties = { nameof(BuildInfo.FinishTime) },
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
             };
+            collectionViewSource.Filter += CollectionViewSource_Filter;
             CurrentBuildsView = collectionViewSource.View;
-            CurrentBuildsView.Filter = CurrentBuildsFilter;
         }
 
         public ShowSettingsCommand ShowSettingsCommand { get; }
@@ -52,6 +52,11 @@ namespace MiP.TeamBuilds.UI.Ambient
         public ICollectionView CurrentBuildsView { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = CurrentBuildsFilter(e.Item);
+        }
 
         private bool CurrentBuildsFilter(object buildInfo)
         {

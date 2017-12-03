@@ -5,7 +5,6 @@ using System.Windows;
 using System.Collections.Generic;
 using MiP.TeamBuilds.UI.Ambient;
 using MiP.TeamBuilds.UI.Notifications;
-using MiP.TeamBuilds.UI.Overview;
 
 namespace MiP.TeamBuilds
 {

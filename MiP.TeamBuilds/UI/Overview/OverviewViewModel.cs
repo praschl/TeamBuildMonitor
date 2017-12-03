@@ -70,12 +70,10 @@ namespace MiP.TeamBuilds.UI.Overview
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
                 IsLiveSortingRequested = true,
             };
+            collectionViewSource.Filter += CollectionViewSource_Filter;
             BuildsView = collectionViewSource.View;
 
-            // somehow, the _collectionViewSource and _collectionView lose the current Filter 
-            // when _collectionViewSource.SortDescriptions.Clear() is called, so we need to set it again,
-            // thus: () => BuildsView.Filter = FilterBuilds, TODO: get rid of that, its ugly.
-            SortCommand = new SortCommand(collectionViewSource, () => BuildsView.Filter = FilterBuilds);
+            SortCommand = new SortCommand(collectionViewSource);
 
             //var timer = new DispatcherTimer();
             //timer.Interval = TimeSpan.FromSeconds(5);
@@ -84,14 +82,19 @@ namespace MiP.TeamBuilds.UI.Overview
             //timer.Start();
         }
 
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = FilterBuilds(e.Item);
+        }
+
         private void CreateFilterFuncFromText()
         {
             string filterText = (FilterText ?? "").Trim();
 
-            if (string.IsNullOrWhiteSpace(filterText))
-                BuildsView.Filter = null;
-            else
-                BuildsView.Filter = FilterBuilds;
+            //if (string.IsNullOrWhiteSpace(filterText))
+            //    BuildsView.Filter = null;
+            //else
+            //    BuildsView.Filter = FilterBuilds;
 
             _currentFilter = _filterBuilder.ParseToFilter(filterText);
             FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.GetErrors());

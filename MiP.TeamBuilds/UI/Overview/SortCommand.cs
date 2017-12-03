@@ -10,12 +10,10 @@ namespace MiP.TeamBuilds.UI.Overview
     public class SortCommand : ICommand
     {
         private readonly CollectionViewSource _collectionViewSource;
-        private readonly Action _afterAction;
 
-        public SortCommand(CollectionViewSource collectionViewSource, Action afterAction)
+        public SortCommand(CollectionViewSource collectionViewSource)
         {
             _collectionViewSource = collectionViewSource;
-            _afterAction = afterAction;
         }
 
         public CollectionView CollectionView { get; set; }
@@ -41,7 +39,6 @@ namespace MiP.TeamBuilds.UI.Overview
                 _collectionViewSource.LiveSortingProperties.Clear();
                 _collectionViewSource.LiveSortingProperties.Add(newSort);
             }
-            _afterAction();
         }
     }
 }

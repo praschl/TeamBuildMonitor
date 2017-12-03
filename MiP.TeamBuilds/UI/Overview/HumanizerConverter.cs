@@ -6,12 +6,9 @@ using System.Globalization;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
-
     public class HumanizerConverter : MarkupExtension, IValueConverter
     {
         public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter) => true;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
