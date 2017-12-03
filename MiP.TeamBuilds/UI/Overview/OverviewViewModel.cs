@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System;
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Overview.Filters;
+using System.Windows.Threading;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
@@ -75,6 +76,12 @@ namespace MiP.TeamBuilds.UI.Overview
             // when _collectionViewSource.SortDescriptions.Clear() is called, so we need to set it again,
             // thus: () => BuildsView.Filter = FilterBuilds, TODO: get rid of that, its ugly.
             SortCommand = new SortCommand(collectionViewSource, () => BuildsView.Filter = FilterBuilds);
+
+            //var timer = new DispatcherTimer();
+            //timer.Interval = TimeSpan.FromSeconds(5);
+            //timer.Tick += delegate { }
+            // TODO: update date/time properties periodically
+            //timer.Start();
         }
 
         private void CreateFilterFuncFromText()

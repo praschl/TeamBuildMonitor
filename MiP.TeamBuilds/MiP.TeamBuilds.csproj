@@ -52,6 +52,9 @@
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="LinqKit, Version=1.1.9.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqKit.1.1.9.0\lib\net45\LinqKit.dll</HintPath>
     </Reference>
@@ -347,6 +350,7 @@
     <Compile Include="UI\Overview\Filters\FilterBuilder.cs" />
     <Compile Include="UI\Overview\Filters\IExpressionBuilder.cs" />
     <Compile Include="UI\Overview\Filters\IFilterBuilder.cs" />
+    <Compile Include="UI\Overview\HumanizerConverter.cs" />
     <Compile Include="UI\Overview\OpenBuildSummaryCommand.cs" />
     <Compile Include="UI\Overview\OpenOverviewCommand.cs" />
     <Compile Include="UI\Overview\OpenPopupCommand.cs" />
@@ -359,7 +363,7 @@
     <Compile Include="UI\Overview\OverviewWindow.xaml.cs">
       <DependentUpon>OverviewWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Overview\SortCommandImpl.cs" />
+    <Compile Include="UI\Overview\SortCommand.cs" />
     <Compile Include="UI\Overview\StringEmptyToVisibilityConverter.cs" />
     <Compile Include="UI\Settings\SaveSettingsCommand.cs" />
     <Compile Include="UI\Settings\SettingsViewModel.cs" />

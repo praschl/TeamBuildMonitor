@@ -94,7 +94,13 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                    <TextBlock Text="{Binding QueuedTime, Converter={local:HumanizerConverter}}">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="{Binding QueuedTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -132,8 +138,14 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}"
-                                        Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding FinishTime, Converter={local:HumanizerConverter}}"
+                                               Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="{Binding FinishTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -145,8 +157,14 @@
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" 
-                                       Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding Duration, Converter={local:HumanizerConverter}}" 
+                                               Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip>
+                                                <TextBlock Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" />
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
