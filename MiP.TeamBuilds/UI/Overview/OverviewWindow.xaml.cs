@@ -20,5 +20,13 @@ namespace MiP.TeamBuilds.UI.Overview
             if (sender is ListViewItem item && item.Content is BuildInfo info)
                 OverviewViewModel.OpenBuildSummaryCommand.Execute(info.BuildSummary);
         }
+
+        internal void Unhide()
+        {
+            if (WindowState == WindowState.Minimized)
+                WindowState = WindowState.Normal;
+            BringIntoView();
+            Activate();
+        }
     }
 }

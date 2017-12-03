@@ -5,6 +5,7 @@ using System.Windows;
 using System.Collections.Generic;
 using MiP.TeamBuilds.UI.Ambient;
 using MiP.TeamBuilds.UI.Notifications;
+using MiP.TeamBuilds.UI.Overview;
 
 namespace MiP.TeamBuilds
 {
@@ -38,15 +39,10 @@ namespace MiP.TeamBuilds
 
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
-            // TODO: Open Overview window when application was opened a second time.
             // application was opened a second time.
             // this method is called in the first instance of the application with the args that were passed to the second.
 
-            // lets bring the main window into view, when another instance was started
-
-            //App.Current.MainWindow.WindowState = WindowState.Normal;
-            //App.Current.MainWindow.Visibility = Visibility.Visible;
-            //App.Current.MainWindow.BringIntoView();
+            ServiceLocator.Instance.Resolve<OpenOverviewCommand>().Execute(null);
 
             return true;
         }

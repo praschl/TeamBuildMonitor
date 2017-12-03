@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Windows;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
@@ -29,7 +30,7 @@ namespace MiP.TeamBuilds.UI.Overview
             }
             else
             {
-                _window.Activate();
+                _window.Unhide();
             }
         }
 
