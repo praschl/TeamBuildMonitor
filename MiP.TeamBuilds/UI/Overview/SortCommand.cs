@@ -16,21 +16,21 @@ namespace MiP.TeamBuilds.UI.Overview
 
         public void Execute(object parameter)
         {
-            if (!(parameter is CollectionViewSource collectionViewSource))
+            if (!(parameter is ListCollectionView collectionView))
                 return;
 
-            var currentSort = collectionViewSource.SortDescriptions.First();
+            var currentSort = collectionView.SortDescriptions.First();
             var direction = ListSortDirection.Ascending;
 
             if (PropertyName == currentSort.PropertyName)
                 direction = currentSort.Direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
-            using (collectionViewSource.DeferRefresh())
+            using (collectionView.DeferRefresh())
             {
-                collectionViewSource.SortDescriptions.Clear();
-                collectionViewSource.SortDescriptions.Add(new SortDescription(PropertyName, direction));
-                collectionViewSource.LiveSortingProperties.Clear();
-                collectionViewSource.LiveSortingProperties.Add(PropertyName);
+                collectionView.SortDescriptions.Clear();
+                collectionView.SortDescriptions.Add(new SortDescription(PropertyName, direction));
+                collectionView.LiveSortingProperties.Clear();
+                collectionView.LiveSortingProperties.Add(PropertyName);
             }
         }
 

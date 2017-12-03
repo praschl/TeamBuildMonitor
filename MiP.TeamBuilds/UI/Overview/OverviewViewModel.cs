@@ -6,13 +6,11 @@ using System.Windows.Input;
 using System;
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Overview.Filters;
-using System.Windows.Threading;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Try Humanizer for displaying dates, with Tooltip of exact date
         // TODO: Overview: Filter: "Advanced filter" window
         // TODO: Overview: Refresh button to reload (and refilter) old builds (F5 already works).
         // TODO: Overview: When sorting by FinishTime, filter running builds to top instead of bottom
@@ -30,8 +28,7 @@ namespace MiP.TeamBuilds.UI.Overview
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CollectionViewSource BuildsCollectionViewSource { get; }
-        public ICollectionView BuildsView { get; set; }
+        public ICollectionView BuildsCollectionView { get; set; }
         public bool IsBusy { get; set; }
         public string FilterText { get; set; }
         private void OnFilterTextChanged() // called by Fody when FilterText changes
@@ -54,23 +51,23 @@ namespace MiP.TeamBuilds.UI.Overview
             _filterBuilder = filterBuilder;
 
             _knownBuildsViewModel.Builds.CollectionChanged +=
-                          (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsView)));
+                          (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsCollectionView)));
 
             _knownBuildsViewModel.IsBusyChanged += (o, e) => IsBusy = _knownBuildsViewModel.IsBusy;
             IsBusy = _knownBuildsViewModel.IsBusy;
 
             /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view 
              * for the same collection. So, to use different collection views (for different controls) on the same collection instance,
-             * the collection view has to be instantiated like this: 
+             * the collection view has to be instantiated by at least using manually created CollectionViewSource or by creating the ICollectionView by hand
              */
-            BuildsCollectionViewSource = new CollectionViewSource
+
+            BuildsCollectionView = new ListCollectionView(knownBuildsViewModel.Builds)
             {
-                Source = knownBuildsViewModel.Builds,
+                IsLiveFiltering = true,
+                Filter = FilterBuilds,
+                IsLiveSorting = true,
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
-                IsLiveSortingRequested = true,
             };
-            BuildsCollectionViewSource.Filter += CollectionViewSource_Filter;
-            BuildsView = BuildsCollectionViewSource.View;
 
             //var timer = new DispatcherTimer();
             //timer.Interval = TimeSpan.FromSeconds(5);
@@ -79,26 +76,16 @@ namespace MiP.TeamBuilds.UI.Overview
             //timer.Start();
         }
 
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            e.Accepted = FilterBuilds(e.Item);
-        }
-
         private void CreateFilterFuncFromText()
         {
             string filterText = (FilterText ?? "").Trim();
-
-            //if (string.IsNullOrWhiteSpace(filterText))
-            //    BuildsView.Filter = null;
-            //else
-            //    BuildsView.Filter = FilterBuilds;
 
             _currentFilter = _filterBuilder.ParseToFilter(filterText);
             FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.GetErrors());
 
             // TODO: When AgeFilter is set, refresh the filter (not the data) every minute - BuildsView.Refresh() should be sufficient
 
-            BuildsView.Refresh();
+            BuildsCollectionView.Refresh();
         }
 
         private bool FilterBuilds(object obj)

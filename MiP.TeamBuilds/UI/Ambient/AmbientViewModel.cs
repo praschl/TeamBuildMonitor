@@ -31,16 +31,13 @@ namespace MiP.TeamBuilds.UI.Ambient
             knownBuildsViewModel.Builds.CollectionChanged +=
                 (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
 
-            var collectionViewSource = new CollectionViewSource
+            CurrentBuildsView = new ListCollectionView(knownBuildsViewModel.Builds)
             {
-                Source = knownBuildsViewModel.Builds,
-                IsLiveFilteringRequested = true,
+                IsLiveFiltering = true,
+                Filter = CurrentBuildsFilter,
                 LiveFilteringProperties = { nameof(BuildInfo.FinishTime) },
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
             };
-            // collectionViewSource.Filter += CollectionViewSource_Filter; // TODO: for some reason Filtering wont work when set up this way;
-            CurrentBuildsView = collectionViewSource.View;
-            CurrentBuildsView.Filter = CurrentBuildsFilter;
         }
 
         public ShowSettingsCommand ShowSettingsCommand { get; }
@@ -53,12 +50,7 @@ namespace MiP.TeamBuilds.UI.Ambient
         public ICollectionView CurrentBuildsView { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            e.Accepted = CurrentBuildsFilter(e.Item);
-        }
-
+        
         private bool CurrentBuildsFilter(object buildInfo)
         {
             return buildInfo is BuildInfo bi && bi.FinishTime == DateTime.MinValue;
