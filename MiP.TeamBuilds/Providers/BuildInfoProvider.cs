@@ -147,6 +147,7 @@ namespace MiP.TeamBuilds.Providers
                 DropLocation = !string.IsNullOrEmpty(dropLocation) ? dropLocation : null,
                 QueuedTime = build.QueueTime,
                 FinishTime = build.Build?.FinishTime ?? DateTime.MinValue
+                // sometimes, QueuedTime is within 1 hour after FinishTime... is there a problem with UTC and non UTC Time ?
             };
         }
 

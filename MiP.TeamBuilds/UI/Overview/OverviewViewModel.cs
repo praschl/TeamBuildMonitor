@@ -30,9 +30,9 @@ namespace MiP.TeamBuilds.UI.Overview
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public CollectionViewSource BuildsCollectionViewSource { get; }
         public ICollectionView BuildsView { get; set; }
         public bool IsBusy { get; set; }
-
         public string FilterText { get; set; }
         private void OnFilterTextChanged() // called by Fody when FilterText changes
         {
@@ -42,7 +42,6 @@ namespace MiP.TeamBuilds.UI.Overview
         public string FilterErrorText { get; set; }
         public string FilterHelpText => OverviewResources.FilterHelp;
 
-        public ICommand SortCommand { get; }
         public ICommand OpenBuildSummaryCommand { get; }
         public ICommand RefreshOldBuildsCommand { get; }
 
@@ -64,16 +63,14 @@ namespace MiP.TeamBuilds.UI.Overview
              * for the same collection. So, to use different collection views (for different controls) on the same collection instance,
              * the collection view has to be instantiated like this: 
              */
-            var collectionViewSource = new CollectionViewSource
+            BuildsCollectionViewSource = new CollectionViewSource
             {
                 Source = knownBuildsViewModel.Builds,
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
                 IsLiveSortingRequested = true,
             };
-            collectionViewSource.Filter += CollectionViewSource_Filter;
-            BuildsView = collectionViewSource.View;
-
-            SortCommand = new SortCommand(collectionViewSource);
+            BuildsCollectionViewSource.Filter += CollectionViewSource_Filter;
+            BuildsView = BuildsCollectionViewSource.View;
 
             //var timer = new DispatcherTimer();
             //timer.Interval = TimeSpan.FromSeconds(5);

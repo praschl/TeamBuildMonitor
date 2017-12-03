@@ -43,7 +43,7 @@
                 </Popup>
             </StackPanel>
 
-            <ListView ItemsSource="{Binding BuildsView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
+            <ListView ItemsSource="{Binding BuildsCollectionViewSource.View}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
                 <ListView.Resources>
                     <ResourceDictionary>
                         <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -61,7 +61,7 @@
                     <GridView>
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="TeamProject">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='TeamProject'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
                                     <TextBlock Text="Team project" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -74,7 +74,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildDefinitionName">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='BuildDefinitionName'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
                                     <TextBlock Text="Build definition" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -88,7 +88,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="QueuedTime">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='QueuedTime'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
                                     <TextBlock Text="Queued at" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -106,7 +106,7 @@
                         </GridViewColumn>
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="RequestedByDisplayName">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='RequestedByDisplayName'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
                                     <TextBlock Text="Requested by" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -119,7 +119,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="BuildStatus">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='BuildStatus'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
                                     <TextBlock Text="Status" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -132,7 +132,7 @@
 
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="FinishTime">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='FinishTime'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
                                     <TextBlock Text="Finished at" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>
@@ -151,7 +151,8 @@
                         </GridViewColumn>
                         <GridViewColumn>
                             <GridViewColumn.Header>
-                                <GridViewColumnHeader Command="{Binding SortCommand}" CommandParameter="Duration">
+                                <GridViewColumnHeader Command="{local:SortCommand PropertyName='Duration'}" CommandParameter="{Binding BuildsCollectionViewSource, Mode=OneTime}">
+                                    <!-- TODO: BUG: when clicking on TextBlock, the column cannot be dragged -->
                                     <TextBlock Text="Duration" />
                                 </GridViewColumnHeader>
                             </GridViewColumn.Header>

@@ -38,8 +38,9 @@ namespace MiP.TeamBuilds.UI.Ambient
                 LiveFilteringProperties = { nameof(BuildInfo.FinishTime) },
                 SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
             };
-            collectionViewSource.Filter += CollectionViewSource_Filter;
+            // collectionViewSource.Filter += CollectionViewSource_Filter; // TODO: for some reason Filtering wont work when set up this way;
             CurrentBuildsView = collectionViewSource.View;
+            CurrentBuildsView.Filter = CurrentBuildsFilter;
         }
 
         public ShowSettingsCommand ShowSettingsCommand { get; }
