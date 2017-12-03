@@ -12,7 +12,6 @@ namespace MiP.TeamBuilds.UI.Overview
     public class OverviewViewModel : INotifyPropertyChanged
     {
         // TODO: Overview: Filter: "Advanced filter" window
-        // TODO: Overview: When sorting by FinishTime, filter running builds to top instead of bottom
         // TODO: Overview: + Label "Showing 17 / 239 builds"
         // TODO: Overview: Second Listview for finished builds
         // TODO: Overview: Menu for Droplocation
@@ -65,9 +64,12 @@ namespace MiP.TeamBuilds.UI.Overview
                 IsLiveFiltering = true,
                 Filter = FilterBuilds,
                 IsLiveSorting = true,
-                SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
+                //SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
+                CustomSort = _buildInfoComparer
             };
         }
+
+        private BuildInfoComparer _buildInfoComparer = new BuildInfoComparer();
 
         private void CreateFilterFuncFromText()
         {
@@ -80,6 +82,7 @@ namespace MiP.TeamBuilds.UI.Overview
             // do not: use BuildsView.Refresh(), this will cause a userannoying behaviour as it removes the focus from the current element.
             // do not: duplicate items into a new collection, because this will not take new buildinfos into account
             // do not: make a property for filtering on the build info, because this wont work well when there is more than one collection view filtering on it.
+            // try: check all buildinfos which are still in view, when too old -> remove and add (on collection), that should trigger a refilter for this single buildinfo
 
             BuildsCollectionView.Refresh();
         }
