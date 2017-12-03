@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiP.TeamBuilds"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Tfs Build Manager Settings" 
         Width="400"
-        Height="160" 
-        MinHeight="160"
+        Height="190" 
+        MinHeight="190"
         MinWidth="300"
         Background="#EEEEEE"
         DataContext="{Binding RelativeSource={RelativeSource Self}, Path=ViewModel}"
@@ -28,10 +29,15 @@
         </DockPanel>
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0">
+            <Label Content="Maximum age of builds to display (ever)"/>
+            <xctk:TimeSpanUpDown DockPanel.Dock="Top" Value="{Binding MaxBuildAgeForDisplay}"></xctk:TimeSpanUpDown>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0">
             <Label Content="Start when Windows starts"/>
             <CheckBox IsChecked="{Binding AutoStart}" VerticalAlignment="Center" />
         </StackPanel>
-        
+
         <DockPanel DockPanel.Dock="Bottom" Margin="10">
             <UniformGrid DockPanel.Dock="Right" Columns="2" Rows="1">
                 <Button Margin="5" Padding="20,5" IsDefault="True" Command="{Binding SaveSettingsCommand}" CommandParameter="{Binding ElementName=settingsWindow}">Ok</Button>

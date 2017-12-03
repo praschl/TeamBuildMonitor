@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace MiP.TeamBuilds.UI.Commands
 {
-    // TODO: check all commands to see which can be turned into a MarkupExtension, less C# code
+    // TODO: check all commands to see which can be turned into a MarkupExtension, less XAML
 
     public class QuitCommand : ICommand
     {

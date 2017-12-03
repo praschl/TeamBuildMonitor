@@ -1,5 +1,6 @@
 ﻿using MiP.TeamBuilds.Providers;
 using PropertyChanged;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 
@@ -15,22 +16,16 @@ namespace MiP.TeamBuilds.UI.Settings
 
             TfsUrl = Properties.Settings.Default.TfsUrl;
 
+            MaxBuildAgeForDisplay = Properties.Settings.Default.MaxBuildAgeForDisplay;
+
             AutoStart = AutoStartHelper.IsStartupItem();
         }
 
         // TODO: support multiple tfs urls
 
-        public string TfsUrl
-        {
-            get;
-            set;
-        }
-
-        public bool AutoStart
-        {
-            get;
-            set;
-        }
+        public string TfsUrl { get; set; }
+        public bool AutoStart { get; set; }
+        public TimeSpan MaxBuildAgeForDisplay { get; set; }
 
         public ICommand SaveSettingsCommand { get; }
     }
