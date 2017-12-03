@@ -11,12 +11,13 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
+        // TODO: Overview: Menu for Droplocation
+        // TODO: Overview: Menu for Stop build, Retry build
+        // TODO: Overview: Display progress based on older known builds (Requires setting for how old builds to get for the statistics)
+        // -- make statistics a separate collection of builds in KnownBuildsViewModel
         // TODO: Overview: Filter: "Advanced filter" window
         // TODO: Overview: + Label "Showing 17 / 239 builds"
-        // TODO: Overview: Second Listview for finished builds
-        // TODO: Overview: Menu for Droplocation
-        // TODO: Overview: Display progress based on older known builds
-        // TODO: Overview: Menu for Stop build, Retry build
+        // TODO: Overview: Second Listview for finished builds (required factoring out the control + filter + some properties)
         // TODO: Overview: Display direction of sort in list headers
 
         private readonly KnownBuildsViewModel _knownBuildsViewModel;
