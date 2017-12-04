@@ -347,6 +347,7 @@
     <Compile Include="UI\CompositeNotifications\NotificationStyle.cs" />
     <Compile Include="UI\Notifications\TimerRefreshViewModel.cs" />
     <Compile Include="UI\Commands\CloseCommand.cs" />
+    <Compile Include="UI\Overview\ActivateSearchCommand.cs" />
     <Compile Include="UI\Overview\BuildInfoComparer.cs" />
     <Compile Include="UI\Overview\Filters\BuildAgeExpressionBuilder.cs" />
     <Compile Include="UI\Overview\Filters\BuildStatusExpressionBuilder.cs" />

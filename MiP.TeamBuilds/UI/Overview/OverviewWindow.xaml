@@ -29,26 +29,31 @@
         <DockPanel>
             <!-- TODO: Move all the styles into a Styles dictionary -->
             <StackPanel Orientation="Vertical" Margin="5" DockPanel.Dock="Top" >
-                <!-- Display of filter-parse-errors -->
-                <Border Background="#FFDDDD" BorderBrush="#AA0000" BorderThickness="1" Margin="0,0,0,5" Padding="5"
-                        Visibility="{Binding FilterErrorText, Converter={local:StringEmptyToVisibilityConverter EmptyResult=Collapsed, ElseResult=Visible}}">
-                    <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
-                </Border>
+        
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="Reload (F5)" Command="{Binding RefreshOldBuildsCommand}" Margin="5,0,0,0" Padding="10,0" />
-                    <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
+                    <Button DockPanel.Dock="Right" Content="Reload (F5)" Command="{Binding RefreshOldBuildsCommand}" Padding="10,0" />
+                    <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" 
+                                           Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
                         <xctk:WatermarkTextBox.InputBindings>
-                            <KeyBinding Key="F1" Command="{local:OpenPopupCommand}" CommandParameter="{Binding ElementName=filterHelpPopup}" />
+                            <KeyBinding Key="F1" Command="{local:SetVisibilityCommand VisibilityToSet=Visible, ToggleTo=Collapsed}" CommandParameter="{Binding ElementName=filterHelp}" />
                         </xctk:WatermarkTextBox.InputBindings>
                     </xctk:WatermarkTextBox>
                 </DockPanel>
-                <Popup x:Name="filterHelpPopup" Placement="Bottom" PlacementTarget="{Binding ElementName=filterTextBox}" StaysOpen="False">
-                    <Border Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Padding="5">
+                
+                <!-- Display of filter-parse-errors -->
+                <Border Background="#FFDDDD" BorderBrush="#AA0000" BorderThickness="1" Margin="0,5,0,0" Padding="5"
+                        Visibility="{Binding FilterErrorText, Converter={local:StringEmptyToVisibilityConverter EmptyResult=Collapsed, ElseResult=Visible}}">
+                    <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
+                </Border>
+                <Border x:Name="filterHelp" Visibility="Collapsed" Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Margin="0,5,0,0" Padding="5" HorizontalAlignment="Left">
+                    <Grid>
                         <TextBlock Text="{Binding FilterHelpText, Mode=OneTime}" />
-                    </Border>
-                </Popup>
+                        <Button Content="X" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Command="{local:SetVisibilityCommand VisibilityToSet=Collapsed}" CommandParameter="{Binding ElementName=filterHelp}" />
+                    </Grid>
+                </Border>
             </StackPanel>
-
+            
             <ListView ItemsSource="{Binding BuildsCollectionView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
                 <ListView.Resources>
                     <ResourceDictionary>
