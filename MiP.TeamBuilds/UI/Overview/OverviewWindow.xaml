@@ -21,6 +21,7 @@
     <Window.InputBindings>
         <KeyBinding Key="ESC" Command="{commands:CloseCommand}" CommandParameter="{Binding ElementName=window}" />
         <KeyBinding Key="F5" Command="{Binding RefreshOldBuildsCommand}" />
+        <KeyBinding Key="F3" Command="{local:ActivateSearchCommand}" CommandParameter="{Binding ElementName=filterTextBox}" />
     </Window.InputBindings>
 
     <xctk:BusyIndicator IsBusy="{Binding IsBusy}">
@@ -34,7 +35,7 @@
                     <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
                 </Border>
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="Reload" Command="{Binding RefreshOldBuildsCommand}" Margin="5,0,0,0" Padding="10,0" />
+                    <Button DockPanel.Dock="Right" Content="Reload (F5)" Command="{Binding RefreshOldBuildsCommand}" Margin="5,0,0,0" Padding="10,0" />
                     <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
                         <xctk:WatermarkTextBox.InputBindings>
                             <KeyBinding Key="F1" Command="{local:OpenPopupCommand}" CommandParameter="{Binding ElementName=filterHelpPopup}" />

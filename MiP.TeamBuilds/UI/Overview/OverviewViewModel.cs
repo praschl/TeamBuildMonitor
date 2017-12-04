@@ -6,13 +6,29 @@ using System.Windows.Input;
 using System;
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Overview.Filters;
+using System.Windows.Markup;
+using System.Windows;
 
 namespace MiP.TeamBuilds.UI.Overview
 {
+    public class ActivateSearchCommand : MarkupExtension, ICommand
+    {
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter) => true;
+
+        public void Execute(object parameter)
+        {
+            if (parameter is UIElement uiElement && uiElement.Focusable)
+                uiElement.Focus();
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider) => this;
+    }
+
     public class OverviewViewModel : INotifyPropertyChanged
     {
         // TODO: Move Help a bit, when displaying a parse error
-        // TODO: Keys: F3 -> Focus to Filter, Tooltip Reload button (F5)
         // TODO: Save Filter & settings
         // TODO: Save Column Order Settings
         // TODO: Save Column & Widths & Window Position
