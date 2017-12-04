@@ -11,6 +11,11 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
+        // TODO: Move Help a bit, when displaying a parse error
+        // TODO: Keys: F3 -> Focus to Filter, Tooltip Reload button (F5)
+        // TODO: Save Filter & settings
+        // TODO: Save Column Order Settings
+        // TODO: Save Column & Widths & Window Position
         // TODO: Overview: Menu for Droplocation
         // TODO: Overview: Menu for Stop build, Retry build
         // TODO: Overview: Display progress based on older known builds (Requires setting for how old builds to get for the statistics)
