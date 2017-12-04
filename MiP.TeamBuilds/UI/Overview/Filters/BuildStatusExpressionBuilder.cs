@@ -19,7 +19,7 @@ namespace MiP.TeamBuilds.UI.Overview.Filters
                     return result;
 
                 errors.Add($"Status: Could not parse {statusName} to a build status.");
-                return BuildStatus.None;
+                return BuildStatus.All;
             }
 
             var parts = expression.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
