@@ -31,8 +31,8 @@
             <StackPanel Orientation="Vertical" Margin="5" DockPanel.Dock="Top" >
         
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Content="Reload (F5)" Command="{Binding RefreshOldBuildsCommand}" Padding="10,0" />
-                    <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)" 
+                    <Button DockPanel.Dock="Right" Content="Reload (F5)" Command="{Binding RefreshOldBuildsCommand}" Margin="5,0,0,0" Padding="10,0" />
+                    <xctk:WatermarkTextBox x:Name="filterTextBox" Grid.Column="0" Watermark="Filter (F1 for help)"
                                            Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}">
                         <xctk:WatermarkTextBox.InputBindings>
                             <KeyBinding Key="F1" Command="{local:SetVisibilityCommand VisibilityToSet=Visible, ToggleTo=Collapsed}" CommandParameter="{Binding ElementName=filterHelp}" />

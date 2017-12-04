@@ -355,6 +355,7 @@
     <Compile Include="UI\Overview\Filters\FilterBuilder.cs" />
     <Compile Include="UI\Overview\Filters\IExpressionBuilder.cs" />
     <Compile Include="UI\Overview\Filters\IFilterBuilder.cs" />
+    <Compile Include="UI\Overview\Filters\RequestedByExpressionBuilder.cs" />
     <Compile Include="UI\Overview\HumanizerConverter.cs" />
     <Compile Include="UI\Overview\OpenBuildSummaryCommand.cs" />
     <Compile Include="UI\Overview\OpenOverviewCommand.cs" />

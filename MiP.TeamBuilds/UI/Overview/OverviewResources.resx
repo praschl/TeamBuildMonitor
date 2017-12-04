@@ -132,9 +132,12 @@ age:&lt;age&gt; (Shortcut a:&lt;age&gt;) filters by build age where
   &lt;unit&gt; can be one of 
     s (seconds), m (minutes), h (hours), d (days), w (weeks), M (months, notice the capital M) or y (years)
 
+requestedBy:&lt;username&gt; (Shortcut r:&lt;username&gt;) explicitly filters by the user who requested the build.
+  &lt;username&gt; may be the displayname or the users id.
+
 Example:
   live-build release s:Succeeded,PartiallySucceeded a:2h
     Filters for builds containing "live-build" and "release" in one of the columns TeamProject, 
-    BuildDefinition, Requested by, which are Succeeded or PartiallySucceeded and not older than 2h are shown.</value>
+    BuildDefinition, Requested by, which are Succeeded or PartiallySucceeded and not older than 2 hours.</value>
   </data>
 </root>
