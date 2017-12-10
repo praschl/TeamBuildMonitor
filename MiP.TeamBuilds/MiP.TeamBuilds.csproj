@@ -313,7 +313,7 @@
     <Compile Include="Providers\BuildInfoProviderFactory.cs" />
     <Compile Include="Providers\IBuildInfoProvider.cs" />
     <Compile Include="Providers\TestBuildInfoProvider.cs" />
-    <Compile Include="UI\Ambient\EmptyListToVisibilityConverter.cs" />
+    <Compile Include="UI\Ambient\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\EqualsInt32ToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\SleepCommand.cs" />
     <Compile Include="UI\Ambient\TestMessagesCommand.cs" />

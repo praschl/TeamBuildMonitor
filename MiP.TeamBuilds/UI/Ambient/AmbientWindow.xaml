@@ -68,12 +68,12 @@
                     <Grid>
                         <Label Style="{StaticResource TooltipLabel}"
                                Content="No builds are running" 
-                               Visibility="{Binding CurrentBuildsView, Converter={amb:EmptyListToVisibilityConverter}}" />
+                               Visibility="{Binding CurrentBuildsView.IsEmpty, Converter={amb:BoolToVisibilityConverter TrueValue=Visible, FalseValue=Collapsed}}" />
 
                         <ListView Style="{StaticResource TooltipListView}"
                                   ItemsSource="{Binding CurrentBuildsView}" 
                                   Grid.IsSharedSizeScope="True"
-                                  Visibility="{Binding CurrentBuildsView, Converter={amb:EmptyListToVisibilityConverter EmptyValue=Collapsed, ElseValue=Visible}}"
+                                  Visibility="{Binding CurrentBuildsView.IsEmpty, Converter={amb:BoolToVisibilityConverter TrueValue=Collapsed, FalseValue=Visible}}"
                                   ItemTemplate="{StaticResource ToolTipBuildsTemplate}" />
                     </Grid>
                 </Border>

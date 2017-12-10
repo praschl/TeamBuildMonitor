@@ -28,8 +28,13 @@ namespace MiP.TeamBuilds.UI.Ambient
              * ObservableCollection does not have a PropertyChanged-event, so we subscribe ourself to CollectionChanged,
              * and raise a PropertyChanged, to update the view.
              */
-            knownBuildsViewModel.Builds.CollectionChanged +=
-                (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
+
+            /* NOTE TO SELF: When binding to CurrentBuildsView.IsEmpty its not necessary to raise a propertychanged event
+             * on the CurrentBuildsView property since the event will be raised for IsEmpty of the CollectionView.
+             * The code will stay here for documentation purposes.
+             */
+            //// knownBuildsViewModel.Builds.CollectionChanged +=
+            ////     (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBuildsView)));
 
             CurrentBuildsView = new ListCollectionView(knownBuildsViewModel.Builds)
             {

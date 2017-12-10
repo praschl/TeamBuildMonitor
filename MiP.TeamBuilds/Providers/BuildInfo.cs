@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.TeamFoundation.Build.Client;
 using PropertyChanged;
+using System.Threading;
 
 namespace MiP.TeamBuilds.Providers
 {
@@ -45,14 +46,18 @@ namespace MiP.TeamBuilds.Providers
 
         private void Build_StatusChanged(object sender, StatusChangedEventArgs e)
         {
-            IsChanged = false;
+            // Build_StatusChanged this event will be raised on another thread
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                IsChanged = false;
 
-            QueueStatus = _build.Status;
-            BuildStatus = _build.Build?.Status ?? BuildStatus.None;
-            FinishTime = _build.Build?.FinishTime ?? DateTime.MinValue;
+                QueueStatus = _build.Status;
+                BuildStatus = _build.Build?.Status ?? BuildStatus.None;
+                FinishTime = _build.Build?.FinishTime ?? DateTime.MinValue;
 
-            if (IsChanged)
-                OnBuildUpdated(EventArgs.Empty);
+                if (IsChanged)
+                    OnBuildUpdated(EventArgs.Empty);
+            });
         }
 
         public event EventHandler<EventArgs> BuildUpdated;

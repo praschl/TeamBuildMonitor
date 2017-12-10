@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Globalization;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
 
 namespace MiP.TeamBuilds.UI.Ambient
 {
-    public class EmptyListToVisibilityConverter : MarkupExtension, IValueConverter
+    public class BoolToVisibilityConverter : MarkupExtension, IValueConverter
     {
-        public Visibility EmptyValue { get; set; }
-        public Visibility ElseValue { get; set; } = Visibility.Collapsed;
+        public Visibility TrueValue { get; set; }
+        public Visibility FalseValue { get; set; } = Visibility.Collapsed;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool isEmpty = value is ICollectionView view && view.IsEmpty;
-            return isEmpty ? EmptyValue : ElseValue;
+            return value is bool parsed && parsed ? TrueValue : FalseValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
