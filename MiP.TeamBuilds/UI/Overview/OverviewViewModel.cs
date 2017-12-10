@@ -52,9 +52,6 @@ namespace MiP.TeamBuilds.UI.Overview
             RefreshOldBuildsCommand = refreshOldBuildsCommand;
             _filterBuilder = filterBuilder;
 
-            _knownBuildsViewModel.Builds.CollectionChanged +=
-                          (o, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BuildsCollectionView)));
-
             _knownBuildsViewModel.IsBusyChanged += (o, e) => IsBusy = _knownBuildsViewModel.IsBusy;
             IsBusy = _knownBuildsViewModel.IsBusy;
 
