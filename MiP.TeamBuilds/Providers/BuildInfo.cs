@@ -55,6 +55,19 @@ namespace MiP.TeamBuilds.Providers
                 BuildStatus = _build.Build?.Status ?? BuildStatus.None;
                 FinishTime = _build.Build?.FinishTime ?? DateTime.MinValue;
 
+                if ((BuildStatus == BuildStatus.Stopped
+                     || BuildStatus == BuildStatus.Failed
+                     || BuildStatus == BuildStatus.PartiallySucceeded
+                     || BuildStatus == BuildStatus.Succeeded)
+                    &&
+                    FinishTime == DateTime.MinValue
+                )
+                {
+                    string message = "ERROR: Build finished with: " + BuildStatus + " but finish time is not set!!!";
+                    Console.WriteLine(message);
+                    throw new InvalidOperationException(message);
+                }
+                
                 if (IsChanged)
                     OnBuildUpdated(EventArgs.Empty);
             });
