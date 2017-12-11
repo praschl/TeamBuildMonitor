@@ -11,7 +11,8 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: Save Filter & settings
+        // TODO: Save Filter with xctk:DropDownButton + DropDownContent
+        // -- also save sort direction with filter
         // TODO: Save Column Order Settings
         // TODO: Save Column & Widths & Window Position
         // TODO: Overview: Menu for Droplocation
