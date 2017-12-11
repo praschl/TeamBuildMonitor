@@ -8,10 +8,22 @@
 
     <Style x:Key="TooltipLabel" TargetType="Label">
         <Setter Property="Background" Value="White" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding CurrentBuildsView.IsEmpty}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="TooltipListView" TargetType="ListView">
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Visibility" Value="Visible" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding CurrentBuildsView.IsEmpty}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="Rectangle" x:Key="ToolTipIcon">

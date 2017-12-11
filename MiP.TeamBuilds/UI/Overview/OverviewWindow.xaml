@@ -41,8 +41,20 @@
                 </DockPanel>
                 
                 <!-- Display of filter-parse-errors -->
-                <Border Background="#FFDDDD" BorderBrush="#AA0000" BorderThickness="1" Margin="0,5,0,0" Padding="5"
-                        Visibility="{Binding FilterErrorText, Converter={local:StringEmptyToVisibilityConverter EmptyResult=Collapsed, ElseResult=Visible}}">
+                <Border Background="#FFDDDD" BorderBrush="#AA0000" BorderThickness="1" Margin="0,5,0,0" Padding="5">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding FilterErrorText}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding FilterErrorText}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
                 </Border>
                 <Border x:Name="filterHelp" Visibility="Collapsed" Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Margin="0,5,0,0" Padding="5" HorizontalAlignment="Left">
@@ -65,6 +77,15 @@
 
                         <Style TargetType="ListViewItem">
                             <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+                        </Style>
+
+                        <Style x:Key="HiddenWhenFinishTimeIsNull" TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding FinishTime}" Value="0001-01-01">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </ResourceDictionary>
                 </ListView.Resources>
@@ -171,8 +192,7 @@
                             </GridViewColumn.HeaderContainerStyle>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding FinishTime, Converter={local:HumanizerConverter}}"
-                                               Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}">
+                                    <TextBlock Text="{Binding FinishTime, Converter={local:HumanizerConverter}}" Style="{StaticResource HiddenWhenFinishTimeIsNull}">
                                         <i:Interaction.Behaviors>
                                             <b:PeriodicBindingUpdateBehavior Interval="0:00:05" Property="{x:Static TextBlock.TextProperty}" Mode="UpdateTarget" />
                                         </i:Interaction.Behaviors>
@@ -195,8 +215,7 @@
                             </GridViewColumn.HeaderContainerStyle>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding Duration, Converter={local:HumanizerConverter}}" 
-                                               Visibility="{Binding FinishTime, Converter={local:EqualsDateTimeVisibilityConverter}}">
+                                    <TextBlock Text="{Binding Duration, Converter={local:HumanizerConverter}}" Style="{StaticResource HiddenWhenFinishTimeIsNull}">
                                         <TextBlock.ToolTip>
                                             <ToolTip>
                                                 <TextBlock Text="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" />

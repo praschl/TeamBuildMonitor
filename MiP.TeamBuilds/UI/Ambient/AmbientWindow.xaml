@@ -66,15 +66,13 @@
             <tb:TaskbarIcon.TrayToolTip>
                 <Border Style="{StaticResource TooltipStyle}">
                     <Grid>
-                        <Label Style="{StaticResource TooltipLabel}"
-                               Content="No builds are running" 
-                               Visibility="{Binding CurrentBuildsView.IsEmpty, Converter={amb:BoolToVisibilityConverter TrueValue=Visible, FalseValue=Collapsed}}" />
+                        <Label Style="{StaticResource TooltipLabel}" Content="No builds are running"/>
 
                         <ListView Style="{StaticResource TooltipListView}"
                                   ItemsSource="{Binding CurrentBuildsView}" 
                                   Grid.IsSharedSizeScope="True"
-                                  Visibility="{Binding CurrentBuildsView.IsEmpty, Converter={amb:BoolToVisibilityConverter TrueValue=Collapsed, FalseValue=Visible}}"
-                                  ItemTemplate="{StaticResource ToolTipBuildsTemplate}" />
+                                  ItemTemplate="{StaticResource ToolTipBuildsTemplate}">
+                        </ListView>
                     </Grid>
                 </Border>
             </tb:TaskbarIcon.TrayToolTip>

@@ -313,7 +313,6 @@
     <Compile Include="Providers\BuildInfoProviderFactory.cs" />
     <Compile Include="Providers\IBuildInfoProvider.cs" />
     <Compile Include="Providers\TestBuildInfoProvider.cs" />
-    <Compile Include="UI\Ambient\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\EqualsInt32ToVisibilityConverter.cs" />
     <Compile Include="UI\Ambient\SleepCommand.cs" />
     <Compile Include="UI\Ambient\TestMessagesCommand.cs" />
@@ -351,7 +350,6 @@
     <Compile Include="UI\Overview\BuildInfoComparer.cs" />
     <Compile Include="UI\Overview\Filters\BuildAgeExpressionBuilder.cs" />
     <Compile Include="UI\Overview\Filters\BuildStatusExpressionBuilder.cs" />
-    <Compile Include="UI\Overview\EqualsDateTimeVisibilityConverter.cs" />
     <Compile Include="UI\Overview\Filters\FilterBuilder.cs" />
     <Compile Include="UI\Overview\Filters\IExpressionBuilder.cs" />
     <Compile Include="UI\Overview\Filters\IFilterBuilder.cs" />
@@ -371,7 +369,6 @@
     </Compile>
     <Compile Include="UI\Overview\PeriodicUpdates\PeriodicBindingUpdateBehavior.cs" />
     <Compile Include="UI\Overview\SortCommand.cs" />
-    <Compile Include="UI\Overview\StringEmptyToVisibilityConverter.cs" />
     <Compile Include="UI\Settings\SaveSettingsCommand.cs" />
     <Compile Include="UI\Settings\SettingsViewModel.cs" />
     <Compile Include="UI\Settings\SettingsWindow.xaml.cs">
