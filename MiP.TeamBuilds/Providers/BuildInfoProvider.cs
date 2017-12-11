@@ -141,6 +141,8 @@ namespace MiP.TeamBuilds.Providers
                 ServerItems = build.BuildDefinition.Workspace.Mappings.Select(m => m.ServerItem).ToArray(),
                 RequestedByDisplayName = build.RequestedByDisplayName,
                 RequestedBy = build.RequestedBy,
+                RequestedForDisplayName = build.RequestedForDisplayName,
+                RequestedFor = build.RequestedFor,
                 QueueStatus = build.Status,
                 BuildStatus = build.Build?.Status ?? BuildStatus.None,
                 BuildSummary = new Uri(buildSummary),

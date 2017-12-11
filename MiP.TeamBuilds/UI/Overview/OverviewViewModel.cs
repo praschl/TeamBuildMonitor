@@ -11,7 +11,6 @@ namespace MiP.TeamBuilds.UI.Overview
 {
     public class OverviewViewModel : INotifyPropertyChanged
     {
-        // TODO: When RequestedFor != RequestedBy display "(for RequestedFor)" in Tooltip
         // TODO: Check which converters can be changed into a Style
         // TODO: Save Filter & settings
         // TODO: Save Column Order Settings

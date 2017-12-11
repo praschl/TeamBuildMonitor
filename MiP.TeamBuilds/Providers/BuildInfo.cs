@@ -21,6 +21,8 @@ namespace MiP.TeamBuilds.Providers
         public string[] ServerItems { get; set; }
         public string RequestedByDisplayName { get; set; }
         public string RequestedBy { get; set; }
+        public string RequestedForDisplayName { get; set; }
+        public string RequestedFor { get; set; }
         public Uri BuildSummary { get; set; }
         public string DropLocation { get; set; }
         public BuildStatus BuildStatus { get; set; }

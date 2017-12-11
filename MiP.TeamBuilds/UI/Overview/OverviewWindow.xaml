@@ -132,7 +132,18 @@
                             </GridViewColumn.HeaderContainerStyle>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding RequestedByDisplayName}" />
+                                    <TextBlock Text="{Binding RequestedByDisplayName}">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip>
+                                                <ToolTip.Content>
+                                                    <TextBlock>
+                                                        <Run Text="for " />
+                                                        <Run Text="{Binding RequestedForDisplayName}" />
+                                                    </TextBlock>
+                                                </ToolTip.Content>
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
