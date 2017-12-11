@@ -61,15 +61,14 @@ namespace MiP.TeamBuilds.UI.Overview {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter multiple strings by separating them with space. 
-        ///Multiple strings are ANDed together, meaning each of the strings must be found for an item to match.
+        ///   Looks up a localized string similar to Filter multiple strings by separating them with space. Multiple strings are ANDed together, meaning each of the strings must be found for an item to match.
         ///
         ///Additional options are:
         ///status:&lt;status&gt; (shortcut s:&lt;status&gt;) filters builds by their status.
         ///   &lt;status&gt; can be one of None, All, NotStarted, InProgress, Stopped, Failed, Succeeded, PartiallySucceeded
         ///     multiple status may be given like &quot;s:Succeeded,PartiallySucceeded&quot; they are ORed together.
         ///
-        ///age:&lt;age&gt; (Shortcut a:&lt;age&gt;) filters by build a [rest of string was truncated]&quot;;.
+        ///age:&lt;age&gt; (Shortcut a:&lt;age&gt;) filters by build age [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FilterHelp {
             get {

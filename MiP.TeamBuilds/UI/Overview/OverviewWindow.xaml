@@ -57,9 +57,9 @@
                     </Border.Style>
                     <TextBlock Text="{Binding FilterErrorText}" Foreground="#AA0000" />
                 </Border>
-                <Border x:Name="filterHelp" Visibility="Collapsed" Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Margin="0,5,0,0" Padding="5" HorizontalAlignment="Left">
+                <Border x:Name="filterHelp" Visibility="Collapsed" Background="#FFFFDD" BorderBrush="#F7DC93" BorderThickness="1" Margin="0,5,0,0" Padding="5" HorizontalAlignment="Stretch">
                     <Grid>
-                        <TextBlock Text="{Binding FilterHelpText, Mode=OneTime}" />
+                        <TextBlock Text="{Binding FilterHelpText, Mode=OneTime}" TextWrapping="Wrap" />
                         <Button Content="X" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Command="{local:SetVisibilityCommand VisibilityToSet=Collapsed}" CommandParameter="{Binding ElementName=filterHelp}" />
                     </Grid>
