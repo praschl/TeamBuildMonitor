@@ -20,7 +20,9 @@ namespace MiP.TeamBuilds.UI.Overview
             { nameof(BuildInfo.RequestedByDisplayName), b => b.RequestedByDisplayName },
             { nameof(BuildInfo.BuildStatus), b => GetBuildStatusSort(b.BuildStatus) },
             { nameof(BuildInfo.FinishTime), b => b.FinishTime == DateTime.MinValue ? DateTime.MaxValue : b.FinishTime },
-            { nameof(BuildInfo.Duration), b => b.Duration }
+            { nameof(BuildInfo.Duration), b => b.Duration },
+            { nameof(BuildInfo.BySort), b => b.BySort },
+            { nameof(BuildInfo.ForSort), b => b.ForSort },
         };
 
         private static Dictionary<BuildStatus, int> _buildStatusSort = new Dictionary<BuildStatus, int>
@@ -49,7 +51,9 @@ namespace MiP.TeamBuilds.UI.Overview
             {
                 _propertyName = value;
 
-                if (_getters.TryGetValue(_propertyName, out Func<BuildInfo, IComparable> func))
+                if (!_getters.TryGetValue(_propertyName, out Func<BuildInfo, IComparable> func))
+                    throw new InvalidOperationException("Could not find sort func for " + _propertyName);
+                else
                     _property = func;
             }
         }

@@ -148,19 +148,16 @@
                             <GridViewColumn.HeaderContainerStyle>
                                 <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource ResourceKey=BaseColumn}">
                                     <Setter Property="Content" Value="Requested by" />
-                                    <Setter Property="Command" Value="{local:SortCommand PropertyName='RequestedByDisplayName'}" />
+                                    <Setter Property="Command" Value="{local:SortCommand PropertyName='BySort'}" />
                                 </Style>
                             </GridViewColumn.HeaderContainerStyle>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="providers:BuildInfo">
-                                    <TextBlock Text="{Binding RequestedByDisplayName}">
+                                    <TextBlock Text="{Binding By}">
                                         <TextBlock.ToolTip>
                                             <ToolTip>
                                                 <ToolTip.Content>
-                                                    <TextBlock>
-                                                        <Run Text="for " />
-                                                        <Run Text="{Binding RequestedForDisplayName}" />
-                                                    </TextBlock>
+                                                    <TextBlock Text="{Binding For}" />
                                                 </ToolTip.Content>
                                             </ToolTip>
                                         </TextBlock.ToolTip>

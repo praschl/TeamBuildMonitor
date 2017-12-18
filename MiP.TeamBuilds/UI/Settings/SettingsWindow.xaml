@@ -30,7 +30,8 @@
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0">
             <Label Content="Maximum age of builds to display (ever)"/>
-            <xctk:TimeSpanUpDown DockPanel.Dock="Top" Value="{Binding MaxBuildAgeForDisplay}"></xctk:TimeSpanUpDown>
+            <xctk:IntegerUpDown DockPanel.Dock="Top" Value="{Binding MaxBuildAgeForDisplay}"></xctk:IntegerUpDown>
+            <Label Content="days"/>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0">

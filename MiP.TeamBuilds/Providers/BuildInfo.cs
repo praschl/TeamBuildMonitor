@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.TeamFoundation.Build.Client;
 using PropertyChanged;
-using System.Threading;
 
 namespace MiP.TeamBuilds.Providers
 {
@@ -30,7 +29,46 @@ namespace MiP.TeamBuilds.Providers
         public Exception PollingException { get; internal set; }
         public DateTime QueuedTime { get; internal set; }
         public DateTime FinishTime { get; internal set; }
+
+        // calculated properties
         public TimeSpan Duration => FinishTime - QueuedTime;
+        public string BySort
+        {
+            get
+            {
+                if (RequestedBy == RequestedFor)
+                    return RequestedByDisplayName;
+                return RequestedForDisplayName;
+            }
+        }
+        public string By
+        {
+            get
+            {
+                if (RequestedBy == RequestedFor)
+                    return RequestedByDisplayName;
+                return "for " + RequestedForDisplayName;
+            }
+        }
+
+        public string ForSort
+        {
+            get
+            {
+                if (RequestedBy == RequestedFor)
+                    return RequestedForDisplayName;
+                return RequestedByDisplayName;
+            }
+        }
+        public string For
+        {
+            get
+            {
+                if (RequestedBy == RequestedFor)
+                    return RequestedForDisplayName;
+                return "by " + RequestedByDisplayName;
+            }
+        }
 
         public bool IsChanged { get; set; }
 

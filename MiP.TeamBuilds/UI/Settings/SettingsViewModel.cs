@@ -16,7 +16,7 @@ namespace MiP.TeamBuilds.UI.Settings
 
             TfsUrl = Properties.Settings.Default.TfsUrl;
 
-            MaxBuildAgeForDisplay = Properties.Settings.Default.MaxBuildAgeForDisplay;
+            MaxBuildAgeForDisplay = Properties.Settings.Default.MaxBuildAgeForDisplayDays;
 
             AutoStart = AutoStartHelper.IsStartupItem();
         }
@@ -25,7 +25,7 @@ namespace MiP.TeamBuilds.UI.Settings
 
         public string TfsUrl { get; set; }
         public bool AutoStart { get; set; }
-        public TimeSpan MaxBuildAgeForDisplay { get; set; }
+        public int MaxBuildAgeForDisplay { get; set; }
 
         public ICommand SaveSettingsCommand { get; }
     }

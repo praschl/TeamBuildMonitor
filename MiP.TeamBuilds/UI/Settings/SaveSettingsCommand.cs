@@ -23,7 +23,7 @@ namespace MiP.TeamBuilds.UI.Settings
         {
             var viewModel = _viewModel();
             Properties.Settings.Default.TfsUrl = viewModel.TfsUrl;
-            Properties.Settings.Default.MaxBuildAgeForDisplay = viewModel.MaxBuildAgeForDisplay;
+            Properties.Settings.Default.MaxBuildAgeForDisplayDays = viewModel.MaxBuildAgeForDisplay;
 
             //
             Properties.Settings.Default.Save();
