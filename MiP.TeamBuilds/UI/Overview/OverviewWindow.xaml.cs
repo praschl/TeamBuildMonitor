@@ -18,7 +18,7 @@ namespace MiP.TeamBuilds.UI.Overview
         private void ListViewItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (sender is ListViewItem item && item.Content is BuildInfo info)
-                OverviewViewModel.OpenBuildSummaryCommand.Execute(info.BuildSummary);
+                info.OpenBuildSummaryCommand.Execute(null);
         }
 
         internal void Unhide()

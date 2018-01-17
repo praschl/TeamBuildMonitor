@@ -16,6 +16,10 @@
         SnapsToDevicePixels="True"
         >
 
+    <Window.Resources>
+        <local:OverviewBindingProxy x:Key="Proxy" Data="{Binding}"></local:OverviewBindingProxy>
+    </Window.Resources>
+
     <Window.InputBindings>
         <KeyBinding Key="ESC" Command="{commands:CloseCommand}" CommandParameter="{Binding ElementName=window}" />
         <KeyBinding Key="F5" Command="{Binding RefreshOldBuildsCommand}" />
@@ -64,7 +68,7 @@
                 </Border>
             </StackPanel>
             
-            <ListView ItemsSource="{Binding BuildsCollectionView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
+            <ListView x:Name="BuildsListView" ItemsSource="{Binding BuildsCollectionView}" Margin="5,0,5,5" IsSynchronizedWithCurrentItem="True">
                 <ListView.Resources>
                     <ResourceDictionary>
                         <Style x:Key="BaseColumn" TargetType="{x:Type GridViewColumnHeader}">
@@ -85,8 +89,17 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
+                        
                     </ResourceDictionary>
                 </ListView.Resources>
+
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open build Summary" FontWeight="Bold" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/OpenBuildSummaryCommand}" />
+                        <MenuItem Header="Go to drop location" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/GotoDropLocationCommand}" />
+                        <MenuItem Header="Cancel build" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/CancelBuildCommand}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
 
                 <ListView.View>
                     <GridView>
@@ -221,3 +234,4 @@
         </DockPanel>
     </xctk:BusyIndicator>
 </Window>
+

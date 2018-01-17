@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Input;
 
+using Microsoft.Expression.Interactivity.Core;
 using Microsoft.TeamFoundation.Build.Client;
 
 namespace MiP.TeamBuilds.Providers
@@ -13,6 +16,24 @@ namespace MiP.TeamBuilds.Providers
         {
             _build = build;
         }
+
+        public ICommand GotoDropLocationCommand => new ActionCommand(() =>
+                                                                     {
+                                                                         if (!string.IsNullOrEmpty(DropLocation))
+                                                                             Process.Start(DropLocation);
+                                                                     });
+
+        public ICommand OpenBuildSummaryCommand => new ActionCommand(() =>
+                                                                     {
+                                                                         if (BuildSummary != null)
+                                                                             Process.Start(BuildSummary.ToString());
+                                                                     });
+
+        public ICommand CancelBuildCommand => new ActionCommand(() =>
+                                                                {
+                                                                    if (_build.Status == QueueStatus.Postponed|| _build.Status == QueueStatus.Queued)
+                                                                        _build.Cancel();
+                                                                });
 
         public string Id { get; set; }
         public string TeamProject { get; set; }

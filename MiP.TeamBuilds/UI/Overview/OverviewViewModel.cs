@@ -4,6 +4,9 @@ using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
 using System;
+
+using Microsoft.Expression.Interactivity.Core;
+
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Overview.Filters;
 
@@ -15,8 +18,7 @@ namespace MiP.TeamBuilds.UI.Overview
         // -- also save sort direction with filter
         // TODO: Save Column Order Settings
         // TODO: Save Column & Widths & Window Position
-        // TODO: Overview: Menu for Droplocation
-        // TODO: Overview: Menu for Stop build, Retry build
+        // TODO: Overview: Menu for Retry build
         // TODO: Overview: Display progress based on older known builds (Requires setting for how old builds to get for the statistics)
         // -- make statistics a separate collection of builds in KnownBuildsViewModel
         // TODO: Overview: Filter: "Advanced filter" window
@@ -42,14 +44,12 @@ namespace MiP.TeamBuilds.UI.Overview
         public string FilterErrorText { get; set; }
         public string FilterHelpText => OverviewResources.FilterHelp;
 
-        public ICommand OpenBuildSummaryCommand { get; }
         public ICommand RefreshOldBuildsCommand { get; }
-
-        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel, OpenBuildSummaryCommand openBuildSummaryCommand, RefreshOldBuildsCommand refreshOldBuildsCommand, IFilterBuilder filterBuilder)
+        
+        public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel,  RefreshOldBuildsCommand refreshOldBuildsCommand, IFilterBuilder filterBuilder)
         {
             _knownBuildsViewModel = knownBuildsViewModel;
 
-            OpenBuildSummaryCommand = openBuildSummaryCommand;
             RefreshOldBuildsCommand = refreshOldBuildsCommand;
             _filterBuilder = filterBuilder;
 
