@@ -64,13 +64,12 @@ namespace MiP.TeamBuilds.UI.Overview.Filters
                     break;
             }
 
-            DateTime mustBeQueuedAfter = DateTime.Now.Add(-maxAge);
-            return buildInfo => Filter(buildInfo, mustBeQueuedAfter);
+            return buildInfo => Filter(buildInfo, -maxAge);
         }
 
-        private bool Filter(BuildInfo buildInfo, DateTime queuedAfter)
+        private bool Filter(BuildInfo buildInfo, TimeSpan maxAge)
         {
-            return buildInfo.QueuedTime > queuedAfter;
+            return buildInfo.FinishTime > DateTime.Now.Add(maxAge);
         }
     }
 }

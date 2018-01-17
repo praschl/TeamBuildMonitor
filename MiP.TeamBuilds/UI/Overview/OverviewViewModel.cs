@@ -64,10 +64,11 @@ namespace MiP.TeamBuilds.UI.Overview
             BuildsCollectionView = new ListCollectionView(knownBuildsViewModel.Builds)
             {
                 IsLiveFiltering = true,
+                LiveFilteringProperties = { nameof(BuildInfo.FinishTime), nameof(BuildInfo.BuildStatus) },
                 Filter = FilterBuilds,
                 IsLiveSorting = true,
                 //SortDescriptions = { new SortDescription(nameof(BuildInfo.BuildDefinitionName), ListSortDirection.Ascending) },
-                CustomSort = _buildInfoComparer
+                CustomSort = _buildInfoComparer,
             };
         }
 
@@ -79,13 +80,7 @@ namespace MiP.TeamBuilds.UI.Overview
 
             _currentFilter = _filterBuilder.ParseToFilter(filterText);
             FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.GetErrors());
-
-            // TODO: When AgeFilter is set, periodically check for items which should be removed from view.
-            // do not: use BuildsView.Refresh(), this will cause a userannoying behaviour as it removes the focus from the current element.
-            // do not: duplicate items into a new collection, because this will not take new buildinfos into account
-            // do not: make a property for filtering on the build info, because this wont work well when there is more than one collection view filtering on it.
-            // try: check all buildinfos which are still in view, when too old -> remove and add (on collection), that should trigger a refilter for this single buildinfo
-
+            
             BuildsCollectionView.Refresh();
         }
 

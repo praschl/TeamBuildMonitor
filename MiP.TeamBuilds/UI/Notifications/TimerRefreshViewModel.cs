@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Threading;
 
 using PropertyChanged;
@@ -41,6 +42,11 @@ namespace MiP.TeamBuilds.UI.Notifications
 
             _knownBuildsViewModel.NotificationsEnabled = _sleepUntil < DateTime.Now;
             await _knownBuildsViewModel.RefreshBuildInfosAsync();
+
+            foreach (var build in _knownBuildsViewModel.Builds)
+            {
+                build.RaiseFakeEventForDateChanges();
+            }
         }
 
         public void StopRefreshingFor(int minutes)

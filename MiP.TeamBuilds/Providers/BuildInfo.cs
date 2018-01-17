@@ -1,11 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
+
 using Microsoft.TeamFoundation.Build.Client;
-using PropertyChanged;
 
 namespace MiP.TeamBuilds.Providers
 {
-    [AddINotifyPropertyChangedInterface]
-    public class BuildInfo
+    public class BuildInfo : INotifyPropertyChanged
     {
         private IQueuedBuild _build;
 
@@ -118,6 +118,21 @@ namespace MiP.TeamBuilds.Providers
         protected virtual void OnBuildUpdated(EventArgs e)
         {
             BuildUpdated?.Invoke(this, e);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void RaiseFakeEventForDateChanges()
+        {
+            // This raises the PropertyChanged event for QueuedTime and FinishTime.
+            // This will update the display message in the UI, where the displayed string is something like "3 minutes ago".
+            // This will also trigger a filter update when the filter is something like "age:5m" (no builds older than 5 minutes).
+
+            // Since the actual date never changes after it is set, the event would not be raised ever after, and the displayed message would never change to "4 minutes ago".
+            // The same is true for the filter.
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(QueuedTime)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FinishTime)));
         }
     }
 }
