@@ -69,7 +69,7 @@ namespace MiP.TeamBuilds.UI.Overview.Filters
 
         private bool Filter(BuildInfo buildInfo, TimeSpan maxAge)
         {
-            return buildInfo.FinishTime > DateTime.Now.Add(maxAge);
+            return buildInfo.FinishTime > DateTime.Now.Add(maxAge) || buildInfo.FinishTime == DateTime.MinValue;
         }
     }
 }
