@@ -97,6 +97,7 @@
                     <ContextMenu>
                         <MenuItem Header="Open build Summary" FontWeight="Bold" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/OpenBuildSummaryCommand}" />
                         <MenuItem Header="Go to drop location" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/GotoDropLocationCommand}" />
+                        <MenuItem Header="Retry build" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/RetryBuildCommand}" />
                         <MenuItem Header="Cancel build" Command="{Binding Source={StaticResource Proxy}, Path=Data.BuildsCollectionView/CancelBuildCommand}" />
                     </ContextMenu>
                 </ListView.ContextMenu>

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Microsoft.Expression.Interactivity.Core;
@@ -29,11 +32,16 @@ namespace MiP.TeamBuilds.Providers
                                                                              Process.Start(BuildSummary.ToString());
                                                                      });
 
-        public ICommand CancelBuildCommand => new ActionCommand(() =>
+        public ICommand CancelBuildCommand => new ActionCommand(async () =>
                                                                 {
-                                                                    if (_build.Status == QueueStatus.Postponed|| _build.Status == QueueStatus.Queued)
-                                                                        _build.Cancel();
+                                                                    await Task.Run(() => _build.BuildServer.StopBuilds(new[] {_build.Build}));
+                                                                    _build.Refresh(QueryOptions.Definitions);
                                                                 });
+
+        public ICommand RetryBuildCommand => new ActionCommand(() =>
+                                                               {
+                                                                   _build.BuildServer.QueueBuild(_build.BuildDefinition);
+                                                               });
 
         public string Id { get; set; }
         public string TeamProject { get; set; }
