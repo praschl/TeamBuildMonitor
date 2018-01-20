@@ -95,7 +95,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private Uri CreateTfsUri()
         {
-            if (string.IsNullOrEmpty(XmlConfig.Instance.TfsUrl))
+            if (string.IsNullOrEmpty(JsonConfig.Instance.TfsUrl))
             {
                 ShowTfsUrlNotSet();
                 return null;
@@ -103,7 +103,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
             try
             {
-                return new Uri(XmlConfig.Instance.TfsUrl);
+                return new Uri(JsonConfig.Instance.TfsUrl);
             }
             catch (Exception ex)
             {

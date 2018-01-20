@@ -304,7 +304,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Configuration\XmlConfig.cs" />
+    <Compile Include="Configuration\JsonConfig.cs" />
     <Compile Include="Microsoft.SingleInstance\SingleInstance.cs" />
     <Compile Include="Providers\AutoStartHelper.cs" />
     <Compile Include="Providers\BuildInfo.cs" />

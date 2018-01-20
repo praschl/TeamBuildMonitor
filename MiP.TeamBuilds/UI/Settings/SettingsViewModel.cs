@@ -15,9 +15,9 @@ namespace MiP.TeamBuilds.UI.Settings
         {
             SaveSettingsCommand = saveSettingsCommand;
 
-            TfsUrl = XmlConfig.Instance.TfsUrl;
+            TfsUrl = JsonConfig.Instance.TfsUrl;
 
-            MaxBuildAgeForDisplay = XmlConfig.Instance.MaxBuildAgeForDisplayDays;
+            MaxBuildAgeForDisplay = JsonConfig.Instance.MaxBuildAgeForDisplayDays;
 
             AutoStart = AutoStartHelper.IsStartupItem();
         }

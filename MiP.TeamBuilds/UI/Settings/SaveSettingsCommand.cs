@@ -23,11 +23,11 @@ namespace MiP.TeamBuilds.UI.Settings
         public void Execute(object parameter)
         {
             var viewModel = _viewModel();
-            XmlConfig.Instance.TfsUrl = viewModel.TfsUrl;
-            XmlConfig.Instance.MaxBuildAgeForDisplayDays = viewModel.MaxBuildAgeForDisplay;
+            JsonConfig.Instance.TfsUrl = viewModel.TfsUrl;
+            JsonConfig.Instance.MaxBuildAgeForDisplayDays = viewModel.MaxBuildAgeForDisplay;
 
             //
-            XmlConfig.Save();
+            JsonConfig.Save();
 
             AutoStartHelper.SetAutoStart(viewModel.AutoStart);
 

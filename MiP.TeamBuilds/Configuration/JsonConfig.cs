@@ -1,14 +1,23 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Serialization;
 
 using MiP.TeamBuilds.Properties;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MiP.TeamBuilds.Configuration
 {
-    public class XmlConfig
+    public static class JsonConfig
     {
-        private static readonly XmlSerializer _configSerializer = new XmlSerializer(typeof(Config));
+        private static JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        {
+            Converters =
+            {
+                new StringEnumConverter(),
+                new IsoDateTimeConverter()
+            },
+            Formatting = Formatting.Indented
+        };
 
         private static string ConfigurationPath
         {
@@ -18,7 +27,7 @@ namespace MiP.TeamBuilds.Configuration
 
                 Directory.CreateDirectory(configPath);
 
-                return Path.Combine(configPath, "settings.xml");
+                return Path.Combine(configPath, "settings.json");
             }
         }
 
@@ -59,10 +68,9 @@ namespace MiP.TeamBuilds.Configuration
 
         private static void Save(Config config)
         {
-            using (var fileStream = File.Open(ConfigurationPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
-            {
-                _configSerializer.Serialize(fileStream, config);
-            }
+            string json = JsonConvert.SerializeObject(config, _serializerSettings);
+
+            File.WriteAllText(ConfigurationPath, json);
         }
 
         private static Config LoadSettings()
@@ -77,10 +85,9 @@ namespace MiP.TeamBuilds.Configuration
 
         private static Config Deserialize()
         {
-            using (var fileStream = File.Open(ConfigurationPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                return (Config)_configSerializer.Deserialize(fileStream);
-            }
+            string json = File.ReadAllText(ConfigurationPath);
+
+            return JsonConvert.DeserializeObject<Config>(json);
         }
     }
 }
