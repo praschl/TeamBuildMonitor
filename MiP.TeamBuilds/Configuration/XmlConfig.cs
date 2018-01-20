@@ -8,60 +8,60 @@ namespace MiP.TeamBuilds.Configuration
 {
     public class XmlConfig
     {
-        public static Config Instance = Initialize();
-
-
         private static readonly XmlSerializer _configSerializer = new XmlSerializer(typeof(Config));
 
-        private static Config Initialize()
-        {
-            return new Config();
-        }
-
-        public static string ConfigurationPath
+        private static string ConfigurationPath
         {
             get
             {
-                string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TFSMergePro");
+                string configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MiP/TeamBuilds");
 
                 Directory.CreateDirectory(configPath);
 
-                return Path.Combine(configPath, "settings.json");
+                return Path.Combine(configPath, "settings.xml");
             }
         }
 
-        private static Config _current;
+        private static Config _instance;
 
-        public static Config Current
+        public static Config Instance
         {
             get
             {
-                if (_current == null)
+                if (_instance == null)
                 {
-                    _current = LoadSettings();
+                    var current = LoadSettings();
 
-                    MigrateFromExeConfig();
+                    if (current.Version == 0)
+                        MigrateFromExeConfig(current);
+
+                    _instance = current;
                 }
 
-                return _current;
+                return _instance;
             }
         }
 
-        private static void MigrateFromExeConfig()
+        private static void MigrateFromExeConfig(Config current)
         {
-            _current.TfsUrl = Settings.Default.TfsUrl;
-            _current.MaxBuildAgeForDisplayDays = Settings.Default.MaxBuildAgeForDisplayDays;
+            current.TfsUrl = Settings.Default.TfsUrl;
+            current.MaxBuildAgeForDisplayDays = Settings.Default.MaxBuildAgeForDisplayDays;
 
-            _current.Version = 1;
+            current.Version = 1;
 
-            Save();
+            Save(current);
         }
 
-        private static void Save()
+        public static void Save()
         {
-            using (FileStream writer = File.Open(ConfigurationPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
+            Save(_instance);
+        }
+
+        private static void Save(Config config)
+        {
+            using (var fileStream = File.Open(ConfigurationPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
             {
-                _configSerializer.Serialize(writer, _current);
+                _configSerializer.Serialize(fileStream, config);
             }
         }
 
@@ -70,16 +70,16 @@ namespace MiP.TeamBuilds.Configuration
             if (!File.Exists(ConfigurationPath))
                 return new Config();
 
-            Config config = Deserialize();
+            var config = Deserialize();
 
             return config;
         }
 
         private static Config Deserialize()
         {
-            using (FileStream reader = File.Open(ConfigurationPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var fileStream = File.Open(ConfigurationPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                return (Config)_configSerializer.Deserialize(reader);
+                return (Config)_configSerializer.Deserialize(fileStream);
             }
         }
     }

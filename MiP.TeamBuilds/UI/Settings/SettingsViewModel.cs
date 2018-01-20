@@ -1,4 +1,5 @@
-﻿using MiP.TeamBuilds.Providers;
+﻿using MiP.TeamBuilds.Configuration;
+using MiP.TeamBuilds.Providers;
 using PropertyChanged;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -14,9 +15,9 @@ namespace MiP.TeamBuilds.UI.Settings
         {
             SaveSettingsCommand = saveSettingsCommand;
 
-            TfsUrl = Properties.Settings.Default.TfsUrl;
+            TfsUrl = XmlConfig.Instance.TfsUrl;
 
-            MaxBuildAgeForDisplay = Properties.Settings.Default.MaxBuildAgeForDisplayDays;
+            MaxBuildAgeForDisplay = XmlConfig.Instance.MaxBuildAgeForDisplayDays;
 
             AutoStart = AutoStartHelper.IsStartupItem();
         }

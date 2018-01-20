@@ -1,4 +1,5 @@
-﻿using MiP.TeamBuilds.Providers;
+﻿using MiP.TeamBuilds.Configuration;
+using MiP.TeamBuilds.Providers;
 using System;
 using System.Windows.Input;
 
@@ -22,11 +23,11 @@ namespace MiP.TeamBuilds.UI.Settings
         public void Execute(object parameter)
         {
             var viewModel = _viewModel();
-            Properties.Settings.Default.TfsUrl = viewModel.TfsUrl;
-            Properties.Settings.Default.MaxBuildAgeForDisplayDays = viewModel.MaxBuildAgeForDisplay;
+            XmlConfig.Instance.TfsUrl = viewModel.TfsUrl;
+            XmlConfig.Instance.MaxBuildAgeForDisplayDays = viewModel.MaxBuildAgeForDisplay;
 
             //
-            Properties.Settings.Default.Save();
+            XmlConfig.Save();
 
             AutoStartHelper.SetAutoStart(viewModel.AutoStart);
 

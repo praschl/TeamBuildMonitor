@@ -9,13 +9,14 @@ using System.Collections.Concurrent;
 using Microsoft.TeamFoundation.Framework.Common;
 using System.Diagnostics.CodeAnalysis;
 using static System.FormattableString;
+using MiP.TeamBuilds.Configuration;
 
 namespace MiP.TeamBuilds.Providers
 {
     [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Only managed resources used")]
     public class BuildInfoProvider : IBuildInfoProvider, IDisposable
     {
-        private TimeSpan MaxBuildAgeForDisplay => TimeSpan.FromDays(Properties.Settings.Default.MaxBuildAgeForDisplayDays);
+        private TimeSpan MaxBuildAgeForDisplay => TimeSpan.FromDays(XmlConfig.Instance.MaxBuildAgeForDisplayDays);
 
         private Uri _tfsUri;
 

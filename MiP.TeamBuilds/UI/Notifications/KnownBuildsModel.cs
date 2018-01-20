@@ -17,6 +17,7 @@ using System.Linq;
 using Autofac.Features.OwnedInstances;
 using PropertyChanged;
 using System.Threading.Tasks;
+using MiP.TeamBuilds.Configuration;
 
 namespace MiP.TeamBuilds.UI.Notifications
 {
@@ -94,7 +95,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
         private Uri CreateTfsUri()
         {
-            if (string.IsNullOrEmpty(Properties.Settings.Default.TfsUrl))
+            if (string.IsNullOrEmpty(XmlConfig.Instance.TfsUrl))
             {
                 ShowTfsUrlNotSet();
                 return null;
@@ -102,7 +103,7 @@ namespace MiP.TeamBuilds.UI.Notifications
 
             try
             {
-                return new Uri(Properties.Settings.Default.TfsUrl);
+                return new Uri(XmlConfig.Instance.TfsUrl);
             }
             catch (Exception ex)
             {
