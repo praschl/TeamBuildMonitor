@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiP.TeamBuilds.Configuration;
+using System;
 using System.Windows.Input;
 using System.Windows;
 
@@ -25,6 +26,20 @@ namespace MiP.TeamBuilds.UI.Overview
             if (_window == null)
             {
                 _window = _overviewWindow();
+
+                var settings = JsonConfig.Instance.OverviewWindowSettings;
+
+                if (settings.Width > 0 && settings.Height > 0)
+                {
+                    _window.Left = settings.Left;
+                    _window.Top = settings.Top;
+                    _window.Width = settings.Width;
+                    _window.Height = settings.Height;
+                }
+                if (settings.Maximized)
+                    _window.WindowState = WindowState.Maximized;
+
+                _window.Closing += Window_Closing;
                 _window.Closed += Window_Closed;
                 _window.Show();
             }
@@ -32,6 +47,22 @@ namespace MiP.TeamBuilds.UI.Overview
             {
                 _window.Unhide();
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var settings = JsonConfig.Instance.OverviewWindowSettings;
+
+            settings.Maximized = _window?.WindowState == WindowState.Maximized;
+            if (!settings.Maximized)
+            {
+                settings.Left = _window.Left;
+                settings.Top = _window.Top;
+                settings.Width = _window.Width;
+                settings.Height = _window.Height;
+            }
+
+            JsonConfig.Save();
         }
 
         private void Window_Closed(object sender, EventArgs e)

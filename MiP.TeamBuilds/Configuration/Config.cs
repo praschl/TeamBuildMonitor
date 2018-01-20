@@ -2,22 +2,12 @@
 {
     public class Config
     {
-        public int Version
-        {
-            get;
-            set;
-        }
+        public int Version { get; set; }
 
-        public string TfsUrl
-        {
-            get;
-            set;
-        }
+        public string TfsUrl { get; set; }
 
-        public int MaxBuildAgeForDisplayDays
-        {
-            get;
-            set;
-        }
+        public int MaxBuildAgeForDisplayDays { get; set; }
+
+        public OverviewWindowSettings OverviewWindowSettings { get; set; } = new OverviewWindowSettings();
     }
 }
