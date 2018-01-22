@@ -18,7 +18,7 @@ namespace MiP.TeamBuilds.UI.Notifications
             _knownBuildsViewModel = knownBuildsViewModel;
         }
 
-        // TODO: Bug: When Time is over, the menu "On" is checked correctly, but no notifications are displayed.
+        // TODO: Bug: Sometimes no notifications are displayed <strike>When Time is over, the menu "On" is checked correctly, but no notifications are displayed.</strike>
         public int SleepForMinutes { get; private set; }
 
         public void RestartTimer()
