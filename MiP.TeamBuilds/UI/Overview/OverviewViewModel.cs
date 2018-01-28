@@ -5,8 +5,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System;
 
-using Microsoft.Expression.Interactivity.Core;
-
 using MiP.TeamBuilds.UI.Commands;
 using MiP.TeamBuilds.UI.Overview.Filters;
 
@@ -17,8 +15,7 @@ namespace MiP.TeamBuilds.UI.Overview
         // TODO: Save Filter with xctk:DropDownButton + DropDownContent
         // -- also save sort direction with filter
         // TODO: Save Column Order Settings
-        // TODO: Save Column & Widths & Window Position
-        // TODO: Overview: Menu for Retry build
+        // TODO: Save Column & Widths
         // TODO: Overview: Display progress based on older known builds (Requires setting for how old builds to get for the statistics)
         // -- make statistics a separate collection of builds in KnownBuildsViewModel
         // TODO: Overview: Filter: "Advanced filter" window
@@ -45,7 +42,7 @@ namespace MiP.TeamBuilds.UI.Overview
         public string FilterHelpText => OverviewResources.FilterHelp;
 
         public ICommand RefreshOldBuildsCommand { get; }
-        
+
         public OverviewViewModel(KnownBuildsViewModel knownBuildsViewModel,  RefreshOldBuildsCommand refreshOldBuildsCommand, IFilterBuilder filterBuilder)
         {
             _knownBuildsViewModel = knownBuildsViewModel;
@@ -56,9 +53,10 @@ namespace MiP.TeamBuilds.UI.Overview
             _knownBuildsViewModel.IsBusyChanged += (o, e) => IsBusy = _knownBuildsViewModel.IsBusy;
             IsBusy = _knownBuildsViewModel.IsBusy;
 
-            /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view 
-             * for the same collection. So, to use different collection views (for different controls) on the same collection instance,
-             * the collection view has to be instantiated by at least using manually created CollectionViewSource or by creating the ICollectionView by hand
+            /* NOTE TO SELF: CollectionViewSource.GetDefaultView returns the same instance of collection view for the same collection.
+             * So, to use different collection views (for different controls) on the same collection instance, the collection view has to be instantiated 
+             * - by either using manually created CollectionViewSource
+             * - or by creating the ICollectionView by hand
              */
 
             BuildsCollectionView = new ListCollectionView(knownBuildsViewModel.Builds)
@@ -80,7 +78,7 @@ namespace MiP.TeamBuilds.UI.Overview
 
             _currentFilter = _filterBuilder.ParseToFilter(filterText);
             FilterErrorText = string.Join(Environment.NewLine, _filterBuilder.GetErrors());
-            
+
             BuildsCollectionView.Refresh();
         }
 
