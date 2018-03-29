@@ -36,10 +36,11 @@ namespace MiP.TeamBuilds.UI.Notifications
         {
             double minutesLeft = (_sleepUntil - DateTime.Now).TotalMinutes;
 
-            if (minutesLeft > 30) SleepForMinutes = 60;
+            if (minutesLeft > 60) SleepForMinutes = -1;
             else if (minutesLeft <= 0) SleepForMinutes = 0;
             else if (minutesLeft <= 15) SleepForMinutes = 15;
             else if (minutesLeft <= 30) SleepForMinutes = 30;
+            else if (minutesLeft <= 60) SleepForMinutes = 60;
 
             _knownBuildsViewModel.NotificationsEnabled = _sleepUntil < DateTime.Now;
             await _knownBuildsViewModel.RefreshBuildInfosAsync();
