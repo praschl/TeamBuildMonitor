@@ -14,3 +14,6 @@ You can filter Buildname, TeamProject name, who requested the build, and how old
 
 ## Issue
 Only the Xaml-Builds are currently supported.
+Uses the "old" WCF Api
+
+### A version thats based on the new REST API is currently work in progress
