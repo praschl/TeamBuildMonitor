@@ -10,7 +10,7 @@ It monitors past and running builds on the TFS server over all TeamProjects and 
 When a build starts or changes its status, you will also get a small notification in the bottom right of the screen.
 You can filter Buildname, TeamProject name, who requested the build, and how old it is.
 
-[TODO: Image]
+![Overview](overview.png)
 
 ## Issue
 Only the Xaml-Builds are currently supported.
